@@ -6,11 +6,26 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/21 17:59:21 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/23 17:59:32 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
+
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+
+//----------enums----------//
+
+typedef enum e_error
+{
+	ARGS
+}	t_error;
+
+//----------exit.c----------//
+
+void	exit_philo(char *msg, int exit_code);
 
 #endif

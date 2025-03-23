@@ -6,7 +6,7 @@
 #    By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 19:28:52 by vpoka             #+#    #+#              #
-#    Updated: 2025/03/21 17:21:14 by vpoka            ###   ########.fr        #
+#    Updated: 2025/03/23 16:38:26 by vpoka            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 RM = rm -f
 
-SRCS =	
+SRCS =	philo.c \
+		exit.c
 
 OBJS := $(SRCS:%.c=%.o)
 

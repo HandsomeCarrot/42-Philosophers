@@ -1,23 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/21 17:21:09 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/23 18:00:06 by vpoka            ###   ########.fr       */
+/*   Created: 2025/03/23 16:19:39 by vpoka             #+#    #+#             */
+/*   Updated: 2025/03/23 17:59:34 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+static int	ft_strlen(char *str)
 {
-	if (argc < 5 || argc > 6)
+	int	counter;
+
+	counter = 0;
+	while(str && *str)
 	{
-		exit_philo(, 1);
+		counter++;
+		str++;
 	}
-	printf("%s", *argv);
-	exit(0);
+	return(counter);
+}
+
+void	exit_philo(char *msg, int exit_code)
+{
+	if (msg)
+	{
+		write(STDERR_FILENO, msg, sizeof(char) * ft_strlen(msg));
+		free(msg);
+	}
+	exit(exit_code);
 }
