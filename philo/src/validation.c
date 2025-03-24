@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:08:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 17:25:59 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/24 18:11:32 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,10 @@ int	validate_input(int argc, char **argv, t_params *params)
 	{
 		params->number_of_meals = ft_atoui(argv[5], &error);
 		if (!error && params->number_of_meals == 0)
-			printf("Number of meals set to 0 (will be handled as unlimited)\n");
+			printf("Number of meals set to 0 (will be handled as no input)\n");
 	}
+	else
+		params->number_of_meals = 0;
 	if (error)
 		return (1);
 	if (handle_special_cases(params))
