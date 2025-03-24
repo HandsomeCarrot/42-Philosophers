@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:08:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 17:03:17 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/24 17:11:04 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static unsigned int	ft_atoui(const char *nptr, int *error)
 	{
 		if (*nptr < '0' || *nptr > '9')
 		{
-			error_msg("Non-numeric character found: ");
+			error_msg("Non-numeric character found in string:");
 			error_msg(str);
 			*error = 1;
 			return (0);
