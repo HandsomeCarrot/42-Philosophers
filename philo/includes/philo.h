@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 17:18:38 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/24 17:33:11 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct s_params
 	int	time_to_eat;
 	int	time_to_sleep;
 	int	number_of_meals;
-	int	start_time;
 }		t_params;
 
 //----------initializations.c----------//
