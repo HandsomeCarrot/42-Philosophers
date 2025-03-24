@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 17:19:32 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/24 18:41:31 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ static void	*ft_calloc(size_t nmemb, size_t size)
 	return (res);
 }
 
-int	initialize_structs(t_params **params)
+int	initialize_structs(t_program **program)
 {
-	*params = (t_params *)ft_calloc(1, sizeof(t_params));
-	if (!*params)
+	*program = (t_program *)ft_calloc(1, sizeof(t_program));
+	if (!*program)
 	{
-		error_msg("calloc for t_params failed");
+		error_msg("calloc for t_program failed");
 		return (1);
 	}
 	return (0);

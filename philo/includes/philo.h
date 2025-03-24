@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 17:33:11 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/24 18:39:32 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +14,36 @@
 # define PHILO_H
 
 # include <limits.h>
+# include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/time.h>
 # include <unistd.h>
+# include "structs_philo.h"
 
 //----------enums----------//
 
 typedef enum e_error
 {
 	ARGS = 1
-}		t_error;
-
-//----------enums----------//
-
-typedef struct s_params
-{
-	int	number_of_philos;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	number_of_meals;
-}		t_params;
+}					t_error;
 
 //----------initializations.c----------//
 
-int		initialize_structs(t_params **config);
+int					initialize_structs(t_program **config);
 
 //----------validation.c----------//
 
-int		validate_input(int argc, char **argv, t_params *config);
+int					validate_input(int argc, char **argv, t_program *config);
 
 //----------exit.c----------//
 
-void	error_msg(char *msg);
-void	exit_philo(char *msg, t_params *config, int exit_code);
+void				error_msg(char *msg);
+void				exit_philo(char *msg, t_program *config, int exit_code);
 
 //----------cleanup.c----------//
 
-void	cleanup(t_params *config);
+void				cleanup(t_program *config);
 
 #endif

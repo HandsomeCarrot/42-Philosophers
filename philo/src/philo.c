@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:21:09 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 17:19:24 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/24 18:40:35 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int	main(int argc, char **argv)
 {
-	t_params	*params;
+	t_program	*program;
 
 	if (argc < 5 || argc > 6)
 		exit_philo("Incorrect amount of Arguments", NULL, 1);
-	params = NULL;
-	if (initialize_structs(&params))
-		exit_philo("Initialization failed", params, 1);
-	if (validate_input(argc, argv, params))
-		exit_philo("Input is faulty", params, 1);
-	cleanup(params);
+	program = NULL;
+	if (initialize_structs(&program))
+		exit_philo("Initialization failed", program, 1);
+	if (validate_input(argc, argv, program))
+		exit_philo("Input is faulty", program, 1);
+	cleanup(program);
 	exit(0);
 }
