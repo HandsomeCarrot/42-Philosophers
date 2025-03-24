@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:08:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 12:44:13 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/24 13:57:44 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,5 @@ int	validate_input(int argc, char **argv)
 {
 	if (argc == 5)
 		printf("%s\n", *argv);
-	return(0);
+	return (0);
 }
