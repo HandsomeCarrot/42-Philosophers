@@ -6,13 +6,13 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:08:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 17:11:04 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/24 17:18:31 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-static int	handle_special_cases(t_config *config)
+static int	handle_special_cases(t_params *config)
 {
 	if (config->number_of_philos < 1)
 	{
@@ -59,7 +59,7 @@ static unsigned int	ft_atoui(const char *nptr, int *error)
 	return ((unsigned int)res);
 }
 
-int	validate_input(int argc, char **argv, t_config *config)
+int	validate_input(int argc, char **argv, t_params *config)
 {
 	int	error;
 

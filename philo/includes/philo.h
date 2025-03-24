@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 16:22:43 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/24 17:18:38 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef enum e_error
 
 //----------enums----------//
 
-typedef struct s_config
+typedef struct s_params
 {
 	int	number_of_philos;
 	int	time_to_die;
@@ -36,23 +36,23 @@ typedef struct s_config
 	int	time_to_sleep;
 	int	number_of_meals;
 	int	start_time;
-}		t_config;
+}		t_params;
 
 //----------initializations.c----------//
 
-int		initialize_structs(t_config **config);
+int		initialize_structs(t_params **config);
 
 //----------validation.c----------//
 
-int		validate_input(int argc, char **argv, t_config *config);
+int		validate_input(int argc, char **argv, t_params *config);
 
 //----------exit.c----------//
 
 void	error_msg(char *msg);
-void	exit_philo(char *msg, t_config *config, int exit_code);
+void	exit_philo(char *msg, t_params *config, int exit_code);
 
 //----------cleanup.c----------//
 
-void	cleanup(t_config *config);
+void	cleanup(t_params *config);
 
 #endif

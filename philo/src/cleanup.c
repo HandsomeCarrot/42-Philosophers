@@ -6,13 +6,13 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:06:51 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 16:26:06 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/24 17:18:31 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	cleanup(t_config *config)
+void	cleanup(t_params *config)
 {
 	free(config);
 }
