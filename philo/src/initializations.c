@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 18:41:31 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/24 18:52:23 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,18 @@ int	initialize_structs(t_program **program)
 	if (!*program)
 	{
 		error_msg("calloc for t_program failed");
+		return (1);
+	}
+	(*program)->config = (t_config *)ft_calloc(1, sizeof(t_config));
+	if (!(*program)->config)
+	{
+		error_msg("calloc for t_config failed");
+		return (1);
+	}
+	(*program)->mutexes = (t_mutex_data *)ft_calloc(1, sizeof(t_mutex_data));
+	if (!(*program)->mutexes)
+	{
+		error_msg("calloc for t_mutex_data failed");
 		return (1);
 	}
 	return (0);
