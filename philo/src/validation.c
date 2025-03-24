@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:08:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 17:19:56 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/24 17:25:59 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	handle_special_cases(t_params *params)
 		|| params->time_to_sleep < 1
 		|| params->time_to_sleep < 1)
 	{
-		error_msg("Actions have to take at least 1ms (1)");
+		error_msg("Actions have to take at least 1 micro-second (1)");
 		return (1);
 	}
 	return (0);
