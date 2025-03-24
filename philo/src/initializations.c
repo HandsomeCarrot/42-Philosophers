@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 13:57:38 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/24 15:15:54 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ static void	*ft_calloc(size_t nmemb, size_t size)
 	return (res);
 }
 
-int	initialize_structs(t_config *config)
+int	initialize_structs(t_config **config)
 {
-	config = ft_calloc(1, sizeof(t_config));
-	if (config)
+	*config = ft_calloc(1, sizeof(t_config));
+	if (*config)
 		return (0);
 	error_msg("calloc for t_config failed");
 	return (1);

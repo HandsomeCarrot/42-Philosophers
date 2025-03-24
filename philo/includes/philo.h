@@ -6,13 +6,14 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 13:43:39 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/24 15:16:06 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
+# include <limits.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -39,7 +40,11 @@ typedef struct s_config
 
 //----------initializations.c----------//
 
-int		initialize_structs(t_config *config);
+int		initialize_structs(t_config **config);
+
+//----------validation.c----------//
+
+int		validate_input(int argc, char **argv, t_config *config);
 
 //----------exit.c----------//
 

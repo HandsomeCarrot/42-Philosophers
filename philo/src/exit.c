@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:19:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 13:57:46 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/24 15:23:20 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	exit_philo(char *msg, int exit_code)
 {
 	if (msg)
 		error_msg(msg);
+	//need cleanup
 	error_msg("Aborting program");
 	exit(exit_code);
 }
