@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 15:16:06 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/24 16:22:43 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ int		validate_input(int argc, char **argv, t_config *config);
 //----------exit.c----------//
 
 void	error_msg(char *msg);
-void	exit_philo(char *msg, int exit_code);
+void	exit_philo(char *msg, t_config *config, int exit_code);
+
+//----------cleanup.c----------//
+
+void	cleanup(t_config *config);
 
 #endif
