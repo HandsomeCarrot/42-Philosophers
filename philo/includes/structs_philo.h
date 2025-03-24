@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 18:38:46 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/24 18:43:18 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_config
 typedef struct s_philo
 {
 	pthread_t		*thread;
-	struct timeval	last_meal;
+	struct timeval	*last_meal;
 	int				meals_eaten;
 }					t_philo;
 
@@ -47,9 +47,9 @@ typedef struct s_mutex_data
 
 typedef struct s_program
 {
-	t_config		config;
+	t_config		*config;
 	t_philo			**philos;
-	t_mutex_data	mutexes;
+	t_mutex_data	*mutexes;
 }					t_program;
 
 #endif
