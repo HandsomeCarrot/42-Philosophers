@@ -6,11 +6,29 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:08:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 16:31:23 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/24 17:03:17 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+static int	handle_special_cases(t_config *config)
+{
+	if (config->number_of_philos < 1)
+	{
+		error_msg("There has to be at least 1 Philosopher");
+		return (1);
+	}
+	if (config->time_to_die < 1
+		|| config->time_to_eat < 1
+		|| config->time_to_sleep < 1
+		|| config->time_to_sleep < 1)
+	{
+		error_msg("Actions have to take at least 1ms (1)");
+		return (1);
+	}
+	return (0);
+}
 
 static unsigned int	ft_atoui(const char *nptr, int *error)
 {
@@ -44,25 +62,21 @@ static unsigned int	ft_atoui(const char *nptr, int *error)
 int	validate_input(int argc, char **argv, t_config *config)
 {
 	int	error;
-	
+
 	error = 0;
 	config->number_of_philos = ft_atoui(argv[1], &error);
-	if (error)
-		return (1);
 	config->time_to_die = ft_atoui(argv[2], &error);
-	if (error)
-		return (1);
 	config->time_to_eat = ft_atoui(argv[3], &error);
-	if (error)
-		return (1);
 	config->time_to_sleep = ft_atoui(argv[4], &error);
-	if (error)
-		return (1);
 	if (argc == 6)
 	{
 		config->number_of_meals = ft_atoui(argv[5], &error);
-		if (error)
-			return (1);
+		if (!error && config->number_of_meals == 0)
+			printf("Number of meals set to 0 (will be handled as unlimited)\n");
 	}
+	if (error)
+		return (1);
+	if (handle_special_cases(config))
+		return (1);
 	return (0);
 }
