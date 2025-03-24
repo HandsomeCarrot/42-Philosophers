@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/21 17:21:09 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/23 18:00:06 by vpoka            ###   ########.fr       */
+/*   Created: 2025/03/24 12:08:16 by vpoka             #+#    #+#             */
+/*   Updated: 2025/03/24 12:44:13 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../includes/philo.h"
 
-int	main(int argc, char **argv)
+int	validate_input(int argc, char **argv)
 {
-	if (argc < 5 || argc > 6)
-	{
-		exit_philo(, 1);
-	}
-	printf("%s", *argv);
-	exit(0);
+	if (argc == 5)
+		printf("%s\n", *argv);
+	return(0);
 }

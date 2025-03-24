@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/23 17:59:32 by vpoka            ###   ########.fr       */
+/*   Created: 2025/03/21 17:21:09 by vpoka             #+#    #+#             */
+/*   Updated: 2025/03/24 12:44:15 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#include "../includes/philo.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-
-//----------enums----------//
-
-typedef enum e_error
+int	main(int argc, char **argv)
 {
-	ARGS
-}	t_error;
-
-//----------exit.c----------//
-
-void	exit_philo(char *msg, int exit_code);
-
-#endif
+	if (argc < 5 || argc > 6)
+		exit_philo("Incorrect amount of Arguments.\n", 1);
+	printf("%s", *argv);
+	exit(0);
+}
