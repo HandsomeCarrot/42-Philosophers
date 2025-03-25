@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:06:51 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/25 18:17:52 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/25 18:31:15 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ static void	clean_mutexes(t_mutex_data *mutexes)
 		}
 		i++;
 	}
-	if (mutexes->death)
+	if (mutexes->stop)
 	{
-		status = pthread_mutex_destroy(mutexes->death);
+		status = pthread_mutex_destroy(mutexes->stop);
 		if (status == EBUSY)
 		{
-			pthread_mutex_unlock(mutexes->death);
-			pthread_mutex_destroy(mutexes->death);
+			pthread_mutex_unlock(mutexes->stop);
+			pthread_mutex_destroy(mutexes->stop);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/25 18:11:06 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/25 18:31:15 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	initialize_mutexes(t_program *program)
 			return (1);
 		pos++;
 	}
-	status = pthread_mutex_init(program->mutexes->death, NULL);
+	status = pthread_mutex_init(program->mutexes->stop, NULL);
 	if (status != 0)
 		return (1);
 	return (0);
