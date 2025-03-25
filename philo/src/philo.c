@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:21:09 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/25 18:15:46 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/25 18:21:51 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char **argv)
 		exit_philo("Initialization of mutexes failed", program, 1);
 	if (initialize_philos(program))
 	{
-		//set error-state
+		//set stop variable
 		exit_philo("Initialization of philosophers failed", program, 1);
 	}
 	exit_philo(NULL, program, 0);
