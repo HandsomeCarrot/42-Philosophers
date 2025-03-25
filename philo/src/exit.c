@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:19:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 19:20:43 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/25 18:16:28 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,9 @@ void	error_msg(char *msg)
 
 void	exit_philo(char *msg, t_program *program, int exit_code)
 {
-	printf("Initiating program closure");
-	if (msg)
-		error_msg(msg);
 	if (program)
 		cleanup(program);
+	if (msg)
+		error_msg(msg);
 	exit(exit_code);
 }

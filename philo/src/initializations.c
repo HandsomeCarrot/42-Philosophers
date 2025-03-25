@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/25 16:54:19 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/25 18:11:06 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ int	initialize_mutexes(t_program *program)
 {
 	unsigned int	pos;
 	int				status;
-	
+
 	if (!program)
 		return (1);
-	program->mutexes->forks = ft_calloc(program->config->number_of_philos + 1, \
+	program->mutexes->forks = ft_calloc(program->config->number_of_philos + 1,
 			sizeof(pthread_mutex_t *));
 	if (!program->mutexes->forks)
 		return (1);
@@ -77,5 +77,30 @@ int	initialize_mutexes(t_program *program)
 	status = pthread_mutex_init(program->mutexes->death, NULL);
 	if (status != 0)
 		return (1);
+	return (0);
+}
+
+int	initialize_philos(t_program *program)
+{
+	unsigned int	pos;
+	int				status;
+
+	if (!program)
+		return (1);
+	program->philos = ft_calloc(program->config->number_of_philos + 1,
+			sizeof(t_philo));
+	if (!program->philos)
+		return (1);
+	pos = 0;
+	while (pos < program->config->number_of_philos)
+	{
+		status = gettimeofday(program->philos[pos]->last_meal, NULL);
+		if (status != 0)
+			return (1);											//start-fct, arg
+		status = pthread_create(program->philos[pos]->thread, NULL, NULL, NULL);
+		if (status != 0)
+			return (1);
+		pos++;
+	}
 	return (0);
 }

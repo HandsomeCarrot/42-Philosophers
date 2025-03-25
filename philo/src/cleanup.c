@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:06:51 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/25 16:31:43 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/25 18:17:52 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ static void	clean_mutexes(t_mutex_data *mutexes)
 
 void	cleanup(t_program *program)
 {
-	if (program->config)
-		free(program->config);
 	if (program->philos)
 	{
 		clean_philos(program->philos);
@@ -65,5 +63,7 @@ void	cleanup(t_program *program)
 		clean_mutexes(program);
 		free(program->mutexes);
 	}
+	if (program->config)
+		free(program->config);
 	free(program);
 }

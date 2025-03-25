@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/25 16:14:49 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/25 18:10:45 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ typedef struct s_config
 
 typedef struct s_philo
 {
-	pthread_t		*thread;
 	struct timeval	*last_meal;
-	int				meals_eaten;
+	pthread_t		*thread;
+	unsigned int	meals_eaten;
 }					t_philo;
 
 //----------mutexes----------//
