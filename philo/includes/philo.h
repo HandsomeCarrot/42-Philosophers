@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/25 18:27:36 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/25 18:29:16 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,6 @@
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
-
-//----------enums----------//
-
-typedef enum e_error
-{
-	ARGS = 1
-}		t_error;
 
 //----------initializations.c----------//
 
