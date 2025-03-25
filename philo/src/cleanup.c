@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:06:51 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 19:21:25 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/25 16:14:56 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,28 @@ static void	clean_philos(t_philo **philos)
 	}
 }
 
-static void	clean_mutexes(t_program *program)
+static void	clean_mutexes(t_mutex_data *mutexes)
 {
-	//cleanup mutex_data struct
+	unsigned int	i;
+	int				status;
+
+	i = 0;
+	while (mutexes->forks[i])
+	{
+		status = pthread_mutex_destroy(mutexes->forks[i]);
+		if (status == EBUSY)
+		{
+			pthread_mutex_unlock(mutexes->forks[i]);
+			pthread_mutex_destroy(mutexes->forks[i]);
+		}
+		i++;
+	}
+	status = pthread_mutex_destroy(mutexes->death);
+	if (status == EBUSY)
+	{
+		pthread_mutex_unlock(mutexes->death);
+		pthread_mutex_destroy(mutexes->death);
+	}
 }
 
 void	cleanup(t_program *program)

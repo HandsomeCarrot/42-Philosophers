@@ -6,13 +6,15 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 18:39:32 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/25 16:05:31 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
+# include "structs_philo.h"
+# include <errno.h>
 # include <limits.h>
 # include <pthread.h>
 # include <stdio.h>
@@ -20,30 +22,29 @@
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include "structs_philo.h"
 
 //----------enums----------//
 
 typedef enum e_error
 {
 	ARGS = 1
-}					t_error;
+}		t_error;
 
 //----------initializations.c----------//
 
-int					initialize_structs(t_program **config);
+int		initialize_structs(t_program **config);
 
 //----------validation.c----------//
 
-int					validate_input(int argc, char **argv, t_program *config);
+int		validate_input(int argc, char **argv, t_program *config);
 
 //----------exit.c----------//
 
-void				error_msg(char *msg);
-void				exit_philo(char *msg, t_program *config, int exit_code);
+void	error_msg(char *msg);
+void	exit_philo(char *msg, t_program *config, int exit_code);
 
 //----------cleanup.c----------//
 
-void				cleanup(t_program *config);
+void	cleanup(t_program *config);
 
 #endif
