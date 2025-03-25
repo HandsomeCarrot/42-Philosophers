@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:06:51 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/25 16:14:56 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/25 16:31:43 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	clean_philos(t_philo **philos)
 	unsigned int	i;
 
 	i = 0;
-	while (philos[i])
+	while (philos && philos[i])
 	{
 		pthread_join(philos[i]->thread, NULL);
 		free(philos[i]->last_meal);
@@ -30,7 +30,7 @@ static void	clean_mutexes(t_mutex_data *mutexes)
 	int				status;
 
 	i = 0;
-	while (mutexes->forks[i])
+	while (mutexes->forks && mutexes->forks[i])
 	{
 		status = pthread_mutex_destroy(mutexes->forks[i]);
 		if (status == EBUSY)
@@ -40,11 +40,14 @@ static void	clean_mutexes(t_mutex_data *mutexes)
 		}
 		i++;
 	}
-	status = pthread_mutex_destroy(mutexes->death);
-	if (status == EBUSY)
+	if (mutexes->death)
 	{
-		pthread_mutex_unlock(mutexes->death);
-		pthread_mutex_destroy(mutexes->death);
+		status = pthread_mutex_destroy(mutexes->death);
+		if (status == EBUSY)
+		{
+			pthread_mutex_unlock(mutexes->death);
+			pthread_mutex_destroy(mutexes->death);
+		}
 	}
 }
 
