@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/25 18:11:55 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/25 18:27:36 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef enum e_error
 
 //----------initializations.c----------//
 
-int		initialize_structs(t_program **config);
+int		initialize_structs(t_program **program);
 int		initialize_mutexes(t_program *program);
 int		initialize_philos(t_program *program);
 
