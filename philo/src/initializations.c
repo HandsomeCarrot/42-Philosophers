@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/25 18:51:16 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/25 19:00:52 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,9 @@ int	initialize_philos(t_program *program)
 	{
 		status = gettimeofday(program->philos[pos]->last_meal, NULL);
 		if (status != 0)
-			return (1);											//start-fct
-		status = pthread_create(program->philos[pos]->thread, NULL, NULL, program);
+			return (1);
+		status = pthread_create(program->philos[pos]->thread, NULL, routine,
+				program);
 		if (status != 0)
 			return (1);
 		pos++;
