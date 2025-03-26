@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/25 19:00:57 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/26 13:12:42 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int		validate_input(int argc, char **argv, t_program *config);
 
 //----------routine.c----------//
 
+void	set_stop_flag(t_program *program);
 void	*routine(t_program *program);
 
 //----------exit.c----------//
