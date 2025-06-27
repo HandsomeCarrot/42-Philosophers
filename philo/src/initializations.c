@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 14:24:41 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 16:12:55 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,54 +16,44 @@
 int	initialize_structs(t_program **program_ptr)
 {
 	t_program	*program;
-	
+
 	if (!program_ptr)
 		return (ERROR);
 	*program_ptr = ft_calloc(1, sizeof(t_program));
 	if (!*program_ptr)
 	{
-		error_msg("memory allocation failed", "initialization.c:35");
+		error_msg("memory allocation failed", NULL);
 		return (ERROR);
 	}
 	program = *program_ptr;
-	program->config = ft_calloc(1, sizeof(t_config));
-	if (!program->config)
-	{
-		error_msg("memory allocation failed", "initialization.c:41");
-		return (ERROR);
-	}
-	program->mutexes = ft_calloc(1, sizeof(t_mutex_data));
+	program->mutexes = ft_calloc(1, sizeof(t_mutexes));
 	if (!program->mutexes)
 	{
-		error_msg("memory allocation failed", "initialization.c:47");
+		error_msg("memory allocation failed", NULL);
 		return (ERROR);
 	}
 	return (SUCCESS);
 }
 
 // docs
-int	initialize_mutexes(t_program *program)
+int	initialize_universal_mutexes(t_mutexes *mutexes)
 {
-	unsigned int	pos;
-	int				status;
+	int	pos;
 
-	if (!program)
+	if (!mutexes)
 		return (ERROR);
-	program->mutexes->forks = ft_calloc(program->config->number_of_philos + 1,
-			sizeof(pthread_mutex_t *));
-	if (!program->mutexes->forks)
+	if (pthread_mutex_init(mutexes->stop, NULL) != SUCCESS)
+		return (ERROR);
+	if (pthread_mutex_init(mutexes->print, NULL) != SUCCESS)
 		return (ERROR);
 	pos = 0;
-	while (pos < program->config->number_of_philos)
+	mutexes->forks = ft_calloc(get(NBR_OF_PHILOS), sizeof(pthread_mutex_t *));
+	while (pos < get(NBR_OF_PHILOS))
 	{
-		status = pthread_mutex_init(program->mutexes->forks[pos], NULL);
-		if (status != 0)
+		if (pthread_mutex_init(mutexes->forks, NULL) != SUCCESS)
 			return (ERROR);
 		pos++;
 	}
-	status = pthread_mutex_init(program->mutexes->stop, NULL);
-	if (status != 0)
-		return (ERROR);
 	return (SUCCESS);
 }
 

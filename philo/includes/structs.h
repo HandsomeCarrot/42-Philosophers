@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 13:55:47 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 16:06:34 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,43 +17,46 @@
 
 //----------user-input----------//
 
+// docs
 typedef struct s_config
 {
-	unsigned int	number_of_philos;
-	unsigned int	time_to_die;
-	unsigned int	time_to_eat;
-	unsigned int	time_to_sleep;
-	unsigned int	number_of_meals;
-	bool			eat_to_death;
-}					t_config;
+	unsigned int		number_of_philos;
+	unsigned int		time_to_die;
+	unsigned int		time_to_eat;
+	unsigned int		time_to_sleep;
+	unsigned int		number_of_meals;
+	bool				simulate_until_death;
+}						t_config;
 
 //----------philosopher-data----------//
 
+// docs
 typedef struct s_philo
 {
-	struct timeval	*last_meal;
-	pthread_t		*thread;
-	unsigned int	meals_eaten;
-	struct s_philo	*next;
-	struct s_philo	*previous;
-}					t_philo;
+	pthread_mutex_t		*fork;
+	pthread_t			*thread;
+	struct timeval		*last_meal;
+	unsigned int		meals_eaten;
+}						t_philo;
 
-//----------mutexes----------//
+//----------universal-mutexes----------//
 
-typedef struct s_mutex_data
+// docs
+typedef struct s_mutexes
 {
-	pthread_mutex_t	**forks;
-	pthread_mutex_t	*stop;
-}					t_mutex_data;
+	pthread_mutex_t		*stop;
+	pthread_mutex_t		*print;
+	pthread_mutex_t		**forks;
+}						t_mutexes;
 
 //----------main----------//
 
+// docs
 typedef struct s_program
 {
-	t_config		*config;
-	t_philo			**philos;
-	t_mutex_data	*mutexes;
-	int				stop_flag;
-}					t_program;
+	struct s_mutexes	*mutexes;
+	struct s_philo		**philos;
+	int					stop_flag;
+}						t_program;
 
 #endif

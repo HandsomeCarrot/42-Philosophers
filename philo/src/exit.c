@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:19:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 12:29:12 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 16:09:57 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	clean_philos(t_philo **philos)
 	}
 }
 
-static void	clean_mutexes(t_mutex_data *mutexes)
+static void	clean_mutexes(t_mutexes *mutexes)
 {
 	unsigned int	i;
 	int				status;
