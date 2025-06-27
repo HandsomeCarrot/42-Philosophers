@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 12:29:38 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 12:37:40 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	*routine(t_program *program);
 
 //----------messages.c----------//
 
+char	*get_exec_pattern(void);
 void	error_msg(char *msg1, char *msg2);
 
 //----------utils.c----------//

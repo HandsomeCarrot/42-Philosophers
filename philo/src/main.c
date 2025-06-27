@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:21:09 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 12:23:36 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 12:38:00 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,10 @@
 int	main(int argc, char **argv)
 {
 	t_program	*program;
-	const char	*exec_pattern = "./philo <number_of_philosophers> \
-	<time_to_die> <time_to_eat> \
-	<time_to_sleep> [number_of_times_each_philosopher_must_eat]";
 
 	if (argc < 5 || argc > 6)
 	{
-		error_msg("Incorrect amount of Arguments", exec_pattern);
+		error_msg("Incorrect amount of Arguments", get_exec_pattern());
 		exit_philo(NULL, ERROR);
 	}
 	program = NULL;
