@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/25 18:31:15 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/03/26 13:09:25 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_program
 	t_config		*config;
 	t_philo			**philos;
 	t_mutex_data	*mutexes;
-	int				stop_threads;
+	int				stop_flag;
 }					t_program;
 
 #endif

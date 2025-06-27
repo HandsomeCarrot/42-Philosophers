@@ -6,7 +6,7 @@
 #    By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 19:28:52 by vpoka             #+#    #+#              #
-#    Updated: 2025/03/25 15:29:46 by vpoka            ###   ########.fr        #
+#    Updated: 2025/03/26 11:57:39 by vpoka            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRCS_DIR = src/
 SRCS =	philo.c \
 		initializations.c \
 		validation.c \
+		routine.c \
 		cleanup.c \
 		exit.c
 

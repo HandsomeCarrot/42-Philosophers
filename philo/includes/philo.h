@@ -35,6 +35,7 @@ int		validate_input(int argc, char **argv, t_program *config);
 
 //----------routine.c----------//
 
+void	set_stop_flag(t_program *program);
 void	*routine(t_program *program);
 
 //----------exit.c----------//
