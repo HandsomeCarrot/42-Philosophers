@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:26:42 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 22:45:52 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 23:13:09 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	ft_strlen(char *str)
  *       milliseconds internally.
  * @warning The caller must ensure ms_ptr is a valid pointer to a t_ms variable.
  */
-int	get_time_in_ms(t_ms *ms_ptr)
+int	get_time_in_ms(t_ms *ms_ptr, t_program *program)
 {
 	struct timeval	tv;
 	t_ms			current_time;
@@ -126,19 +126,11 @@ int	get_time_in_ms(t_ms *ms_ptr)
 		return (ERROR);
 	if (gettimeofday(&tv, NULL) != SUCCESS)
 	{
-		// safe_putstr() "failed to get time"
+		safe_putstr_fd("failed to get time", STDERR_FILENO, program);
 		return (ERROR);
 	}
 	current_time = (t_ms)(tv.tv_sec * 1000);
 	current_time += (t_ms)(tv.tv_usec / 1000);
 	*ms_ptr = current_time;
 	return (SUCCESS);
-}
-
-// docs
-// TODO
-char	*ft_mstoa(t_ms nbr)
-{
-	(void)nbr;
-	return (NULL);
 }

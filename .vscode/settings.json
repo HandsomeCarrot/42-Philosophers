@@ -3,9 +3,11 @@
 		"rope": "c",
 		"philo.h": "c",
 		"stdbool.h": "c",
-		"pthread.h": "c"
+		"pthread.h": "c",
+		"string": "c"
 	},
 	"cSpell.words": [
-		"atoui"
+		"atoui",
+		"mstoa"
 	]
 }

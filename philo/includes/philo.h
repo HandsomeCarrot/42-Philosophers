@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 22:45:52 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 23:12:55 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,18 @@ void			*routine(t_program *program);
 
 char			*get_exec_pattern(void);
 void			error_msg(char *msg1, char *msg2);
+int				safe_putstr_fd(char *str, int fd, t_program *program);
 
 //----------utils.c----------//
 
 t_ms			ft_atoms(const char *nptr, bool *error);
 void			*ft_calloc(size_t nmemb, size_t size);
 int				ft_strlen(char *str);
-int				get_time_in_ms(t_ms *ms_ptr);
+int				get_time_in_ms(t_ms *ms_ptr, t_program *program);
+
+//----------mstoa.c----------//
+
+char			*mstoa(t_ms number);
 
 //----------exit.c----------//
 
