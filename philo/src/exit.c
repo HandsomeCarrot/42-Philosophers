@@ -6,49 +6,72 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:19:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 11:58:09 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 12:29:12 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-// docs
-static int	ft_strlen(char *str)
+static void	clean_philos(t_philo **philos)
 {
-	int	counter;
+	unsigned int	i;
 
-	counter = 0;
-	while (str && *str)
+	i = 0;
+	while (philos && philos[i])
 	{
-		counter++;
-		str++;
-	}
-	return (counter);
-}
-
-// docs
-void	error_msg(char *msg)
-{
-	static int	first_error;
-
-	if (!first_error)
-	{
-		write(STDERR_FILENO, "Error!\n", sizeof(char) * 7);
-		first_error = 1;
-	}
-	if (msg)
-	{
-		write(STDERR_FILENO, msg, sizeof(char) * ft_strlen(msg));
-		write(STDERR_FILENO, "\n", sizeof(char) * 1);
+		pthread_join(philos[i]->thread, NULL);
+		free(philos[i]->last_meal);
 	}
 }
 
+static void	clean_mutexes(t_mutex_data *mutexes)
+{
+	unsigned int	i;
+	int				status;
+
+	i = 0;
+	while (mutexes->forks && mutexes->forks[i])
+	{
+		status = pthread_mutex_destroy(mutexes->forks[i]);
+		if (status == EBUSY)
+		{
+			pthread_mutex_unlock(mutexes->forks[i]);
+			pthread_mutex_destroy(mutexes->forks[i]);
+		}
+		i++;
+	}
+	if (mutexes->stop)
+	{
+		status = pthread_mutex_destroy(mutexes->stop);
+		if (status == EBUSY)
+		{
+			pthread_mutex_unlock(mutexes->stop);
+			pthread_mutex_destroy(mutexes->stop);
+		}
+	}
+}
+
+static void	cleanup(t_program *program)
+{
+	if (program->philos)
+	{
+		clean_philos(program->philos);
+		free(program->philos);
+	}
+	if (program->mutexes)
+	{
+		clean_mutexes(program);
+		free(program->mutexes);
+	}
+	if (program->config)
+		free(program->config);
+	free(program);
+}
+
 // docs
-void	exit_philo(char *msg, t_program *program, int exit_code)
+void	exit_philo(t_program *program, int exit_code)
 {
 	if (program)
 		cleanup(program);
-	if (msg)
-		error_msg(msg);
 	exit(exit_code);
 }

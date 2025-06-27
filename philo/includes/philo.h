@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 11:02:42 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 12:29:38 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include <sys/time.h>
 # include <unistd.h>
 
+# define SUCCESS 0
+# define ERROR 1
+
 //----------initializations.c----------//
 
 int		initialize_structs(t_program **program);
@@ -38,13 +41,16 @@ int		validate_input(int argc, char **argv, t_program *config);
 void	set_stop_flag(t_program *program);
 void	*routine(t_program *program);
 
+//----------messages.c----------//
+
+void	error_msg(char *msg1, char *msg2);
+
+//----------utils.c----------//
+
+int		ft_strlen(char *str);
+
 //----------exit.c----------//
 
-void	error_msg(char *msg);
-void	exit_philo(char *msg, t_program *config, int exit_code);
-
-//----------cleanup.c----------//
-
-void	cleanup(t_program *config);
+void	exit_philo(t_program *config, int exit_code);
 
 #endif

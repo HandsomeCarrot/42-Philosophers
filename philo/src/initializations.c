@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 11:57:41 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 12:16:52 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,26 @@ static void	*ft_calloc(size_t nmemb, size_t size)
 int	initialize_structs(t_program **program)
 {
 	if (!program)
-		return (1);
+		return (ERROR);
 	*program = (t_program *)ft_calloc(1, sizeof(t_program));
 	if (!*program)
 	{
-		error_msg("calloc for t_program failed");
-		return (1);
+		error_msg("memory allocation failed", "initialization.c:35");
+		return (ERROR);
 	}
 	(*program)->config = (t_config *)ft_calloc(1, sizeof(t_config));
 	if (!(*program)->config)
 	{
-		error_msg("calloc for t_config failed");
-		return (1);
+		error_msg("memory allocation failed", "initialization.c:41");
+		return (ERROR);
 	}
 	(*program)->mutexes = (t_mutex_data *)ft_calloc(1, sizeof(t_mutex_data));
 	if (!(*program)->mutexes)
 	{
-		error_msg("calloc for t_mutex_data failed");
-		return (1);
+		error_msg("memory allocation failed", "initialization.c:47");
+		return (ERROR);
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 // docs
