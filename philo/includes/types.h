@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   nbr_defs.h                                         :+:      :+:    :+:   */
+/*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 18:01:22 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 18:02:38 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 18:05:41 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NBR_DEFS_H
-# define NBR_DEFS_H
+#ifndef TYPES_H
+# define TYPES_H
 
 # include <stdint.h>
 
 // docs
-# define SUCCESS 0
-// docs
-# define ERROR 1
+typedef uint64_t	t_ms;
 
 // docs
-typedef uint64_t	t_ms;
+typedef enum e_errors
+{
+	SUCCESS,
+	ERROR
+}					t_errors;
 
 // docs
 typedef enum e_config_data_type
