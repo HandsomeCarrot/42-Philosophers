@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:28:19 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 17:47:55 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 18:33:12 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int	initialize_config(int argc, char **argv)
 		get_config()->has_meal_limit = false;
 	else
 		get_config()->has_meal_limit = true;
-	// set sim_start
 	return (SUCCESS);
 }
 
@@ -117,7 +116,5 @@ t_ms	get(int data_to_get)
 		return (get_config()->number_of_meals);
 	if (data_to_get == HAS_MEAL_LIMIT)
 		return ((t_ms)get_config()->has_meal_limit);
-	if (data_to_get == SIM_START)
-		return (get_config()->sim_start);
 	return (0);
 }

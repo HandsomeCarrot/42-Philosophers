@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 18:29:31 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 18:32:47 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_config
 	t_ms				time_to_sleep;
 	t_ms				number_of_meals;
 	bool				has_meal_limit;
-	t_ms				sim_start;
 }						t_config;
 
 //----------philosopher-data----------//
