@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 16:06:34 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 16:17:23 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_config
 	unsigned int		time_to_eat;
 	unsigned int		time_to_sleep;
 	unsigned int		number_of_meals;
-	bool				simulate_until_death;
+	bool				has_meal_limit;
 }						t_config;
 
 //----------philosopher-data----------//

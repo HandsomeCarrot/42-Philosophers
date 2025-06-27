@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 16:04:39 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 16:15:39 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,14 @@ typedef enum e_stop
 //----------initializations.c----------//
 
 int				initialize_structs(t_program **program);
-int				initialize_universal_mutexes(t_program *program);
+int				initialize_universal_mutexes(t_mutexes *mutexes);
 int				initialize_philos(t_program *program);
 
 //----------config.c----------//
 
 int				initialize_config(int argc, char **argv);
+unsigned int	get(int data_to_get);
+bool			simulate_until_death(void);
 
 //----------routine.c----------//
 

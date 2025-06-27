@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:28:19 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 16:13:01 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 16:17:16 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ int	initialize_config(int argc, char **argv)
 		return (ERROR);
 	}
 	if (argc == 6)
-		get_config()->simulate_until_death = false;
+		get_config()->has_meal_limit = false;
 	else
-		get_config()->simulate_until_death = true;
+		get_config()->has_meal_limit = true;
 	return (SUCCESS);
 }
 
@@ -81,7 +81,7 @@ unsigned int	get(int data_to_get)
 }
 
 // docs
-bool	simulate_until_deat(void)
+bool	has_meal_limit(void)
 {
-	return (get_config()->simulate_until_death);
+	return (get_config()->has_meal_limit);
 }
