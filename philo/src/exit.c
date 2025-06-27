@@ -6,12 +6,13 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:19:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/25 18:16:28 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 11:58:09 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
+// docs
 static int	ft_strlen(char *str)
 {
 	int	counter;
@@ -25,6 +26,7 @@ static int	ft_strlen(char *str)
 	return (counter);
 }
 
+// docs
 void	error_msg(char *msg)
 {
 	static int	first_error;
@@ -41,6 +43,7 @@ void	error_msg(char *msg)
 	}
 }
 
+// docs
 void	exit_philo(char *msg, t_program *program, int exit_code)
 {
 	if (program)

@@ -6,19 +6,13 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/25 19:00:52 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 11:57:41 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-/**
- * Allocates memory for an array of elements and initializes them to 0.
- *
- * @param nmemb The number of elements to allocate memory for.
- * @param size The size of each element.
- * @return A pointer to the allocated memory, or NULL if allocation fails.
- */
+// docs
 static void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void	*res;
@@ -30,6 +24,7 @@ static void	*ft_calloc(size_t nmemb, size_t size)
 	return (res);
 }
 
+// docs
 int	initialize_structs(t_program **program)
 {
 	if (!program)
@@ -55,6 +50,7 @@ int	initialize_structs(t_program **program)
 	return (0);
 }
 
+// docs
 int	initialize_mutexes(t_program *program)
 {
 	unsigned int	pos;
@@ -80,6 +76,7 @@ int	initialize_mutexes(t_program *program)
 	return (0);
 }
 
+// docs
 int	initialize_philos(t_program *program)
 {
 	unsigned int	pos;

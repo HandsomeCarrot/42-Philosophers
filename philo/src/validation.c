@@ -6,12 +6,13 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:08:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/24 18:44:24 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 11:57:54 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
+// docs
 static int	handle_special_cases(t_program *program)
 {
 	if (program->config->number_of_philos < 1)
@@ -30,6 +31,7 @@ static int	handle_special_cases(t_program *program)
 	return (0);
 }
 
+// docs
 static unsigned int	ft_atoui(const char *nptr, int *error)
 {
 	long long	res;
@@ -59,6 +61,7 @@ static unsigned int	ft_atoui(const char *nptr, int *error)
 	return ((unsigned int)res);
 }
 
+// docs
 int	validate_input(int argc, char **argv, t_program *program)
 {
 	int	error;
