@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 16:15:39 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 16:28:20 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int				initialize_philos(t_program *program);
 
 int				initialize_config(int argc, char **argv);
 unsigned int	get(int data_to_get);
-bool			simulate_until_death(void);
+bool			has_meal_limit(void);
 
 //----------routine.c----------//
 
