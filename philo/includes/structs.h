@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   structs_philo.h                                    :+:      :+:    :+:   */
+/*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/03/26 13:09:25 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 12:30:22 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCTS_PHILO_H
-# define STRUCTS_PHILO_H
+#ifndef STRUCTS_H
+# define STRUCTS_H
 
 # include "philo.h"
 
@@ -19,11 +19,10 @@
 
 typedef enum e_stop
 {
-	ERROR = 1,
-	NORMAL,
-	DEATH
-}		t_stop;
-
+	STOP_ERROR = 1,
+	STOP_NORMAL,
+	STOP_DEATH
+}					t_stop;
 
 //----------user-input----------//
 
