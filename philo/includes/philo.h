@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 12:37:40 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 13:55:37 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,41 +17,53 @@
 # include <errno.h>
 # include <limits.h>
 # include <pthread.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
 
+//----------enums----------//
+
 # define SUCCESS 0
 # define ERROR 1
 
+typedef enum e_stop
+{
+	STOP_ERROR = 1,
+	STOP_NORMAL,
+	STOP_DEATH
+}				t_stop;
+
 //----------initializations.c----------//
 
-int		initialize_structs(t_program **program);
-int		initialize_mutexes(t_program *program);
-int		initialize_philos(t_program *program);
+int				initialize_structs(t_program **program);
+int				initialize_mutexes(t_program *program);
+int				initialize_philos(t_program *program);
 
 //----------validation.c----------//
 
-int		validate_input(int argc, char **argv, t_program *config);
+int				validate_input(int argc, char **argv, t_program *config);
 
 //----------routine.c----------//
 
-void	set_stop_flag(t_program *program);
-void	*routine(t_program *program);
+void			set_stop_flag(t_program *program);
+void			*routine(t_program *program);
 
 //----------messages.c----------//
 
-char	*get_exec_pattern(void);
-void	error_msg(char *msg1, char *msg2);
+char			*get_exec_pattern(void);
+void			error_msg(char *msg1, char *msg2);
 
 //----------utils.c----------//
 
-int		ft_strlen(char *str);
+unsigned int	ft_atoui(const char *nptr, int *error);
+void			*ft_calloc(size_t nmemb, size_t size);
+int				ft_strlen(char *str);
 
 //----------exit.c----------//
 
-void	exit_philo(t_program *config, int exit_code);
+void			exit_philo(t_program *config, int exit_code);
 
 #endif

@@ -1,6 +1,10 @@
 {
 	"files.associations": {
 		"rope": "c",
-		"philo.h": "c"
-	}
+		"philo.h": "c",
+		"stdbool.h": "c"
+	},
+	"cSpell.words": [
+		"atoui"
+	]
 }

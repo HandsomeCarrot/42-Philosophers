@@ -6,23 +6,14 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 12:30:22 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 13:55:47 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-# include "philo.h"
-
-//----------enums----------//
-
-typedef enum e_stop
-{
-	STOP_ERROR = 1,
-	STOP_NORMAL,
-	STOP_DEATH
-}					t_stop;
+# include <stdbool.h>
 
 //----------user-input----------//
 
@@ -33,6 +24,7 @@ typedef struct s_config
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
 	unsigned int	number_of_meals;
+	bool			eat_to_death;
 }					t_config;
 
 //----------philosopher-data----------//
@@ -42,6 +34,8 @@ typedef struct s_philo
 	struct timeval	*last_meal;
 	pthread_t		*thread;
 	unsigned int	meals_eaten;
+	struct s_philo	*next;
+	struct s_philo	*previous;
 }					t_philo;
 
 //----------mutexes----------//
