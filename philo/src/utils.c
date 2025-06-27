@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:26:42 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 17:49:24 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 18:29:33 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,17 @@ int	ft_strlen(char *str)
 }
 
 // docs
-t_ms	get_time_in_ms(void)
+int	get_time_in_ms(t_ms *ms_ptr)
 {
-	// use gettimeofday() to get current time
-	// then convert it to ms
+	struct timeval	tv;
+	t_ms			current_time;
+
+	if (!ms_ptr)
+		return (ERROR);
+	if (gettimeofday(&tv, NULL) != SUCCESS)
+		return (ERROR);
+	current_time = (t_ms)(tv.tv_sec * 1000);
+	current_time += (t_ms)(tv.tv_usec / 1000);
+	*ms_ptr = current_time;
+	return (SUCCESS);
 }

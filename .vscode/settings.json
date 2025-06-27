@@ -2,7 +2,8 @@
 	"files.associations": {
 		"rope": "c",
 		"philo.h": "c",
-		"stdbool.h": "c"
+		"stdbool.h": "c",
+		"pthread.h": "c"
 	},
 	"cSpell.words": [
 		"atoui"

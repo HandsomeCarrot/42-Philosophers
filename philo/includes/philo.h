@@ -6,18 +6,17 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 18:06:48 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 18:29:28 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include "types.h"
 # include "structs.h"
+# include "types.h"
 # include <errno.h>
 # include <limits.h>
-# include <pthread.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -35,7 +34,6 @@ int				initialize_philos(t_program *program);
 
 int				initialize_config(int argc, char **argv);
 unsigned int	get(int data_to_get);
-bool			has_meal_limit(void);
 
 //----------routine.c----------//
 
@@ -52,6 +50,7 @@ void			error_msg(char *msg1, char *msg2);
 t_ms			ft_atoms(const char *nptr, bool *error);
 void			*ft_calloc(size_t nmemb, size_t size);
 int				ft_strlen(char *str);
+int				get_time_in_ms(t_ms *ms_ptr);
 
 //----------exit.c----------//
 
