@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:26:42 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 18:29:33 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 19:03:34 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,21 @@ int	ft_strlen(char *str)
 	return (counter);
 }
 
-// docs
+/**
+ * @brief Gets the current time in milliseconds and stores it in the provided pointer.
+ *
+ * Retrieves the current system time using gettimeofday() and converts it to
+ * milliseconds (combining seconds and microseconds components). The result is
+ * stored in the provided t_ms pointer.
+ *
+ * @param ms_ptr Pointer to a t_ms variable where the current time in ms will
+ *               be stored. Must not be NULL.
+ * @return SUCCESS (0) if time was successfully retrieved and stored,
+ *         ERROR (1) if ms_ptr is NULL or gettimeofday() fails.
+ * @note The function handles the conversion from seconds+microseconds to
+ *       milliseconds internally.
+ * @warning The caller must ensure ms_ptr is a valid pointer to a t_ms variable.
+ */
 int	get_time_in_ms(t_ms *ms_ptr)
 {
 	struct timeval	tv;
@@ -111,9 +125,20 @@ int	get_time_in_ms(t_ms *ms_ptr)
 	if (!ms_ptr)
 		return (ERROR);
 	if (gettimeofday(&tv, NULL) != SUCCESS)
+	{
+		// safe_putstr() "failed to get time"
 		return (ERROR);
+	}
 	current_time = (t_ms)(tv.tv_sec * 1000);
 	current_time += (t_ms)(tv.tv_usec / 1000);
 	*ms_ptr = current_time;
 	return (SUCCESS);
+}
+
+// docs
+// TODO
+char	*ft_mstoa(t_ms nbr)
+{
+	(void)nbr;
+	return (NULL);
 }

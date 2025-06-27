@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:24:53 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 16:34:05 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 19:25:06 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,11 @@ void	error_msg(char *msg1, char *msg2)
 		write (STDERR_FILENO, msg2, sizeof(char) * ft_strlen(msg2));
 	}
 	write(STDERR_FILENO, "\n", sizeof(char) * 1);
+}
+
+// docs
+// TODO
+void	safe_putstr(char *str, int fd)
+{
+	(void)str;
 }

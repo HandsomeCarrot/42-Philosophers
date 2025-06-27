@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 18:38:41 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 19:07:33 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,33 +76,47 @@ int	initialize_data(int argc, char **argv, t_program **program_ptr)
 	return (SUCCESS);
 }
 
-t_philo	*new_philo(void)
+// docs
+t_philo	*create_philo(t_ms id, t_program *program)
 {
-	// create a new philo node
+	t_philo	*new_philo;
+
+	new_philo = ft_calloc(1, sizeof(t_philo));
+	if (!new_philo)
+		return (NULL);
+	new_philo->meals_eaten = 0;
+	new_philo->id = id;
+	if (get_time_in_ms(&(new_philo->last_meal)))
+	{
+		free(new_philo);
+		return (NULL);
+	}
+	if (pthread_create(&(new_philo->thread), NULL, &routine, program))
+	{
+		// safe_putstr() "failed to create philo x"
+		free(new_philo);
+		return (NULL);
+	}
+	return (new_philo);
 }
 
 // docs
 int	initialize_philos(t_program *program)
 {
-	unsigned int	pos;
-	int				status;
+	t_ms	philo_index;
 
 	if (!program)
 		return (1);
 	program->philos = ft_calloc(get(NBR_OF_PHILOS), sizeof(t_philo *));
 	if (!program->philos)
 		return (ERROR);
-	pos = 0;
-	while (pos < get(NBR_OF_PHILOS))
+	philo_index = 0;
+	while (philo_index < get(NBR_OF_PHILOS))
 	{
-		status = gettimeofday(program->philos[pos]->last_meal, NULL);
-		if (status != 0)
+		program->philos[philo_index] = create_philo(philo_index, program);
+		if (!program->philos[philo_index])
 			return (ERROR);
-		status = pthread_create(program->philos[pos]->thread, NULL, routine,
-				program);
-		if (status != 0)
-			return (ERROR);
-		pos++;
+		philo_index++;
 	}
 	return (SUCCESS);
 }

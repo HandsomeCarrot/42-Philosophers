@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 18:32:47 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 19:08:00 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ typedef struct s_config
 // docs
 typedef struct s_philo
 {
-	pthread_mutex_t		*fork;
-	pthread_t			*thread;
-	t_ms				*last_meal;
-	unsigned int		meals_eaten;
+	pthread_t			thread;
+	t_ms				id;
+	t_ms				last_meal;
+	t_ms				meals_eaten;
 }						t_philo;
 
 //----------universal-mutexes----------//
