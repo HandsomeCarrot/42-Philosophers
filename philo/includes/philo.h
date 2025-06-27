@@ -6,14 +6,14 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 18:02:35 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 18:06:48 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include "nbr_defs.h"
+# include "types.h"
 # include "structs.h"
 # include <errno.h>
 # include <limits.h>
