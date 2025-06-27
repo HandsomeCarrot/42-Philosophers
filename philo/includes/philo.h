@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 17:39:08 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 17:51:58 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ typedef enum e_config_data_type
 	TIME_TO_EAT,
 	TIME_TO_SLEEP,
 	NBR_OF_MEALS,
-	HAS_MEAL_LIMIT
+	HAS_MEAL_LIMIT,
+	SIM_START
 }					t_config_data_type;
 
 // docs

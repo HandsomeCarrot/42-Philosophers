@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:28:19 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 17:39:58 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 17:47:55 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	initialize_config(int argc, char **argv)
 		get_config()->has_meal_limit = false;
 	else
 		get_config()->has_meal_limit = true;
+	// set sim_start
 	return (SUCCESS);
 }
 
@@ -102,7 +103,7 @@ int	initialize_config(int argc, char **argv)
  *                    to retrieve (NBR_OF_PHILOS, TIME_TO_DIE, etc.).
  * @return The requested configuration value, or 0 if invalid request.
  */
-unsigned int	get(int data_to_get)
+t_ms	get(int data_to_get)
 {
 	if (data_to_get == NBR_OF_PHILOS)
 		return (get_config()->number_of_philos);
@@ -115,19 +116,8 @@ unsigned int	get(int data_to_get)
 	if (data_to_get == NBR_OF_MEALS)
 		return (get_config()->number_of_meals);
 	if (data_to_get == HAS_MEAL_LIMIT)
-		return (get_config()->has_meal_limit);
+		return ((t_ms)get_config()->has_meal_limit);
+	if (data_to_get == SIM_START)
+		return (get_config()->sim_start);
 	return (0);
-}
-
-/**
- * @brief Checks if the simulation has a meal limit.
- *
- * Determines whether the simulation was configured with a maximum number
- * of meals per philosopher (5th command line argument).
- *
- * @return true if meal limit is enabled, false otherwise.
- */
-bool	has_meal_limit(void)
-{
-	return (get_config()->has_meal_limit);
 }

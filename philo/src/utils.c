@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:26:42 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 17:39:10 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 17:49:24 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,11 @@ int	ft_strlen(char *str)
 		str++;
 	}
 	return (counter);
+}
+
+// docs
+t_ms	get_time_in_ms(void)
+{
+	// use gettimeofday() to get current time
+	// then convert it to ms
 }
