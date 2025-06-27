@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 18:29:28 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 18:37:10 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@
 
 //----------initializations.c----------//
 
-int				initialize_structs(t_program **program);
-int				initialize_universal_mutexes(t_mutexes *mutexes);
+int				initialize_data(int argc, char **argv, t_program **program);
 int				initialize_philos(t_program *program);
 
 //----------config.c----------//

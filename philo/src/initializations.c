@@ -6,14 +6,14 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 17:51:28 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 18:38:41 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
 // docs
-int	initialize_structs(t_program **program_ptr)
+static int	initialize_structs(t_program **program_ptr)
 {
 	t_program	*program;
 
@@ -36,7 +36,7 @@ int	initialize_structs(t_program **program_ptr)
 }
 
 // docs
-int	initialize_universal_mutexes(t_mutexes *mutexes)
+static int	initialize_universal_mutexes(t_mutexes *mutexes)
 {
 	t_ms	fork_index;
 
@@ -59,11 +59,21 @@ int	initialize_universal_mutexes(t_mutexes *mutexes)
 	return (SUCCESS);
 }
 
-int	initialize_data(void)
+int	initialize_data(int argc, char **argv, t_program **program_ptr)
 {
-	// initialize all the data 
-	// (call all the other init functions here instead of in main)
-	// only philos should be started in main
+	t_program	*program;
+
+	if (initialize_structs(program_ptr) != SUCCESS)
+		return (ERROR);
+	program = *program_ptr;
+	if (initialize_config(argc, argv) != SUCCESS)
+		return (ERROR);
+	if (initialize_universal_mutexes(program->mutexes) != SUCCESS)
+	{
+		error_msg("Initialization of mutexes failed", NULL);
+		return (ERROR);
+	}
+	return (SUCCESS);
 }
 
 t_philo	*new_philo(void)
