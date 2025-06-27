@@ -6,12 +6,14 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:19:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 16:09:57 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 22:17:45 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
+// docs
+// look over
 static void	clean_philos(t_philo **philos)
 {
 	unsigned int	i;
@@ -24,6 +26,8 @@ static void	clean_philos(t_philo **philos)
 	}
 }
 
+// docs
+// look over
 static void	clean_mutexes(t_mutexes *mutexes)
 {
 	unsigned int	i;
@@ -51,6 +55,8 @@ static void	clean_mutexes(t_mutexes *mutexes)
 	}
 }
 
+// docs
+// look over
 static void	cleanup(t_program *program)
 {
 	if (program->philos)
@@ -69,6 +75,7 @@ static void	cleanup(t_program *program)
 }
 
 // docs
+// look over
 void	exit_philo(t_program *program, int exit_code)
 {
 	if (program)

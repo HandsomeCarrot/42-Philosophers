@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:26:42 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 19:03:34 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 22:45:52 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	ft_strlen(char *str)
 }
 
 /**
- * @brief Gets the current time in milliseconds and stores it in the provided pointer.
+ * @brief Gets current time in milliseconds and stores in provided pointer.
  *
  * Retrieves the current system time using gettimeofday() and converts it to
  * milliseconds (combining seconds and microseconds components). The result is

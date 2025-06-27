@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:21:09 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 18:37:04 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 22:45:52 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	main(int argc, char **argv)
 		exit_philo(NULL, ERROR);
 	}
 	program = NULL;
-	if (initialize_data(argc, argv, &program) != SUCCESS)
+	if (initialize_data(argc, argv, &program))
 		exit_philo(program, ERROR);
-	if (initialize_philos(program) != SUCCESS)
+	if (initialize_philos(program))
 		exit_philo("Initialization of philosophers failed", program, ERROR);
 	exit_philo(NULL, program, SUCCESS);
 }

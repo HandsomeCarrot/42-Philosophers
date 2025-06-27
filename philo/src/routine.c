@@ -6,13 +6,14 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 11:57:59 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 22:16:52 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
 // docs
+// rework?
 void	set_stop_flag(t_program *program)
 {
 	pthread_mutex_lock(program->mutexes->stop);
@@ -22,6 +23,7 @@ void	set_stop_flag(t_program *program)
 }
 
 // docs
+// rework?
 static int	get_stop_flag(t_program *program)
 {
 	int	current_stop_flag;
@@ -33,6 +35,7 @@ static int	get_stop_flag(t_program *program)
 }
 
 // docs
+// TODO
 void	*routine(t_program *program)
 {
 	while (!get_stop_flag(program))

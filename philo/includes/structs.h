@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 19:08:00 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 22:25:33 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ typedef struct s_philo
 // docs
 typedef struct s_mutexes
 {
-	pthread_mutex_t		*stop;
-	pthread_mutex_t		*print;
-	pthread_mutex_t		**forks;
+	pthread_mutex_t		stop;
+	pthread_mutex_t		print;
+	pthread_mutex_t		*forks;
 }						t_mutexes;
 
 //----------main----------//

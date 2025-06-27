@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 19:07:33 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 22:45:52 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ static int	initialize_structs(t_program **program_ptr)
 }
 
 // docs
-static int	initialize_universal_mutexes(t_mutexes *mutexes)
+static int	initialize_mutexes(t_mutexes *mutexes)
 {
 	t_ms	fork_index;
 
 	if (!mutexes)
 		return (ERROR);
-	if (pthread_mutex_init(mutexes->stop, NULL) != SUCCESS)
+	if (pthread_mutex_init(&mutexes->stop, NULL) != SUCCESS)
 		return (ERROR);
-	if (pthread_mutex_init(mutexes->print, NULL) != SUCCESS)
+	if (pthread_mutex_init(&mutexes->print, NULL) != SUCCESS)
 		return (ERROR);
 	mutexes->forks = ft_calloc(get(NBR_OF_PHILOS), sizeof(pthread_mutex_t *));
 	if (!mutexes->forks)
@@ -52,23 +52,24 @@ static int	initialize_universal_mutexes(t_mutexes *mutexes)
 	fork_index = 0;
 	while (fork_index < get(NBR_OF_PHILOS))
 	{
-		if (pthread_mutex_init(mutexes->forks, NULL) != SUCCESS)
+		if (pthread_mutex_init(&mutexes->forks[fork_index], NULL) != SUCCESS)
 			return (ERROR);
 		fork_index++;
 	}
 	return (SUCCESS);
 }
 
+// docs
 int	initialize_data(int argc, char **argv, t_program **program_ptr)
 {
 	t_program	*program;
 
-	if (initialize_structs(program_ptr) != SUCCESS)
+	if (initialize_structs(program_ptr))
 		return (ERROR);
 	program = *program_ptr;
-	if (initialize_config(argc, argv) != SUCCESS)
+	if (initialize_config(argc, argv))
 		return (ERROR);
-	if (initialize_universal_mutexes(program->mutexes) != SUCCESS)
+	if (initialize_mutexes(program->mutexes))
 	{
 		error_msg("Initialization of mutexes failed", NULL);
 		return (ERROR);
@@ -77,6 +78,7 @@ int	initialize_data(int argc, char **argv, t_program **program_ptr)
 }
 
 // docs
+// missing
 t_philo	*create_philo(t_ms id, t_program *program)
 {
 	t_philo	*new_philo;
@@ -86,12 +88,12 @@ t_philo	*create_philo(t_ms id, t_program *program)
 		return (NULL);
 	new_philo->meals_eaten = 0;
 	new_philo->id = id;
-	if (get_time_in_ms(&(new_philo->last_meal)))
+	if (get_time_in_ms(&new_philo->last_meal))
 	{
 		free(new_philo);
 		return (NULL);
 	}
-	if (pthread_create(&(new_philo->thread), NULL, &routine, program))
+	if (pthread_create(&new_philo->thread, NULL, &routine, program))
 	{
 		// safe_putstr() "failed to create philo x"
 		free(new_philo);

@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:24:53 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 19:25:06 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 22:46:05 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ char	*get_exec_pattern(void)
  *
  * @param msg1 The primary error message. Can be NULL if only msg2 is provided.
  * @param msg2 The secondary error message. Can be NULL if only msg1 is provided.
- * @note Both msg1 and msg2 cannot be NULL simultaneously as that would result
- *       in no output being generated.
+ * @note If both msg1 and msg2 are NULL simultaneously,
+ *       results in output being "-philo\n".
  * @warning The function assumes msg1 and msg2 are null-terminated strings if
  *          they are not NULL. Passing non-null-terminated strings may lead to
  *          undefined behavior.
@@ -66,9 +66,31 @@ void	error_msg(char *msg1, char *msg2)
 	write(STDERR_FILENO, "\n", sizeof(char) * 1);
 }
 
-// docs
-// TODO
-void	safe_putstr(char *str, int fd)
+/**
+ * @brief Safely writes a string to a file descriptor with mutex protection.
+ *
+ * This function provides thread-safe string output by acquiring a print mutex
+ * before writing and releasing it afterward. It ensures atomic write operations
+ * when multiple threads might be attempting to write simultaneously.
+ *
+ * @param str The string to write. If NULL, the function returns immediately.
+ * @param fd The file descriptor to write to. Must be a valid, open descriptor.
+ * @param program Pointer to the program structure containing the print mutex.
+ * @return SUCCESS (0) if the string was written successfully,
+ *         ERROR (1) if mutex operations fail or invalid parameters are provided.
+ * @note The function handles NULL string input gracefully by returning early.
+ * @warning The caller must ensure the program structure and its mutexes are
+ *          properly initialized before calling this function.
+ * @see t_program
+ */
+int	safe_putstr_fd(char *str, int fd, t_program *program)
 {
-	(void)str;
+	if (!str || fd < 0)
+		return (ERROR);
+	if (pthread_mutex_lock(&program->mutexes->print))
+		return (ERROR);
+	write(fd, str, sizeof(char) * ft_strlen(str));
+	if (pthread_mutex_unlock(&program->mutexes->print))
+		return (ERROR);
+	return (SUCCESS);
 }
