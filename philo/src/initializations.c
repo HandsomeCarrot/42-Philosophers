@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 16:12:55 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 17:40:57 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ int	initialize_universal_mutexes(t_mutexes *mutexes)
 	return (SUCCESS);
 }
 
+t_philo	*new_philo(void)
+{
+	// create a new philo node
+}
+
 // docs
 int	initialize_philos(t_program *program)
 {
@@ -65,21 +70,20 @@ int	initialize_philos(t_program *program)
 
 	if (!program)
 		return (1);
-	program->philos = ft_calloc(program->config->number_of_philos + 1,
-			sizeof(t_philo));
+	program->philos = ft_calloc(get(NBR_OF_PHILOS), sizeof(t_philo *));
 	if (!program->philos)
-		return (1);
+		return (ERROR);
 	pos = 0;
-	while (pos < program->config->number_of_philos)
+	while (pos < get(NBR_OF_PHILOS))
 	{
 		status = gettimeofday(program->philos[pos]->last_meal, NULL);
 		if (status != 0)
-			return (1);
+			return (ERROR);
 		status = pthread_create(program->philos[pos]->thread, NULL, routine,
 				program);
 		if (status != 0)
-			return (1);
+			return (ERROR);
 		pos++;
 	}
-	return (0);
+	return (SUCCESS);
 }

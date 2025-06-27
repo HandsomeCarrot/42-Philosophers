@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:28:19 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 16:28:23 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 17:39:58 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,21 @@ static int	convert_input(int argc, char **argv)
 	bool	error;
 
 	error = false;
-	get_config()->number_of_philos = ft_atoui(argv[1], &error);
+	get_config()->number_of_philos = ft_atoms(argv[1], &error);
 	if (error)
 		return (ERROR);
-	get_config()->time_to_die = ft_atoui(argv[2], &error);
+	get_config()->time_to_die = ft_atoms(argv[2], &error);
 	if (error)
 		return (ERROR);
-	get_config()->time_to_eat = ft_atoui(argv[3], &error);
+	get_config()->time_to_eat = ft_atoms(argv[3], &error);
 	if (error)
 		return (ERROR);
-	get_config()->time_to_sleep = ft_atoui(argv[4], &error);
+	get_config()->time_to_sleep = ft_atoms(argv[4], &error);
 	if (error)
 		return (ERROR);
 	if (argc == 6)
 	{
-		get_config()->number_of_meals = ft_atoui(argv[5], &error);
+		get_config()->number_of_meals = ft_atoms(argv[5], &error);
 		if (error)
 			return (ERROR);
 	}
@@ -114,6 +114,8 @@ unsigned int	get(int data_to_get)
 		return (get_config()->time_to_sleep);
 	if (data_to_get == NBR_OF_MEALS)
 		return (get_config()->number_of_meals);
+	if (data_to_get == HAS_MEAL_LIMIT)
+		return (get_config()->has_meal_limit);
 	return (0);
 }
 

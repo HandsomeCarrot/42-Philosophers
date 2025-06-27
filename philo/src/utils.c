@@ -6,29 +6,30 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:26:42 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 16:32:13 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 17:39:10 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
 /**
- * @brief Converts a string to an unsigned integer with error checking.
+ * @brief Converts a string to a t_ms (uint64_t) with error checking.
  *
- * Parses the input string character by character, converting it to an
- * unsigned integer value. Performs validation to ensure all characters
- * are digits and the resulting value doesn't exceed UINT_MAX.
+ * Parses the input string character by character, converting it to a
+ * t_ms value. Performs validation to ensure all characters
+ * are digits and the resulting value doesn't overflow.
  *
- * @param str The string to convert to an unsigned integer.
- * @param error Pointer to a boolean that will be set to true if
+ * @param str The string to convert to a t_ms.
+ * @param error Pointer to an bool that will be set to true if
  *              conversion fails (non-numeric chars or overflow).
- * @return The converted unsigned integer value, or 0 on error.
+ * @return The converted t_ms value, or 0 on error.
  * @note Sets error flag and prints message if invalid input is detected.
  * @warning Caller must check the error flag to verify successful conversion.
  */
-unsigned int	ft_atoui(const char *str, bool *error)
+t_ms	ft_atoms(const char *str, bool *error)
 {
-	long long	res;
+	uint64_t	res;
+	uint64_t	prev;
 	char		*nptr;
 
 	res = 0;
@@ -41,8 +42,9 @@ unsigned int	ft_atoui(const char *str, bool *error)
 			*error = true;
 			return (0);
 		}
+		prev = res;
 		res = res * 10 + (*nptr - '0');
-		if (res > UINT_MAX)
+		if (res < prev)
 		{
 			error_msg("argument is too large", (char *)str);
 			*error = true;
@@ -50,7 +52,7 @@ unsigned int	ft_atoui(const char *str, bool *error)
 		}
 		nptr++;
 	}
-	return ((unsigned int)res);
+	return (res);
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 16:17:23 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/27 17:09:22 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@
 // docs
 typedef struct s_config
 {
-	unsigned int		number_of_philos;
-	unsigned int		time_to_die;
-	unsigned int		time_to_eat;
-	unsigned int		time_to_sleep;
-	unsigned int		number_of_meals;
-	bool				has_meal_limit;
+	t_ms				number_of_philos;
+	t_ms				time_to_die;
+	t_ms				time_to_eat;
+	t_ms				time_to_sleep;
+	t_ms				number_of_meals;
+	t_ms				has_meal_limit;
+	t_ms				sim_start;
 }						t_config;
 
 //----------philosopher-data----------//
@@ -35,7 +36,7 @@ typedef struct s_philo
 {
 	pthread_mutex_t		*fork;
 	pthread_t			*thread;
-	struct timeval		*last_meal;
+	t_ms				*last_meal;
 	unsigned int		meals_eaten;
 }						t_philo;
 
