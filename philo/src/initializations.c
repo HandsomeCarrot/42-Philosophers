@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 23:18:24 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/28 01:36:15 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ int	initialize_data(int argc, char **argv, t_program **program_ptr)
 		error_msg("Initialization of mutexes failed", NULL);
 		return (ERROR);
 	}
+	program->error = SUCCESS;
 	return (SUCCESS);
 }
 
@@ -149,8 +150,10 @@ t_philo	*create_philo(t_ms id, t_program *program)
 	}
 	if (pthread_create(&new_philo->thread, NULL, &routine, program))
 	{
+		set_error(ERROR, program);
 		safe_putstr_fd("failed to create philo ", STDERR_FILENO, program);
 		safe_putstr_fd(mstoa(id), STDERR_FILENO, program);
+		safe_putstr_fd("\n", STDERR_FILENO, program);
 		free(new_philo);
 		return (NULL);
 	}

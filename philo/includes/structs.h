@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 22:25:33 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/28 01:03:17 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct s_program
 {
 	struct s_mutexes	*mutexes;
 	struct s_philo		**philos;
-	int					stop_flag;
+	int					error;
 }						t_program;
 
 #endif

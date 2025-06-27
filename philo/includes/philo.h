@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 23:12:55 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/28 01:28:43 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ unsigned int	get(int data_to_get);
 
 //----------routine.c----------//
 
-void			set_stop_flag(t_program *program);
+void			set_error(t_error error, t_program *program);
+t_error			get_error(t_program *program);
 void			*routine(t_program *program);
 
 //----------messages.c----------//
@@ -58,6 +59,6 @@ char			*mstoa(t_ms number);
 
 //----------exit.c----------//
 
-void			exit_philo(t_program *config, int exit_code);
+void			exit_philo(t_error error, t_program *program);
 
 #endif

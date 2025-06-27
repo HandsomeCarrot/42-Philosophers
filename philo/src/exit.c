@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:19:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 23:15:26 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/28 01:45:56 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,21 @@
 
 // docs
 // look over
-static void	clean_philos(t_philo **philos)
+static void	clean_philos(t_philo **philos, t_program *program)
 {
-	unsigned int	i;
+	t_ms	philo_index;
 
-	i = 0;
-	while (philos && philos[i])
+	philo_index = 0;
+	while (program->philos && program->philos[philo_index])
 	{
-		pthread_join(philos[i]->thread, NULL);
-		free(philos[i]->last_meal);
+		if (pthread_join(program->philos[philo_index]->thread, NULL))
+		{
+			set_error(ERROR, program);
+			safe_putstr_fd("failed to join thread: ", STDERR_FILENO, program);
+			safe_putstr_fd(mstoa(philo_index), STDERR_FILENO, program);
+			safe_putstr_fd("\n", STDERR_FILENO, program);
+		}
+		philo_index++;
 	}
 }
 
@@ -69,16 +75,14 @@ static void	cleanup(t_program *program)
 		clean_mutexes(program);
 		free(program->mutexes);
 	}
-	if (program->config)
-		free(program->config);
 	free(program);
 }
 
 // docs
 // look over
-void	exit_philo(t_program *program, int exit_code)
+void	exit_philo(t_error error, t_program *program)
 {
 	if (program)
 		cleanup(program);
-	exit(exit_code);
+	exit(error);
 }

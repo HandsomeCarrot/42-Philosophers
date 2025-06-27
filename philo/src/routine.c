@@ -6,40 +6,57 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 22:16:52 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/28 01:28:54 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
 // docs
-// rework?
-void	set_stop_flag(t_program *program)
+void	set_error(t_error error, t_program *program)
 {
-	pthread_mutex_lock(program->mutexes->stop);
-	if (!program->stop_flag)
-		program->stop_flag = 1;
-	pthread_mutex_unlock(program->mutexes->stop);
+	if (!program || !program->mutexes)
+		return ;
+	if (pthread_mutex_lock(&program->mutexes->stop))
+	{
+		safe_putstr_fd("-philo: ", STDERR_FILENO, program);
+		safe_putstr_fd("failed to lock stop mutex\n", STDERR_FILENO, program);
+		return ;
+	}
+	program->error = error;
+	if (pthread_mutex_unlock(&program->mutexes->stop))
+	{
+		safe_putstr_fd("-philo: ", STDERR_FILENO, program);
+		safe_putstr_fd("failed to unlock stop mutex\n", STDERR_FILENO, program);
+	}
 }
 
 // docs
-// rework?
-static int	get_stop_flag(t_program *program)
+t_error	get_error(t_program *program)
 {
-	int	current_stop_flag;
+	int	error;
 
-	pthread_mutex_lock(program->mutexes->stop);
-	current_stop_flag = program->stop_flag;
-	pthread_mutex_unlock(program->mutexes->stop);
-	return (current_stop_flag);
+	if (!program || !program->mutexes)
+		return (ERROR);
+	if (pthread_mutex_lock(&program->mutexes->stop))
+	{
+		safe_putstr_fd("-philo: ", STDERR_FILENO, program);
+		safe_putstr_fd("failed to lock stop mutex\n", STDERR_FILENO, program);
+		return (ERROR);
+	}
+	error = program->error;
+	if (pthread_mutex_unlock(&program->mutexes->stop))
+	{
+		safe_putstr_fd("-philo: ", STDERR_FILENO, program);
+		safe_putstr_fd("failed to unlock stop mutex\n", STDERR_FILENO, program);
+		return (ERROR);
+	}
+	return (error);
 }
 
 // docs
 // TODO
 void	*routine(t_program *program)
 {
-	while (!get_stop_flag(program))
-	{
-		//routine
-	}
+	//routine
 }
