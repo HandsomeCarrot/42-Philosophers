@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 22:53:53 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 23:22:32 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/28 19:28:39 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,10 @@ char	*mstoa(t_ms number)
 	int		digit_count;
 
 	digit_count = count_nums(number);
-	digit_str = ft_calloc((digit_count + 1), sizeof(char));
+	digit_str = malloc((digit_count + 1) * sizeof(char));
 	if (!digit_str)
 		return (NULL);
+	digit_str[digit_count] = 0;
 	if (number == 0)
 	{
 		digit_str[0] = '0';

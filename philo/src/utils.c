@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:26:42 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/28 01:35:49 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/28 19:07:26 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,19 @@ t_ms	ft_atoms(const char *str, bool *error)
 	return (res);
 }
 
-/**
- * @brief Allocates and zero-initializes memory for an array.
- *
- * Allocates memory for an array of nmemb elements of size bytes each
- * and initializes all bytes to zero. Similar to standard calloc but
- * with direct error checking.
- *
- * @param nmemb Number of elements to allocate.
- * @param size Size of each element in bytes.
- * @return Pointer to allocated memory, or NULL if allocation fails.
- * @note Memory is guaranteed to be zero-initialized if allocation succeeds.
- * @warning Returns NULL if allocation fails - caller must check return value.
- */
-void	*ft_calloc(size_t nmemb, size_t size)
+// docs
+void	*w_calloc(size_t nmemb, size_t size, t_program *program)
 {
-	void	*res;
+	void	*new_ptr;
 
-	res = malloc(nmemb * size);
-	if (!res)
-		return (NULL);
-	memset(res, 0, nmemb * size);
-	return (res);
+	new_ptr = malloc(nmemb * size);
+	if (!new_ptr)
+	{
+		error_msg("memory allocation failed", NULL);
+		exit_philo(ERROR, program);
+	}
+	memset(new_ptr, 0, nmemb * size);
+	return (new_ptr);
 }
 
 /**

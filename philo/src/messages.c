@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:24:53 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 22:46:05 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/28 18:56:34 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@
 char	*get_exec_pattern(void)
 {
 	return (\
-		"./philo \
-		<number_of_philosophers> \
-		<time_to_die> \
-		<time_to_eat> \
-		<time_to_sleep> \
-		[number_of_times_each_philosopher_must_eat]"\
+		"./philo" \
+		"<number_of_philosophers>" \
+		"<time_to_die>" \
+		"<time_to_eat>" \
+		"<time_to_sleep>" \
+		"[number_of_times_each_philosopher_must_eat]"\
 	);
 }
 

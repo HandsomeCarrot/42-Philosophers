@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/28 01:03:17 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/28 21:22:42 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_config
 	t_ms				time_to_eat;
 	t_ms				time_to_sleep;
 	t_ms				number_of_meals;
+	t_ms				sim_start_time;
 	bool				has_meal_limit;
 }						t_config;
 
@@ -34,10 +35,10 @@ typedef struct s_config
 // docs
 typedef struct s_philo
 {
-	pthread_t			thread;
 	t_ms				id;
 	t_ms				last_meal;
 	t_ms				meals_eaten;
+	struct s_mutexes	*mutexes;
 }						t_philo;
 
 //----------universal-mutexes----------//
@@ -45,9 +46,9 @@ typedef struct s_philo
 // docs
 typedef struct s_mutexes
 {
-	pthread_mutex_t		stop;
-	pthread_mutex_t		print;
-	pthread_mutex_t		*forks;
+	pthread_mutex_t		*stop;
+	pthread_mutex_t		*print;
+	pthread_mutex_t		**forks;
 }						t_mutexes;
 
 //----------main----------//
@@ -56,7 +57,7 @@ typedef struct s_mutexes
 typedef struct s_program
 {
 	struct s_mutexes	*mutexes;
-	struct s_philo		**philos;
+	pthread_t			*philos;
 	int					error;
 }						t_program;
 

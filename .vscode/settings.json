@@ -4,7 +4,14 @@
 		"philo.h": "c",
 		"stdbool.h": "c",
 		"pthread.h": "c",
-		"string": "c"
+		"string": "c",
+		"array": "c",
+		"memory": "c",
+		"istream": "c",
+		"ranges": "c",
+		"functional": "c",
+		"tuple": "c",
+		"utility": "c"
 	},
 	"cSpell.words": [
 		"atoui",

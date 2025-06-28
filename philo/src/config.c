@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:28:19 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/27 22:45:52 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/28 21:08:36 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,18 @@ int	initialize_config(int argc, char **argv)
 	return (SUCCESS);
 }
 
+// docs
+void	set_simulation_start(t_program *program)
+{
+	if (!program)
+	{
+		error_msg("missing program struct pointer", NULL);
+		exit_philo(ERROR, program);
+	}
+	if (get_time_in_ms(&get_config()->sim_start_time, program))
+		exit_philo(ERROR, program);
+}
+
 /**
  * @brief Retrieves a specific configuration value.
  *
@@ -102,7 +114,7 @@ int	initialize_config(int argc, char **argv)
  *                    to retrieve (NBR_OF_PHILOS, TIME_TO_DIE, etc.).
  * @return The requested configuration value, or 0 if invalid request.
  */
-t_ms	get(int data_to_get)
+t_ms	get(t_config_data_type data_to_get)
 {
 	if (data_to_get == NBR_OF_PHILOS)
 		return (get_config()->number_of_philos);
@@ -114,6 +126,8 @@ t_ms	get(int data_to_get)
 		return (get_config()->time_to_sleep);
 	if (data_to_get == NBR_OF_MEALS)
 		return (get_config()->number_of_meals);
+	if (data_to_get == SIM_START_TIME)
+		return (get_config()->sim_start_time);
 	if (data_to_get == HAS_MEAL_LIMIT)
 		return ((t_ms)get_config()->has_meal_limit);
 	return (0);

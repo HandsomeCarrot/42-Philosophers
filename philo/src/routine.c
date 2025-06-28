@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/28 01:28:54 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/28 21:39:20 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_error	get_error(t_program *program)
 
 // docs
 // TODO
-void	*routine(t_program *program)
+void	*routine_start(t_program *program)
 {
-	//routine
+	// routine
 }
