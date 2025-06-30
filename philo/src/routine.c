@@ -13,35 +13,38 @@
 #include "../includes/philo.h"
 
 // docs
-void	set_error(t_error error, t_program *program)
+void	set_error(t_error error, t_mutexes *mutexes)
 {
-	if (!program || !program->mutexes)
+	if (!mutexes)
 		return ;
-	if (pthread_mutex_lock(program->mutexes->stop))
+	if (pthread_mutex_lock(mutexes->stop))
 	{
-		safe_putstr_fd("-philo: ", STDERR_FILENO, 0, program->mutexes->print);
-		safe_putstr_fd("failed to lock stop mutex\n", 2, STDERR_FILENO, program->mutexes->print);
+		pthread_mutex_lock(mutexes->print);
+		error_msg("failed to lock stop mutex", NULL);
+		pthread_mutex_unlock(mutexes->print);
 		return ;
 	}
 	program->error = error;
 	if (pthread_mutex_unlock(program->mutexes->stop))
 	{
-		safe_putstr_fd("-philo: ", STDERR_FILENO, 0, program->mutexes->print);
-		safe_putstr_fd("failed to unlock stop mutex\n", STDERR_FILENO, 2, program->mutexes->print);
+		pthread_mutex_lock(mutexes->print);
+		error_msg("failed to unlock stop mutex", NULL);
+		pthread_mutex_unlock(mutexes->print);
 	}
 }
 
 // docs
-t_error	get_error(t_program *program)
+t_error	get_error(t_philo philo)
 {
 	int	error;
 
-	if (!program || !program->mutexes)
+	if (!philo)
 		return (ERROR);
-	if (pthread_mutex_lock(program->mutexes->stop))
+	if (pthread_mutex_lock(philo.mutexes->stop))
 	{
-		safe_putstr_fd("-philo: ", STDERR_FILENO, 0, program->mutexes->print);
-		safe_putstr_fd("failed to lock stop mutex\n", STDERR_FILENO, 2, program->mutexes->print);
+		pthread_mutex_lock(mutexes.print);
+		error_msg("failed to unlock stop mutex", NULL);
+		pthread_mutex_unlock(mutexes.print);
 		return (ERROR);
 	}
 	error = program->error;

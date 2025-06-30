@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 18:01:22 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/28 20:46:23 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/30 15:02:25 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,5 @@ typedef enum e_error
 	ERROR,
 	DEATH
 }					t_error;
-
-// docs
-typedef enum e_config_data_type
-{
-	NBR_OF_PHILOS,
-	TIME_TO_DIE,
-	TIME_TO_EAT,
-	TIME_TO_SLEEP,
-	NBR_OF_MEALS,
-	SIM_START_TIME,
-	HAS_MEAL_LIMIT
-}					t_config_data_type;
 
 #endif

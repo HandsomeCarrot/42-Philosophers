@@ -26,11 +26,11 @@
  * @note Sets error flag and prints message if invalid input is detected.
  * @warning Caller must check the error flag to verify successful conversion.
  */
-t_ms	ft_atoms(const char *str, bool *error)
+t_ms	ft_atoms(const char *str, t_program *program)
 {
-	uint64_t	res;
-	uint64_t	prev;
-	char		*nptr;
+	t_ms	res;
+	t_ms	prev;
+	char	*nptr;
 
 	res = 0;
 	nptr = (char *)str;
@@ -39,16 +39,14 @@ t_ms	ft_atoms(const char *str, bool *error)
 		if (*nptr < '0' || *nptr > '9')
 		{
 			error_msg("Non-numeric character found in argument", (char *)str);
-			*error = true;
-			return (0);
+			exit_philo(ERROR, program);
 		}
 		prev = res;
 		res = res * 10 + (*nptr - '0');
 		if (res < prev)
 		{
 			error_msg("argument is too large", (char *)str);
-			*error = true;
-			return (0);
+			exit_philo(ERROR, program);
 		}
 		nptr++;
 	}
@@ -108,7 +106,7 @@ int	ft_strlen(char *str)
  *       milliseconds internally.
  * @warning The caller must ensure ms_ptr is a valid pointer to a t_ms variable.
  */
-int	get_time_in_ms(t_ms *ms_ptr, t_program *program)
+int	get_time_in_ms(t_ms *ms_ptr, pthread_mutex_t *mutex)
 {
 	struct timeval	tv;
 	t_ms			current_time;
@@ -117,8 +115,9 @@ int	get_time_in_ms(t_ms *ms_ptr, t_program *program)
 		return (ERROR);
 	if (gettimeofday(&tv, NULL) != SUCCESS)
 	{
-		set_error(ERROR, program);
-		safe_putstr_fd("failed to get time\n", STDERR_FILENO, 3, program->mutexes->print);
+		pthread_mutex_lock(mutex);
+		error_msg("failed to get time", NULL);
+		pthread_mutex_unlock(mutex);
 		return (ERROR);
 	}
 	current_time = (t_ms)(tv.tv_sec * 1000);

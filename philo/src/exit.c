@@ -13,23 +13,21 @@
 #include "../includes/philo.h"
 
 // docs
-static void	clean_philos(t_program *program)
+static void	join_philos(t_program *program)
 {
-	t_ms	nbr_of_philos;
+	t_ms	philo_count;
 	t_ms	philo_index;
 
 	if (!program || !program->philos)
 		return ;
 	philo_index = 0;
-	nbr_of_philos = get(NBR_OF_PHILOS);
-	while (philo_index < nbr_of_philos)
+	philo_count = program->philo_count;
+	while (philo_index < philo_count)
 	{
-		if (pthread_join(program->philos[philo_index], NULL))
+		if (pthread_join(program->philos[philo_index].thread, NULL))
 		{
 			set_error(ERROR, program);
-			safe_putstr_fd("failed to join thread: ", STDERR_FILENO, 0, program->mutexes->print);
-			safe_putstr_fd(mstoa(philo_index), STDERR_FILENO, 1, program->mutexes->print);
-			safe_putstr_fd("\n", STDERR_FILENO, 2, program->mutexes->print);
+			print_error("failed to join thread: ", mstoa(philo_index));
 		}
 		philo_index++;
 	}
@@ -47,23 +45,24 @@ void	free_mutex(pthread_mutex_t *mutex)
 static void	clean_mutexes(t_program *program)
 {
 	t_ms	fork_index;
+	t_ms	fork_count;
 
 	if (!program || !program->mutexes)
 		return ;
-	if (program->mutexes->forks)
-	{
-		fork_index = 0;
-		while (fork_index < get(NBR_OF_PHILOS))
-		{
-			free_mutex(program->mutexes->forks[fork_index]);
-			fork_index++;
-		}
-		free(program->mutexes->forks);
-	}
-	if (program->mutexes->stop)
+	if (program->mutexes.stop)
 		free_mutex(program->mutexes->stop);
-	if (program->mutexes->print)
+	if (program->mutexes.print)
 		free_mutex(program->mutexes->print);
+	if (!program->mutexes.forks)
+		return ;
+	fork_index = 0;
+	fork_count = program->philo_count;
+	while (fork_index < fork_count || !program->mutexes.forks[fork_index])
+	{
+		free_mutex(program->mutexes.forks[fork_index]);
+		fork_index++;
+	}
+	free(program->mutexes.forks);
 }
 
 // docs
@@ -72,7 +71,7 @@ static void	cleanup(t_program *program)
 {
 	if (program->philos)
 	{
-		clean_philos(program);
+		join_philos(program);
 		free(program->philos);
 	}
 	if (program->mutexes)

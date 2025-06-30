@@ -6,17 +6,37 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/30 01:52:27 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/30 15:09:46 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
 // docs
+void	process_input(int argc, char **argv, t_program *program)
+{
+	if (!argv || !program)
+		exit_philo(ERROR, program);
+	program->philo_count = ft_atoms((const char *)argv[1], program);
+	program->input.time_to_die = ft_atoms((const char *)argv[2], program);
+	program->input.time_to_eat = ft_atoms((const char *)argv[3], program);
+	program->input.time_to_sleep = ft_atoms((const char *)argv[4], program);
+	if (argc == 6)
+	{
+		program->input.meal_limit = ft_atoms((const char *)argv[5], program);
+		program->input.has_meal_limit = true;
+	}
+	else
+		program->input.has_meal_limit = false;
+}
+
+// docs
 static pthread_mutex_t	*new_mutex(t_program *program)
 {
 	pthread_mutex_t	*new_mutex;
 
+	if (!program)
+		exit_philo(ERROR, program);
 	new_mutex = w_calloc(1, sizeof(pthread_mutex_t), program);
 	if (pthread_mutex_init(new_mutex, NULL))
 	{
@@ -30,42 +50,29 @@ static pthread_mutex_t	*new_mutex(t_program *program)
 // docs
 static void	initialize_mutexes(t_program *program)
 {
-	t_mutexes	*mutexes;
-	t_ms		fork_index;
-	t_ms		nbr_of_philos;
+	t_ms	fork_index;
+	t_ms	philo_count;
 
 	if (!program)
-		return ;
-	program->mutexes = w_calloc(1, sizeof(t_mutexes), program);
-	mutexes = program->mutexes;
-	mutexes->print = new_mutex(program);
-	mutexes->stop = new_mutex(program);
-	mutexes->forks = w_calloc(get(NBR_OF_PHILOS) + 1, sizeof(pthread_mutex_t *),
-			program);
+		exit_philo(ERROR, program);
+	program->mutexes.print = new_mutex(program);
+	program->mutexes.stop = new_mutex(program);
+	philo_count = program->philo_count;
+	program->mutexes.forks = w_calloc(philo_count + 1,
+			sizeof(pthread_mutex_t *), program);
 	fork_index = 0;
-	nbr_of_philos = get(NBR_OF_PHILOS);
-	while (fork_index < nbr_of_philos)
+	while (fork_index < philo_count)
 	{
-		mutexes->forks[fork_index] = new_mutex(program);
+		program->mutexes.forks[fork_index] = new_mutex(program);
 		fork_index++;
 	}
-}
-
-// docs
-static void	initialize_philos(t_program *program)
-{
-	pthread_t	*philos;
-	t_ms		nbr_of_philos;
-
-	nbr_of_philos = get(NBR_OF_PHILOS);
-	philos = w_calloc(nbr_of_philos, sizeof(pthread_t), program);
-	program->philos = philos;
 }
 
 // docs
 void	initialize_data(int argc, char **argv, t_program **program_ptr)
 {
 	t_program	*program;
+	t_ms	philo_count;
 
 	if (!program_ptr)
 	{
@@ -74,9 +81,9 @@ void	initialize_data(int argc, char **argv, t_program **program_ptr)
 	}
 	*program_ptr = w_calloc(1, sizeof(t_program), NULL);
 	program = *program_ptr;
-	if (initialize_config(argc, argv))
-		exit_philo(ERROR, program);
+	process_input(argc, argv, program);
 	initialize_mutexes(program);
-	initialize_philos(program);
+	philo_count = program->philo_count;
+	program->philos = w_calloc(program->philo_count, sizeof(t_philo), program);
 	program->error = SUCCESS;
 }
