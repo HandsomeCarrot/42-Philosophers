@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:28:19 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/28 21:08:36 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/30 01:22:58 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	set_simulation_start(t_program *program)
 		error_msg("missing program struct pointer", NULL);
 		exit_philo(ERROR, program);
 	}
-	if (get_time_in_ms(&get_config()->sim_start_time, program))
+	if (get_time_in_ms((t_ms *)&get_config()->sim_start_time, program))
 		exit_philo(ERROR, program);
 }
 

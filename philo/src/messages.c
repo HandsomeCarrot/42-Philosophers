@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:24:53 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/28 18:56:34 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/30 01:42:50 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@
 char	*get_exec_pattern(void)
 {
 	return (\
-		"./philo" \
-		"<number_of_philosophers>" \
-		"<time_to_die>" \
-		"<time_to_eat>" \
-		"<time_to_sleep>" \
+		"./philo " \
+		"<number_of_philosophers> " \
+		"<time_to_die> " \
+		"<time_to_eat> " \
+		"<time_to_sleep> " \
 		"[number_of_times_each_philosopher_must_eat]"\
 	);
 }
@@ -52,7 +52,7 @@ char	*get_exec_pattern(void)
  */
 void	error_msg(char *msg1, char *msg2)
 {
-	write(STDERR_FILENO, "-philo", sizeof(char) * 8);
+	write(STDERR_FILENO, "-philo", sizeof(char) * 7);
 	if (msg1)
 	{
 		write(STDERR_FILENO, ": ", sizeof(char) * 2);
@@ -83,14 +83,21 @@ void	error_msg(char *msg1, char *msg2)
  *          properly initialized before calling this function.
  * @see t_program
  */
-int	safe_putstr_fd(char *str, int fd, t_program *program)
+int	safe_putstr_fd(char *str, int fd, int mutex_state, pthread_mutex_t *mutex)
 {
 	if (!str || fd < 0)
 		return (ERROR);
-	if (pthread_mutex_lock(&program->mutexes->print))
-		return (ERROR);
+	if (mutex_state == 0 || mutex_state == 3)
+	{
+		if (pthread_mutex_lock(mutex))
+			return (ERROR);
+	}
 	write(fd, str, sizeof(char) * ft_strlen(str));
-	if (pthread_mutex_unlock(&program->mutexes->print))
-		return (ERROR);
+	if (mutex_state == 2 || mutex_state == 3)
+	{
+		if (pthread_mutex_unlock(mutex))
+			return (ERROR);
+	}
 	return (SUCCESS);
 }
+

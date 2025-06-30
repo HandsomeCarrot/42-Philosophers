@@ -6,7 +6,7 @@
 #    By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 19:28:52 by vpoka             #+#    #+#              #
-#    Updated: 2025/03/26 11:57:39 by vpoka            ###   ########.fr        #
+#    Updated: 2025/06/30 01:42:11 by vpoka            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,26 +18,22 @@ CFLAGS = -Wall -Wextra -Werror -Iincludes -g
 RM = rm -rf
 
 SRCS_DIR = src/
-SRCS =	philo.c \
-		initializations.c \
-		validation.c \
-		routine.c \
-		cleanup.c \
-		exit.c
+SRCS =$(wildcard src/*.c)
 
 OBJS_DIR = obj/
-OBJS := $(addprefix $(OBJS_DIR), $(SRCS:%.c=%.o))
+OBJS := $(SRCS:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 
-all: $(NAME)
-
-$(NAME): $(OBJS)
-	$(CC) -o $@ $^ $(CFLAGS)
+all: $(OBJS_DIR) $(NAME)
 
 $(OBJS_DIR):
 	mkdir -p $(OBJS_DIR)
 
-$(OBJS_DIR)%.o: $(SRCS_DIR)%.c | $(OBJS_DIR)
+$(NAME): $(OBJS)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 	$(CC) $(CFLAGS) -c $< -o $@
+
 
 clean:
 	$(RM) $(OBJS_DIR)

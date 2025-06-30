@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/28 21:37:49 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/30 01:55:36 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,20 @@
 // docs
 static pthread_t	create_philo(t_ms id, t_program *program)
 {
-	t_philo		data;
+	t_philo		*data;
 	pthread_t	philo;
 
-	data.id = id;
-	data.last_meal = 0;
-	data.meals_eaten = 0;
-	data.mutexes = program->mutexes;
-	if (pthread_create(&philo, NULL, &routine_start, &data))
+	data = w_calloc(1, sizeof(t_philo), program);
+	data->id = id;
+	data->last_meal = 0;
+	data->meals_eaten = 0;
+	data->mutexes = program->mutexes;
+	if (pthread_create(&philo, NULL, routine_start, data))
 	{
 		set_error(ERROR, program);
-		safe_putstr_fd("failed to create philo ", STDERR_FILENO, program);
-		safe_putstr_fd(mstoa(id), STDERR_FILENO, program);
-		safe_putstr_fd("\n", STDERR_FILENO, program);
+		safe_putstr_fd("failed to create philo ", STDERR_FILENO, 0, program->mutexes->print);
+		safe_putstr_fd(mstoa(id), STDERR_FILENO, 1, program->mutexes->print);
+		safe_putstr_fd("\n", STDERR_FILENO, 2, program->mutexes->print);
 		exit_philo(ERROR, program);
 	}
 	return (philo);

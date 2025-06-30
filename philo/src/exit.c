@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:19:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/28 21:45:53 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/30 01:24:21 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,26 @@ static void	clean_philos(t_program *program)
 		if (pthread_join(program->philos[philo_index], NULL))
 		{
 			set_error(ERROR, program);
-			safe_putstr_fd("failed to join thread: ", STDERR_FILENO, program);
-			safe_putstr_fd(mstoa(philo_index), STDERR_FILENO, program);
-			safe_putstr_fd("\n", STDERR_FILENO, program);
+			safe_putstr_fd("failed to join thread: ", STDERR_FILENO, 0, program->mutexes->print);
+			safe_putstr_fd(mstoa(philo_index), STDERR_FILENO, 1, program->mutexes->print);
+			safe_putstr_fd("\n", STDERR_FILENO, 2, program->mutexes->print);
 		}
 		philo_index++;
 	}
 }
 
+// docs
 void	free_mutex(pthread_mutex_t *mutex)
 {
-	pthread_mutex_destroy(mutex);
+	if (pthread_mutex_destroy(mutex))
+		error_msg("failed to destroy mutex", NULL);
 	free(mutex);
 }
 
-// TODO
+// docs
 static void	clean_mutexes(t_program *program)
 {
 	t_ms	fork_index;
-	int		status;
 
 	if (!program || !program->mutexes)
 		return ;
@@ -65,7 +66,8 @@ static void	clean_mutexes(t_program *program)
 		free_mutex(program->mutexes->print);
 }
 
-// TODO
+// docs
+// is it all I need to free?
 static void	cleanup(t_program *program)
 {
 	if (program->philos)
@@ -81,7 +83,7 @@ static void	cleanup(t_program *program)
 	free(program);
 }
 
-// TODO
+// docs
 void	exit_philo(t_error error, t_program *program)
 {
 	if (program)

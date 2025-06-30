@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:26:42 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/28 19:07:26 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/30 01:21:53 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	get_time_in_ms(t_ms *ms_ptr, t_program *program)
 	if (gettimeofday(&tv, NULL) != SUCCESS)
 	{
 		set_error(ERROR, program);
-		safe_putstr_fd("failed to get time\n", STDERR_FILENO, program);
+		safe_putstr_fd("failed to get time\n", STDERR_FILENO, 3, program->mutexes->print);
 		return (ERROR);
 	}
 	current_time = (t_ms)(tv.tv_sec * 1000);

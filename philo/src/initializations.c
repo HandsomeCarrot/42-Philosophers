@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/28 21:24:10 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/06/30 01:52:27 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	initialize_mutexes(t_program *program)
 	t_ms		nbr_of_philos;
 
 	if (!program)
-		return (ERROR);
+		return ;
 	program->mutexes = w_calloc(1, sizeof(t_mutexes), program);
 	mutexes = program->mutexes;
 	mutexes->print = new_mutex(program);
@@ -58,7 +58,8 @@ static void	initialize_philos(t_program *program)
 	t_ms		nbr_of_philos;
 
 	nbr_of_philos = get(NBR_OF_PHILOS);
-	philos = w_calloc(nbr_of_philos, sizeof(t_philo *), program);
+	philos = w_calloc(nbr_of_philos, sizeof(pthread_t), program);
+	program->philos = philos;
 }
 
 // docs
