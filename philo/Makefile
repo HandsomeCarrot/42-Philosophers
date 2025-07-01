@@ -6,7 +6,7 @@
 #    By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 19:28:52 by vpoka             #+#    #+#              #
-#    Updated: 2025/06/30 01:42:11 by vpoka            ###   ########.fr        #
+#    Updated: 2025/07/01 17:48:46 by vpoka            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ CFLAGS = -Wall -Wextra -Werror -Iincludes -g
 RM = rm -rf
 
 SRCS_DIR = src/
-SRCS =$(wildcard src/*.c)
+SRCS =	$(wildcard src/*.c) \
+		$(wildcard src/thread/*.c)
 
 OBJS_DIR = obj/
 OBJS := $(SRCS:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)

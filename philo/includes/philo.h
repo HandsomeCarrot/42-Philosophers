@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/01 17:31:06 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 17:46:38 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/time.h>
 # include <unistd.h>
 
+//-----------------------------------ROOT------------------------------------//
 //----------initialization.c----------//
 
 void	initialize_data(int argc, char **argv, t_program **program);
@@ -43,21 +44,26 @@ void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex);
 t_ms	atoms(const char *nptr, t_program *program);
 void	*w_calloc(size_t nmemb, size_t size, t_program *program);
 int		ft_strlen(char *str);
-int		get_time_in_ms(t_ms *ms_ptr, pthread_mutex_t *mutex);
 void	w_mutex(t_mutex_action action, pthread_mutex_t *mutex);
 
 //----------mstoa.c----------//
+// could delete file if I do not tneed the function
 
 char	*mstoa(t_ms number);
-
-//----------philosopher_start.c----------//
-
-void	set_error(t_error error, int *error_flag, t_mutexes *mutexes);
-int		get_error(int *error_flag, t_mutexes *mutexes);
-void	*routine_start(void *data);
 
 //----------exit.c----------//
 
 void	exit_philo(t_error error, t_program *program);
+
+//----------------------------------THREAD-----------------------------------//
+//----------thread/*_start.c----------//
+
+void	*routine_start(void *data);
+
+//----------thread/*_utils.c----------//
+
+int		get_time_in_ms(t_ms *ms_ptr, pthread_mutex_t *mutex);
+void	set_error(t_error error, int *error_flag, t_mutexes *mutexes);
+int		get_error(int *error_flag, t_mutexes *mutexes);
 
 #endif

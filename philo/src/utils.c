@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:26:42 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/01 17:22:04 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 17:40:23 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,45 +120,6 @@ int	ft_strlen(char *str)
 		str++;
 	}
 	return (counter);
-}
-
-/**
- * @brief Gets the current time in milliseconds since Unix epoch.
- *
- * This function retrieves the current system time using gettimeofday()
- * and converts it to milliseconds since the Unix epoch. The result is
- * stored in the provided pointer. If an error occurs during time
- * retrieval, an error message is displayed with proper mutex protection
- * for thread safety.
- *
- * @param ms_ptr Pointer to a t_ms variable where the current time in
- *               milliseconds will be stored. Must not be NULL.
- * @param mutex Pointer to a mutex used for thread-safe error message
- *              output. Can be NULL if thread safety is not required.
- *
- * @return SUCCESS (0) if the time was successfully retrieved and stored,
- *         ERROR (1) if ms_ptr is NULL or gettimeofday() fails.
- *
- * @note This function is thread-safe when a valid mutex is provided.
- */
-int	get_time_in_ms(t_ms *ms_ptr, pthread_mutex_t *mutex)
-{
-	struct timeval	tv;
-	t_ms			current_time;
-
-	if (!ms_ptr)
-		return (ERROR);
-	if (gettimeofday(&tv, NULL) != SUCCESS && mutex)
-	{
-		w_mutex(LOCK, mutex);
-		error_msg("failed to get time", NULL);
-		w_mutex(UNLOCK, mutex);
-		return (ERROR);
-	}
-	current_time = (t_ms)(tv.tv_sec * 1000);
-	current_time += (t_ms)(tv.tv_usec / 1000);
-	*ms_ptr = current_time;
-	return (SUCCESS);
 }
 
 /**
