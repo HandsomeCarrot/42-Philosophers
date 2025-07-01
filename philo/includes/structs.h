@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/30 14:59:08 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 09:40:35 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ typedef struct s_input
 // docs
 typedef struct s_mutexes
 {
-	pthread_mutex_t		*stop; // alloced
-	pthread_mutex_t		*print; // alloced
-	pthread_mutex_t		**forks; // alloced pointer and pointers in pointer
+	pthread_mutex_t		*stop;
+	pthread_mutex_t		*print;
+	pthread_mutex_t		**forks;
 }						t_mutexes;
 
 //----------philosopher-data----------//
@@ -57,11 +57,11 @@ typedef struct s_philo
 //----------main----------//
 
 // docs
-typedef struct s_program // alloced
+typedef struct s_program
 {
 	t_ms				philo_count;
 	int					error;
-	t_philo				*philos; // alloced
+	t_philo				*philos;
 	struct s_input		input;
 	struct s_mutexes	mutexes;
 }						t_program;

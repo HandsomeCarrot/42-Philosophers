@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:24:53 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/30 01:42:50 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 14:40:28 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,38 +66,13 @@ void	error_msg(char *msg1, char *msg2)
 	write(STDERR_FILENO, "\n", sizeof(char) * 1);
 }
 
-/**
- * @brief Safely writes a string to a file descriptor with mutex protection.
- *
- * This function provides thread-safe string output by acquiring a print mutex
- * before writing and releasing it afterward. It ensures atomic write operations
- * when multiple threads might be attempting to write simultaneously.
- *
- * @param str The string to write. If NULL, the function returns immediately.
- * @param fd The file descriptor to write to. Must be a valid, open descriptor.
- * @param program Pointer to the program structure containing the print mutex.
- * @return SUCCESS (0) if the string was written successfully,
- *         ERROR (1) if mutex operations fail or invalid parameters are provided.
- * @note The function handles NULL string input gracefully by returning early.
- * @warning The caller must ensure the program structure and its mutexes are
- *          properly initialized before calling this function.
- * @see t_program
- */
-int	safe_putstr_fd(char *str, int fd, int mutex_state, pthread_mutex_t *mutex)
+// docs
+void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex)
 {
 	if (!str || fd < 0)
-		return (ERROR);
-	if (mutex_state == 0 || mutex_state == 3)
-	{
-		if (pthread_mutex_lock(mutex))
-			return (ERROR);
-	}
+		return ;
+	w_mutex(LOCK, print_mutex);
 	write(fd, str, sizeof(char) * ft_strlen(str));
-	if (mutex_state == 2 || mutex_state == 3)
-	{
-		if (pthread_mutex_unlock(mutex))
-			return (ERROR);
-	}
-	return (SUCCESS);
+	w_mutex(UNLOCK, print_mutex);
 }
 

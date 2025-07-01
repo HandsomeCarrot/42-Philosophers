@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:26:42 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/30 01:21:53 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 14:36:52 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,13 +115,34 @@ int	get_time_in_ms(t_ms *ms_ptr, pthread_mutex_t *mutex)
 		return (ERROR);
 	if (gettimeofday(&tv, NULL) != SUCCESS)
 	{
-		pthread_mutex_lock(mutex);
+		w_mutex(LOCK, mutex);
 		error_msg("failed to get time", NULL);
-		pthread_mutex_unlock(mutex);
+		w_mutex(UNLOCK, mutex);
 		return (ERROR);
 	}
 	current_time = (t_ms)(tv.tv_sec * 1000);
 	current_time += (t_ms)(tv.tv_usec / 1000);
 	*ms_ptr = current_time;
 	return (SUCCESS);
+}
+
+// docs
+void	w_mutex(t_mutex_action action, pthread_mutex_t *mutex)
+{
+	if (!mutex)
+		return ;
+	if (action == LOCK)
+	{
+		if (!pthread_mutex_lock(mutex))
+			return ;
+		error_msg("failed to lock a mutex", NULL);
+		exit_philo(ERROR, NULL);
+	}
+	if (action == UNLOCK)
+	{
+		if (!pthread_mutex_unlock(mutex))
+			return ;
+		error_msg("failed to unlock a mutex", NULL);
+		exit_philo(ERROR, NULL);
+	}
 }

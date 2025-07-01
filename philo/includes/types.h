@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 18:01:22 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/30 15:02:25 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 13:48:06 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,11 @@ typedef enum e_error
 	ERROR,
 	DEATH
 }					t_error;
+
+typedef enum e_mutex_action
+{
+	LOCK,
+	UNLOCK
+}					t_mutex_action;
 
 #endif

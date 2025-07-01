@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/30 01:55:36 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 15:09:18 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,13 @@ static void	create_philo(t_ms id, t_program *program)
 	program->philos[id].input = &program->input;
 	program->philos[id].mutexes = &program->mutexes;
 	program->philos[id].global_error = &program->error;
-	if (pthread_create(&program->philos[id].thread, NULL, routine_start, &program->philos[id]))
+	if (pthread_create(&program->philos[id].thread, NULL, routine_start,
+			&program->philos[id]))
 	{
-		set_error(ERROR, program);
-		pthread_mutex_lock(program->mutexes.print);
+		set_error(ERROR, &program->error, &program->mutexes);
+		w_mutex(LOCK, program->mutexes.print);
 		error_msg("failed to create philo: ", mstoa(id));
-		pthread_mutex_unlock(program->mutexes.print);	
+		w_mutex(UNLOCK, program->mutexes.print);
 		exit_philo(ERROR, program);
 	}
 }

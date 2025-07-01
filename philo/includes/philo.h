@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/30 15:02:16 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 15:06:17 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,23 @@ void	start_simulation(t_program *program);
 
 //----------routine.c----------//
 
-void	set_error(t_error error, t_program *program);
-t_error	get_error(t_program *program);
+void	set_error(t_error error, int *error_flag, t_mutexes *mutexes);
+void	get_error(int *error_flag, t_mutexes *mutexes);
 void	*routine_start(void *data);
 
 //----------messages.c----------//
 
 char	*get_exec_pattern(void);
 void	error_msg(char *msg1, char *msg2);
-int	safe_putstr_fd(char *str, int fd, int mutex_state, pthread_mutex_t *mutex);
+void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex);
 
 //----------utils.c----------//
 
 t_ms	ft_atoms(const char *nptr, t_program *program);
 void	*w_calloc(size_t nmemb, size_t size, t_program *program);
-int	ft_strlen(char *str);
-int	get_time_in_ms(t_ms *ms_ptr, pthread_mutex_t *mutex);
+int		ft_strlen(char *str);
+int		get_time_in_ms(t_ms *ms_ptr, pthread_mutex_t *mutex);
+void	w_mutex(t_mutex_action action, pthread_mutex_t *mutex);
 
 //----------mstoa.c----------//
 

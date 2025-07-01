@@ -6,55 +6,32 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/30 02:04:15 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 15:06:39 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
 // docs
-void	set_error(t_error error, t_mutexes *mutexes)
+void	set_error(t_error error, int *error_flag, t_mutexes *mutexes)
 {
-	if (!mutexes)
+	if (!mutexes || !error_flag || !mutexes)
 		return ;
-	if (pthread_mutex_lock(mutexes->stop))
-	{
-		pthread_mutex_lock(mutexes->print);
-		error_msg("failed to lock stop mutex", NULL);
-		pthread_mutex_unlock(mutexes->print);
-		return ;
-	}
-	program->error = error;
-	if (pthread_mutex_unlock(program->mutexes->stop))
-	{
-		pthread_mutex_lock(mutexes->print);
-		error_msg("failed to unlock stop mutex", NULL);
-		pthread_mutex_unlock(mutexes->print);
-	}
+	w_mutex(LOCK, mutexes->stop);
+	*error_flag = error;
+	w_mutex(UNLOCK, mutexes->stop);
 }
 
 // docs
-t_error	get_error(t_philo philo)
+void	get_error(int *error_flag, t_mutexes *mutexes)
 {
 	int	error;
 
-	if (!philo)
-		return (ERROR);
-	if (pthread_mutex_lock(philo.mutexes->stop))
-	{
-		pthread_mutex_lock(mutexes.print);
-		error_msg("failed to unlock stop mutex", NULL);
-		pthread_mutex_unlock(mutexes.print);
-		return (ERROR);
-	}
-	error = program->error;
-	if (pthread_mutex_unlock(program->mutexes->stop))
-	{
-		safe_putstr_fd("-philo: ", STDERR_FILENO, 0, program->mutexes->print);
-		safe_putstr_fd("failed to unlock stop mutex\n", STDERR_FILENO, 2, program->mutexes->print);
-		return (ERROR);
-	}
-	return (error);
+	if (!error_flag || !mutexes)
+		return ;
+	w_mutex(LOCK, mutexes->stop);
+	error = *error_flag;
+	w_mutex(UNLOCK, mutexes->stop);
 }
 
 // docs
@@ -62,14 +39,10 @@ t_error	get_error(t_philo philo)
 void	*routine_start(void *data)
 {
 	t_philo	*philo;
-	char	*current_time;
 
 	philo = data;
-	safe_putstr_fd("started philo number: ", STDOUT_FILENO, 0, philo->mutexes->print);
-	current_time = mstoa(philo->id);
-	safe_putstr_fd(current_time, STDOUT_FILENO, 1, philo->mutexes->print);
-	safe_putstr_fd("\n", STDOUT_FILENO, 2, philo->mutexes->print);
-	free(current_time);
-	free(data);
+	w_mutex(LOCK, philo->mutexes->print);
+	printf("started philo number: %lu\n", philo->id);
+	w_mutex(UNLOCK, philo->mutexes->print);
 	return (NULL);
 }

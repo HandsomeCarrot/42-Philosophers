@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:19:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/30 01:24:21 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 15:05:39 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static void	join_philos(t_program *program)
 	{
 		if (pthread_join(program->philos[philo_index].thread, NULL))
 		{
-			set_error(ERROR, program);
-			print_error("failed to join thread: ", mstoa(philo_index));
+			set_error(ERROR, &program->error, &program->mutexes);
+			error_msg("failed to join thread: ", mstoa(philo_index));
 		}
 		philo_index++;
 	}
@@ -47,17 +47,17 @@ static void	clean_mutexes(t_program *program)
 	t_ms	fork_index;
 	t_ms	fork_count;
 
-	if (!program || !program->mutexes)
+	if (!program)
 		return ;
 	if (program->mutexes.stop)
-		free_mutex(program->mutexes->stop);
+		free_mutex(program->mutexes.stop);
 	if (program->mutexes.print)
-		free_mutex(program->mutexes->print);
+		free_mutex(program->mutexes.print);
 	if (!program->mutexes.forks)
 		return ;
 	fork_index = 0;
 	fork_count = program->philo_count;
-	while (fork_index < fork_count || !program->mutexes.forks[fork_index])
+	while (fork_index < fork_count || program->mutexes.forks[fork_index])
 	{
 		free_mutex(program->mutexes.forks[fork_index]);
 		fork_index++;
@@ -66,7 +66,6 @@ static void	clean_mutexes(t_program *program)
 }
 
 // docs
-// is it all I need to free?
 static void	cleanup(t_program *program)
 {
 	if (program->philos)
@@ -74,11 +73,7 @@ static void	cleanup(t_program *program)
 		join_philos(program);
 		free(program->philos);
 	}
-	if (program->mutexes)
-	{
-		clean_mutexes(program);
-		free(program->mutexes);
-	}
+	clean_mutexes(program);
 	free(program);
 }
 
