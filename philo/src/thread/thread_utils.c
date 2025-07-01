@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:40:08 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/01 17:40:39 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 17:52:48 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,18 @@
  *
  * @note This function is thread-safe when a valid mutex is provided.
  */
-int	get_time_in_ms(t_ms *ms_ptr, pthread_mutex_t *mutex)
+int	get_time_in_ms(t_ms *ms_ptr, t_mutexes *mutexes)
 {
 	struct timeval	tv;
 	t_ms			current_time;
 
 	if (!ms_ptr)
 		return (ERROR);
-	if (gettimeofday(&tv, NULL) != SUCCESS && mutex)
+	if (gettimeofday(&tv, NULL) != SUCCESS && mutexes)
 	{
-		w_mutex(LOCK, mutex);
+		w_mutex(LOCK, mutexes->print);
 		error_msg("failed to get time", NULL);
-		w_mutex(UNLOCK, mutex);
+		w_mutex(UNLOCK, mutexes->print);
 		return (ERROR);
 	}
 	current_time = (t_ms)(tv.tv_sec * 1000);

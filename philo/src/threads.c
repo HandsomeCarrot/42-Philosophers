@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/01 17:29:46 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 17:53:25 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	start_simulation(t_program *program)
 		exit_philo(ERROR, program);
 	philo_index = 0;
 	philo_count = program->philo_count;
-	if (get_time_in_ms(&program->input.sim_start_time, program->mutexes.print))
+	if (get_time_in_ms(&program->input.sim_start_time, &program->mutexes))
 		exit_philo(ERROR, program);
 	while (philo_index < philo_count)
 	{
