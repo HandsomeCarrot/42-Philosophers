@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/01 17:22:04 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 17:24:39 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	start_simulation(t_program *program);
 //----------routine.c----------//
 
 void	set_error(t_error error, int *error_flag, t_mutexes *mutexes);
-void	get_error(int *error_flag, t_mutexes *mutexes);
+int		get_error(int *error_flag, t_mutexes *mutexes);
 void	*routine_start(void *data);
 
 //----------messages.c----------//

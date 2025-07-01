@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/01 17:16:51 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 17:27:09 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,16 @@ void	set_error(t_error error, int *error_flag, t_mutexes *mutexes)
  * @param mutexes A pointer to the mutexes structure containing the stop
  *                mutex used for thread synchronization.
  *
+ * @return int -> returns the value saved in the 'int error' variable
+ * 				  in the main struct. Is used to tell if a thread 
+ * 				  should terminate.
  * @note This function is thread-safe and uses mutex locking to ensure
  *       consistent reads of the error flag across multiple threads.
  * @warning If any of the input parameters are NULL, the function returns
  *          early without performing any operation. The function does not
  *          return the error value; it only reads it internally.
  */
-void	get_error(int *error_flag, t_mutexes *mutexes)
+int	get_error(int *error_flag, t_mutexes *mutexes)
 {
 	int	error;
 
@@ -66,6 +69,7 @@ void	get_error(int *error_flag, t_mutexes *mutexes)
 	w_mutex(LOCK, mutexes->stop);
 	error = *error_flag;
 	w_mutex(UNLOCK, mutexes->stop);
+	return (error);
 }
 
 // docs
