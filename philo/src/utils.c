@@ -6,25 +6,32 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:26:42 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/01 14:36:52 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 17:14:58 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
 /**
- * @brief Converts a string to a t_ms (uint64_t) with error checking.
+ * @brief Converts a string to an unsigned 64-bit integer with validation.
  *
- * Parses the input string character by character, converting it to a
- * t_ms value. Performs validation to ensure all characters
- * are digits and the resulting value doesn't overflow.
+ * This function parses a null-terminated string containing numeric
+ * characters and converts it to a t_ms (uint64_t) value. It performs
+ * validation to ensure all characters are digits and detects overflow
+ * conditions. If any validation fails, the function displays an error
+ * message and terminates the program.
  *
- * @param str The string to convert to a t_ms.
- * @param error Pointer to an bool that will be set to true if
- *              conversion fails (non-numeric chars or overflow).
- * @return The converted t_ms value, or 0 on error.
- * @note Sets error flag and prints message if invalid input is detected.
- * @warning Caller must check the error flag to verify successful conversion.
+ * @param str A null-terminated string containing only numeric characters
+ *            to be converted to an unsigned integer.
+ * @param program Pointer to the main program structure used for error
+ *                handling and program termination.
+ *
+ * @return The converted unsigned 64-bit integer value from the string.
+ *
+ * @note This function will terminate the program if non-numeric
+ *       characters are found or if overflow is detected.
+ * @warning The function modifies program state on error by calling
+ *          exit_philo(), which may terminate the entire program.
  */
 t_ms	ft_atoms(const char *str, t_program *program)
 {
@@ -53,7 +60,27 @@ t_ms	ft_atoms(const char *str, t_program *program)
 	return (res);
 }
 
-// docs
+/**
+ * @brief Allocates zero-initialized memory with error handling.
+ *
+ * This function allocates memory for an array of nmemb elements of size
+ * bytes each and initializes all bytes to zero. If memory allocation
+ * fails, it displays an error message and terminates the program. This
+ * is a wrapper around malloc() and memset() with integrated error
+ * handling for the philosophers program.
+ *
+ * @param nmemb Number of elements to allocate memory for.
+ * @param size Size in bytes of each element.
+ * @param program Pointer to the main program structure used for error
+ *                handling and program termination.
+ *
+ * @return Pointer to the allocated and zero-initialized memory block.
+ *
+ * @note This function will terminate the program if memory allocation
+ *       fails, ensuring no NULL pointers are returned.
+ * @warning The function modifies program state on error by calling
+ *          exit_philo(), which may terminate the entire program.
+ */
 void	*w_calloc(size_t nmemb, size_t size, t_program *program)
 {
 	void	*new_ptr;
@@ -71,12 +98,16 @@ void	*w_calloc(size_t nmemb, size_t size, t_program *program)
 /**
  * @brief Calculates the length of a null-terminated string.
  *
- * Counts the number of characters in the string until the null terminator
- * is encountered. Handles NULL pointer input gracefully.
+ * This function iterates through the provided string counting characters
+ * until it encounters a null terminator. It safely handles NULL input
+ * by returning 0. This is a custom implementation of the standard
+ * strlen() function.
  *
- * @param str The string to measure (may be NULL).
- * @return Length of the string in characters, or 0 if str is NULL.
- * @note Returns 0 for NULL input rather than causing a segmentation fault.
+ * @param str Pointer to the null-terminated string whose length is to
+ *            be calculated. Can be NULL.
+ *
+ * @return The number of characters in the string, excluding the null
+ *         terminator. Returns 0 if str is NULL.
  */
 int	ft_strlen(char *str)
 {
@@ -92,19 +123,23 @@ int	ft_strlen(char *str)
 }
 
 /**
- * @brief Gets current time in milliseconds and stores in provided pointer.
+ * @brief Gets the current time in milliseconds since Unix epoch.
  *
- * Retrieves the current system time using gettimeofday() and converts it to
- * milliseconds (combining seconds and microseconds components). The result is
- * stored in the provided t_ms pointer.
+ * This function retrieves the current system time using gettimeofday()
+ * and converts it to milliseconds since the Unix epoch. The result is
+ * stored in the provided pointer. If an error occurs during time
+ * retrieval, an error message is displayed with proper mutex protection
+ * for thread safety.
  *
- * @param ms_ptr Pointer to a t_ms variable where the current time in ms will
- *               be stored. Must not be NULL.
- * @return SUCCESS (0) if time was successfully retrieved and stored,
+ * @param ms_ptr Pointer to a t_ms variable where the current time in
+ *               milliseconds will be stored. Must not be NULL.
+ * @param mutex Pointer to a mutex used for thread-safe error message
+ *              output. Can be NULL if thread safety is not required.
+ *
+ * @return SUCCESS (0) if the time was successfully retrieved and stored,
  *         ERROR (1) if ms_ptr is NULL or gettimeofday() fails.
- * @note The function handles the conversion from seconds+microseconds to
- *       milliseconds internally.
- * @warning The caller must ensure ms_ptr is a valid pointer to a t_ms variable.
+ *
+ * @note This function is thread-safe when a valid mutex is provided.
  */
 int	get_time_in_ms(t_ms *ms_ptr, pthread_mutex_t *mutex)
 {
@@ -113,7 +148,7 @@ int	get_time_in_ms(t_ms *ms_ptr, pthread_mutex_t *mutex)
 
 	if (!ms_ptr)
 		return (ERROR);
-	if (gettimeofday(&tv, NULL) != SUCCESS)
+	if (gettimeofday(&tv, NULL) != SUCCESS && mutex)
 	{
 		w_mutex(LOCK, mutex);
 		error_msg("failed to get time", NULL);
@@ -126,7 +161,27 @@ int	get_time_in_ms(t_ms *ms_ptr, pthread_mutex_t *mutex)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Wrapper function for pthread mutex operations with error handling.
+ *
+ * This function provides a unified interface for locking and unlocking
+ * pthread mutexes with integrated error handling. If a mutex operation
+ * fails, it displays an error message and terminates the program. This
+ * ensures that mutex failures are handled consistently throughout the
+ * philosophers program.
+ *
+ * @param action The mutex operation to perform (LOCK or UNLOCK) as
+ *               defined by the t_mutex_action enumeration.
+ * @param mutex Pointer to the pthread_mutex_t to operate on. If NULL,
+ *              the function returns immediately without performing any
+ *              operation.
+ *
+ * @note This function will terminate the program if mutex operations
+ *       fail, ensuring consistent error handling.
+ * @warning The function modifies program state on error by calling
+ *          exit_philo(), which may terminate the entire program.
+ * @see t_mutex_action enumeration for valid action values.
+ */
 void	w_mutex(t_mutex_action action, pthread_mutex_t *mutex)
 {
 	if (!mutex)

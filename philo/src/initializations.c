@@ -6,13 +6,23 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/01 15:35:07 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 15:52:31 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-// docs
+/**
+ * @brief Processes and validates command-line arguments for the simulation.
+ *
+ * Parses input arguments into the program's configuration structure. Handles
+ * both mandatory and optional arguments (meal limit).
+ *
+ * @param argc Number of command-line arguments.
+ * @param argv Array of command-line argument strings.
+ * @param program Pointer to the main program structure.
+ * @note Exits with error if arguments are invalid or pointers are NULL.
+ */
 void	process_input(int argc, char **argv, t_program *program)
 {
 	if (!argv || !program)
@@ -30,7 +40,16 @@ void	process_input(int argc, char **argv, t_program *program)
 		program->input.has_meal_limit = false;
 }
 
-// docs
+/**
+ * @brief Creates and initializes a new mutex.
+ *
+ * Allocates memory for a mutex and initializes it. Handles allocation failures
+ * and initialization errors by exiting the program.
+ *
+ * @param program Pointer to the main program structure for error handling.
+ * @return Pointer to the initialized mutex on success.
+ * @note Exits with error on allocation or initialization failure.
+ */
 static pthread_mutex_t	*new_mutex(t_program *program)
 {
 	pthread_mutex_t	*new_mutex;
@@ -47,7 +66,15 @@ static pthread_mutex_t	*new_mutex(t_program *program)
 	return (new_mutex);
 }
 
-// docs
+/**
+ * @brief Initializes all mutexes required for the simulation.
+ *
+ * Creates print, stop, and fork mutexes. Allocates and initializes an array
+ * of fork mutexes based on philosopher count.
+ *
+ * @param program Pointer to the main program structure.
+ * @note Exits with error if program pointer is NULL.
+ */
 static void	initialize_mutexes(t_program *program)
 {
 	t_ms	fork_index;
@@ -68,7 +95,17 @@ static void	initialize_mutexes(t_program *program)
 	}
 }
 
-// docs
+/**
+ * @brief Initializes the main program data structure.
+ *
+ * Allocates memory for program structure, processes input arguments,
+ * initializes mutexes, and allocates memory for philosophers.
+ *
+ * @param argc Number of command-line arguments.
+ * @param argv Array of command-line argument strings.
+ * @param program_ptr Double pointer to the program structure to initialize.
+ * @note Exits with error if program_ptr is NULL or allocation fails.
+ */
 void	initialize_data(int argc, char **argv, t_program **program_ptr)
 {
 	t_program	*program;
