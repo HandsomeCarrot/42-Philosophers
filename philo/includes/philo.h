@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/01 17:24:39 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 17:31:06 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,15 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-//----------initializations.c----------//
+//----------initialization.c----------//
 
 void	initialize_data(int argc, char **argv, t_program **program);
+
+//----------threads.c----------//
+
 void	start_simulation(t_program *program);
 
-//----------routine.c----------//
-
-void	set_error(t_error error, int *error_flag, t_mutexes *mutexes);
-int		get_error(int *error_flag, t_mutexes *mutexes);
-void	*routine_start(void *data);
-
-//----------messages.c----------//
+//----------output.c----------//
 
 char	*get_exec_pattern(void);
 void	error_msg(char *msg1, char *msg2);
@@ -52,6 +49,12 @@ void	w_mutex(t_mutex_action action, pthread_mutex_t *mutex);
 //----------mstoa.c----------//
 
 char	*mstoa(t_ms number);
+
+//----------philosopher_start.c----------//
+
+void	set_error(t_error error, int *error_flag, t_mutexes *mutexes);
+int		get_error(int *error_flag, t_mutexes *mutexes);
+void	*routine_start(void *data);
 
 //----------exit.c----------//
 
