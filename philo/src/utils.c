@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:26:42 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/01 17:14:58 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 17:22:04 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
  * @warning The function modifies program state on error by calling
  *          exit_philo(), which may terminate the entire program.
  */
-t_ms	ft_atoms(const char *str, t_program *program)
+t_ms	atoms(const char *str, t_program *program)
 {
 	t_ms	res;
 	t_ms	prev;

@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/01 15:06:17 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 17:22:04 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex);
 
 //----------utils.c----------//
 
-t_ms	ft_atoms(const char *nptr, t_program *program);
+t_ms	atoms(const char *nptr, t_program *program);
 void	*w_calloc(size_t nmemb, size_t size, t_program *program);
 int		ft_strlen(char *str);
 int		get_time_in_ms(t_ms *ms_ptr, pthread_mutex_t *mutex);

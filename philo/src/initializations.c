@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/01 15:52:31 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 17:22:04 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ void	process_input(int argc, char **argv, t_program *program)
 {
 	if (!argv || !program)
 		exit_philo(ERROR, program);
-	program->philo_count = ft_atoms((const char *)argv[1], program);
-	program->input.time_to_die = ft_atoms((const char *)argv[2], program);
-	program->input.time_to_eat = ft_atoms((const char *)argv[3], program);
-	program->input.time_to_sleep = ft_atoms((const char *)argv[4], program);
+	program->philo_count = atoms((const char *)argv[1], program);
+	program->input.time_to_die = atoms((const char *)argv[2], program);
+	program->input.time_to_eat = atoms((const char *)argv[3], program);
+	program->input.time_to_sleep = atoms((const char *)argv[4], program);
 	if (argc == 6)
 	{
-		program->input.meal_limit = ft_atoms((const char *)argv[5], program);
+		program->input.meal_limit = atoms((const char *)argv[5], program);
 		program->input.has_meal_limit = true;
 	}
 	else
