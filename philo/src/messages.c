@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:24:53 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/01 14:40:28 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 15:36:33 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,19 @@
  */
 char	*get_exec_pattern(void)
 {
-	return (\
-		"./philo " \
-		"<number_of_philosophers> " \
-		"<time_to_die> " \
-		"<time_to_eat> " \
-		"<time_to_sleep> " \
-		"[number_of_times_each_philosopher_must_eat]"\
-	);
+	return ("./philo "
+		"<number_of_philosophers> "
+		"<time_to_die> "
+		"<time_to_eat> "
+		"<time_to_sleep> "
+		"[number_of_times_each_philosopher_must_eat]");
 }
 
 /**
  * @brief Prints error messages to standard error output.
  *
- * This function writes error messages to STDERR_FILENO in a standardized format.
+
+ * This function writes error messages toSTDERR_FILENO in a standardized format.
  * It can handle one or two error message components, formatting them with
  * appropriate separators and a final newline.
  *
@@ -56,12 +55,12 @@ void	error_msg(char *msg1, char *msg2)
 	if (msg1)
 	{
 		write(STDERR_FILENO, ": ", sizeof(char) * 2);
-		write (STDERR_FILENO, msg1, sizeof(char) * ft_strlen(msg1));
+		write(STDERR_FILENO, msg1, sizeof(char) * ft_strlen(msg1));
 	}
 	if (msg2)
 	{
 		write(STDERR_FILENO, ": ", sizeof(char) * 2);
-		write (STDERR_FILENO, msg2, sizeof(char) * ft_strlen(msg2));
+		write(STDERR_FILENO, msg2, sizeof(char) * ft_strlen(msg2));
 	}
 	write(STDERR_FILENO, "\n", sizeof(char) * 1);
 }
@@ -75,4 +74,3 @@ void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex)
 	write(fd, str, sizeof(char) * ft_strlen(str));
 	w_mutex(UNLOCK, print_mutex);
 }
-

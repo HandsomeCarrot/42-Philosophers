@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/30 15:09:46 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/01 15:35:07 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	initialize_mutexes(t_program *program)
 void	initialize_data(int argc, char **argv, t_program **program_ptr)
 {
 	t_program	*program;
-	t_ms	philo_count;
+	t_ms		philo_count;
 
 	if (!program_ptr)
 	{
