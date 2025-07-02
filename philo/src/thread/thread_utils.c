@@ -6,11 +6,11 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:40:08 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/02 16:19:22 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/02 18:35:22 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "../../includes/philo.h"
 
 /**
  * @brief Gets the current time in milliseconds since Unix epoch.
