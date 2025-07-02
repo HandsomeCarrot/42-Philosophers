@@ -53,3 +53,5 @@ dkms.conf
 
 # vpoka
 philo/philo
+philo/garbage
+philo/sanitize
