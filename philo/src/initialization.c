@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/02 14:14:15 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/02 22:12:49 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ static void	initialize_mutexes(t_program *program)
 void	initialize_data(int argc, char **argv, t_program **program_ptr)
 {
 	t_program	*program;
-	t_ms		philo_count;
 
 	if (!program_ptr)
 	{
@@ -120,7 +119,6 @@ void	initialize_data(int argc, char **argv, t_program **program_ptr)
 	program = *program_ptr;
 	process_input(argc, argv, program);
 	initialize_mutexes(program);
-	philo_count = program->philo_count;
 	program->philos = w_calloc(program->philo_count, sizeof(t_philo), program);
 	program->error_flag = SUCCESS;
 }

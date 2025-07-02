@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/02 18:35:13 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/02 22:12:02 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	*routine_start(void *data)
 	t_ms	start;
 
 	philo = data;
+	w_mutex(LOCK, philo->mutexes->forks[philo->id]);
+	w_mutex(UNLOCK, philo->mutexes->forks[philo->id]);
 	get_time_in_ms(&start, philo->mutexes);
 	start -= philo->input->sim_start_time;
 	w_mutex(LOCK, philo->mutexes->print);

@@ -6,11 +6,31 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/02 14:17:16 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/02 22:11:07 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+// docs
+t_error	all_forks(t_mutex_action action, t_program *program)
+{
+	pthread_mutex_t	**forks;
+	t_ms			fork_index;
+	t_ms			fork_count;
+
+	if (!program)
+		return (ERROR);
+	forks = program->mutexes.forks;
+	fork_index = 0;
+	fork_count = program->philo_count;
+	while (fork_index < fork_count)
+	{
+		w_mutex(action, forks[fork_index]);
+		fork_index++;
+	}
+	return (SUCCESS);
+}
 
 /**
  * @brief Creates and initializes a philosopher thread with given ID.
@@ -70,11 +90,15 @@ void	start_simulation(t_program *program)
 		exit_philo(ERROR, program);
 	philo_index = 0;
 	philo_count = program->philo_count;
-	if (get_time_in_ms(&program->input.sim_start_time, &program->mutexes))
-		exit_philo(ERROR, program);
+	if (all_forks(LOCK, program))
+		return ; // return (ERROR);
 	while (philo_index < philo_count)
 	{
 		create_philo(philo_index, program);
 		philo_index++;
 	}
+	if (get_time_in_ms(&program->input.sim_start_time, &program->mutexes))
+		exit_philo(ERROR, program);
+	if (all_forks(UNLOCK, program))
+		return ; // return (ERROR);
 }
