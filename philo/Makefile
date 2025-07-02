@@ -6,7 +6,7 @@
 #    By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 19:28:52 by vpoka             #+#    #+#              #
-#    Updated: 2025/07/02 18:47:22 by vpoka            ###   ########.fr        #
+#    Updated: 2025/07/02 18:58:01 by vpoka            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,9 @@ NAME = philo
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-DEBUGFLAGS = -g -fsanitize=thread
+
+DEBUGFLAGS = -g
+SANFLAGS = $(DEBUGFLAGS) -fsanitize=thread
 
 INCLUDES = -Iincludes
 
@@ -36,6 +38,12 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(CC) -o $@ $^ $(CFLAGS) $(INCLUDES)
 
+debug: CFLAGS += $(DEBUGFLAGS)
+debug: $(NAME)
+
+sanitize: CFLAGS += $(SANFLAGS)
+sanitize: $(NAME)
+
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -48,4 +56,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all debug sanitize clean fclean re
