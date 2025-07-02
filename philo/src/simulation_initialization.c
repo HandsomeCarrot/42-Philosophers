@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/02 14:14:25 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/02 14:17:16 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 static void	create_philo(t_ms id, t_program *program)
 {
 	program->philos[id].id = id;
-	get_time_in_ms(&program->philos[id].last_meal, &program->mutexes);
+	program->philos[id].last_meal = 0;
 	program->philos[id].meals_eaten = 0;
 	program->philos[id].input = &program->input;
 	program->philos[id].mutexes = &program->mutexes;
