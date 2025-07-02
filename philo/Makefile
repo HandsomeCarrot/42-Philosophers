@@ -45,17 +45,17 @@ CURRENT			:= 0
 
 # Progress display function for compilation
 define progress
-$(eval CURRENT := $(shell echo $$(($(CURRENT) + 1))))
-@printf "\rCompiling files: [$(CURRENT)/$(TOTAL_SRCS)] %s" "$(notdir $<)"
+	$(eval CURRENT := $(shell echo $$(($(CURRENT) + 1))))
+	@printf "\rCompiling files: [$(CURRENT)/$(TOTAL_SRCS)] %s" "$(notdir $<)"
 endef
 
 # Link completion message
 define link_complete
-@printf "\rCompiling files: [$(TOTAL_SRCS)/$(TOTAL_SRCS)] Complete!%*s\n" 20 ""
-@printf "Linking executable..."
-@$(CC) -o $@ $^ $(INCLUDES) $(CFLAGS)
-@printf " Done!\n"
-@echo "✓ $@ built successfully"
+	@printf "\rCompiling files: [$(TOTAL_SRCS)/$(TOTAL_SRCS)] Complete!%*s\n" 20 ""
+	@printf "Linking executable..."
+	@$(CC) -o $@ $^ $(INCLUDES) $(CFLAGS)
+	@printf " Done!\n"
+	@echo "✓ $@ built successfully"
 endef
 
 # ================================== RULES =================================== #
@@ -87,11 +87,13 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 
 # Remove object files
 clean:
-	$(RM) $(OBJS_DIR)
+	@$(RM) $(OBJS_DIR)
+	@echo "deleting object files"
 
 # Remove object files and executables
 fclean: clean
-	$(RM) $(ALL_NAMES)
+	@$(RM) $(ALL_NAMES)
+	@echo "deleting executables"
 
 # Rebuild everything
 re: fclean all
