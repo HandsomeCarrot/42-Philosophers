@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/01 17:53:05 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/02 14:08:36 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 
 void	initialize_data(int argc, char **argv, t_program **program);
 
-//----------threads.c----------//
+//----------simulation_initialization.c.c----------//
 
 void	start_simulation(t_program *program);
 
