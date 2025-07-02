@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/01 09:40:35 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/02 14:14:15 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_philo
 	t_ms				last_meal;
 	t_ms				meals_eaten;
 	pthread_t			thread;
-	int					*global_error;
+	int					*error_flag_ptr;
 	struct s_input		*input;
 	struct s_mutexes	*mutexes;
 }						t_philo;
@@ -60,7 +60,7 @@ typedef struct s_philo
 typedef struct s_program
 {
 	t_ms				philo_count;
-	int					error;
+	int					error_flag;
 	t_philo				*philos;
 	struct s_input		input;
 	struct s_mutexes	mutexes;

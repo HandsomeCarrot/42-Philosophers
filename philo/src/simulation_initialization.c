@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/02 14:08:54 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/02 14:14:25 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ static void	create_philo(t_ms id, t_program *program)
 	program->philos[id].meals_eaten = 0;
 	program->philos[id].input = &program->input;
 	program->philos[id].mutexes = &program->mutexes;
-	program->philos[id].global_error = &program->error;
+	program->philos[id].error_flag_ptr = &program->error_flag;
 	if (pthread_create(&program->philos[id].thread, NULL, routine_start,
 			&program->philos[id]))
 	{
-		set_error(ERROR, &program->error, &program->mutexes);
+		set_error_flag(ERROR, &program->error_flag, &program->mutexes);
 		w_mutex(LOCK, program->mutexes.print);
 		error_msg("failed to create philo: ", mstoa(id));
 		w_mutex(UNLOCK, program->mutexes.print);

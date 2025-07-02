@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/02 14:08:36 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/02 14:14:36 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	*routine_start(void *data);
 //----------thread/*_utils.c----------//
 
 int		get_time_in_ms(t_ms *ms_ptr, t_mutexes *mutexes);
-void	set_error(t_error error, int *error_flag, t_mutexes *mutexes);
-int		get_error(int *error_flag, t_mutexes *mutexes);
+void	set_error_flag(t_error error, int *error_flag, t_mutexes *mutexes);
+int		get_error_flag(int *error_flag, t_mutexes *mutexes);
 
 #endif

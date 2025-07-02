@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:40:08 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/01 17:52:48 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/02 14:14:34 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	get_time_in_ms(t_ms *ms_ptr, t_mutexes *mutexes)
  * @warning If any of the input parameters are NULL, the function returns
  *          early without performing any operation.
  */
-void	set_error(t_error error, int *error_flag, t_mutexes *mutexes)
+void	set_error_flag(t_error error, int *error_flag, t_mutexes *mutexes)
 {
 	if (!mutexes || !error_flag || !mutexes)
 		return ;
@@ -99,14 +99,14 @@ void	set_error(t_error error, int *error_flag, t_mutexes *mutexes)
  *          early without performing any operation. The function does not
  *          return the error value; it only reads it internally.
  */
-int	get_error(int *error_flag, t_mutexes *mutexes)
+int	get_error_flag(int *error_flag, t_mutexes *mutexes)
 {
-	int	error;
+	int	error_flag;
 
 	if (!error_flag || !mutexes)
 		return ;
 	w_mutex(LOCK, mutexes->stop);
-	error = *error_flag;
+	error_flag = *error_flag;
 	w_mutex(UNLOCK, mutexes->stop);
-	return (error);
+	return (error_flag);
 }
