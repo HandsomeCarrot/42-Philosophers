@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/03 14:50:02 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/03 21:56:41 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_error	initialize_data(int argc, char **argv, t_program **program);
 
 //----------simulation_initialization.c.c----------//
 
-void	start_simulation(t_program *program);
+t_error	start_simulation(t_program *prografm);
 
 //----------output.c----------//
 
@@ -41,19 +41,19 @@ void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex);
 
 //----------utils.c----------//
 
-t_ms	atoms(const char *nptr, t_program *program);
+t_error	atoms(const char *str, t_ms *result);
 void	*w_calloc(size_t nmemb, size_t size, t_program *program);
 int		ft_strlen(char *str);
-void	w_mutex(t_mutex_action action, pthread_mutex_t *mutex);
+t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex);
 
 //----------mstoa.c----------//
 // could delete file if I do not tneed the function
 
 char	*mstoa(t_ms number);
 
-//----------exit.c----------//
+//----------cleanup.c----------//
 
-void	exit_philo(t_error error, t_program *program);
+void	cleanup_program(t_program *program);
 
 //----------------------------------THREAD-----------------------------------//
 //----------thread/*_start.c----------//

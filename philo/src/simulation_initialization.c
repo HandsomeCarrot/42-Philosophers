@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/03 12:01:04 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/03 22:09:23 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_error	all_forks(t_mutex_action action, t_program *program)
 	t_ms			fork_count;
 
 	if (!program)
-		return (ERROR);
+		return (ERR_ALLOC);
 	forks = program->mutexes.forks;
 	fork_index = 0;
 	fork_count = program->philo_count;
@@ -47,7 +47,7 @@ t_error	all_forks(t_mutex_action action, t_program *program)
  * @note This function will terminate the program if pthread creation fails.
  * @warning The function does not validate input parameters before use.
  */
-static void	create_philo(t_ms id, t_program *program)
+static t_error	create_philo(t_ms id, t_program *program)
 {
 	program->philos[id].id = id;
 	program->philos[id].last_meal = 0;
@@ -58,12 +58,13 @@ static void	create_philo(t_ms id, t_program *program)
 	if (pthread_create(&program->philos[id].thread, NULL, routine_start,
 			&program->philos[id]))
 	{
-		set_error_flag(ERROR, &program->error_flag, &program->mutexes);
+		set_error_flag(ERR_THREAD, &program->error_flag, &program->mutexes);
 		w_mutex(LOCK, program->mutexes.print);
 		error_msg("failed to create philo: ", mstoa(id));
 		w_mutex(UNLOCK, program->mutexes.print);
-		exit_philo(ERROR, program);
+		return (ERR_THREAD);
 	}
+	return (SUCCESS);
 }
 
 /**
@@ -81,24 +82,30 @@ static void	create_philo(t_ms id, t_program *program)
  *       or if getting the start time fails.
  * @see create_philo()
  */
-void	start_simulation(t_program *program)
+t_error	start_simulation(t_program *program)
 {
 	t_ms	philo_count;
 	t_ms	philo_index;
+	t_error	err;
 
 	if (!program)
-		exit_philo(ERROR, program);
+		return (ERR_SYNC);
 	philo_index = 0;
 	philo_count = program->philo_count;
-	if (all_forks(LOCK, program))
-		return ; // return (ERROR);
+	err = all_forks(LOCK, program);
+	if (err != SUCCESS)
+		return (err);
 	while (philo_index < philo_count)
 	{
-		create_philo(philo_index, program);
+		err = create_philo(philo_index, program);
+		if (err != SUCCESS)
+			break;
 		philo_index++;
 	}
-	if (get_time_in_ms(&program->input.sim_start_time, &program->mutexes))
-		exit_philo(ERROR, program);
-	if (all_forks(UNLOCK, program))
-		return ; // return (ERROR);
+	if (get_time_in_ms(&program->input.sim_start_time, &program->mutexes) != 0)
+		return (ERR_TIME);
+	err = all_forks(UNLOCK, program);
+	if (err != SUCCESS)
+		return (err);
+	return (SUCCESS);
 }

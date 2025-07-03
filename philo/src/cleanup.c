@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:19:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/02 14:14:25 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/03 23:33:32 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ static void	join_philos(t_program *program)
 	{
 		if (pthread_join(program->philos[philo_index].thread, NULL))
 		{
-			set_error_flag(ERROR, &program->error_flag, &program->mutexes);
+			set_error_flag(ERR_THREAD, &program->error_flag, &program->mutexes);
 			error_msg("failed to join thread: ", mstoa(philo_index));
+			return ;
 		}
 		philo_index++;
 	}
@@ -147,9 +148,8 @@ static void	cleanup(t_program *program)
  * @note If program is null, the function will still exit with the
  *       specified error code but skip cleanup operations.
  */
-void	exit_philo(t_error error, t_program *program)
+void	cleanup_program(t_program *program)
 {
 	if (program)
 		cleanup(program);
-	exit(error);
 }

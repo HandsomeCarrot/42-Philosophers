@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:26:42 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/01 17:40:23 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/03 22:13:58 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
  * @warning The function modifies program state on error by calling
  *          exit_philo(), which may terminate the entire program.
  */
-t_ms	atoms(const char *str, t_program *program)
+t_error	atoms(const char *str, t_ms *result)
 {
 	t_ms	res;
 	t_ms	prev;
@@ -46,18 +46,19 @@ t_ms	atoms(const char *str, t_program *program)
 		if (*nptr < '0' || *nptr > '9')
 		{
 			error_msg("Non-numeric character found in argument", (char *)str);
-			exit_philo(ERROR, program);
+			return (ERR_ARG);
 		}
 		prev = res;
 		res = res * 10 + (*nptr - '0');
 		if (res < prev)
 		{
 			error_msg("argument is too large", (char *)str);
-			exit_philo(ERROR, program);
+			return (ERR_ARG);
 		}
 		nptr++;
 	}
-	return (res);
+	*result = res;
+	return (SUCCESS);
 }
 
 /**
@@ -76,10 +77,9 @@ t_ms	atoms(const char *str, t_program *program)
  *
  * @return Pointer to the allocated and zero-initialized memory block.
  *
- * @note This function will terminate the program if memory allocation
- *       fails, ensuring no NULL pointers are returned.
- * @warning The function modifies program state on error by calling
- *          exit_philo(), which may terminate the entire program.
+ * @return Pointer to the allocated and zero-initialized memory block on success,
+ *         or NULL on allocation failure.
+ * @note The caller is responsible for checking the return value.
  */
 void	*w_calloc(size_t nmemb, size_t size, t_program *program)
 {
@@ -89,7 +89,7 @@ void	*w_calloc(size_t nmemb, size_t size, t_program *program)
 	if (!new_ptr)
 	{
 		error_msg("memory allocation failed", NULL);
-		exit_philo(ERROR, program);
+		return (NULL);
 	}
 	memset(new_ptr, 0, nmemb * size);
 	return (new_ptr);
@@ -137,28 +137,27 @@ int	ft_strlen(char *str)
  *              the function returns immediately without performing any
  *              operation.
  *
- * @note This function will terminate the program if mutex operations
- *       fail, ensuring consistent error handling.
- * @warning The function modifies program state on error by calling
- *          exit_philo(), which may terminate the entire program.
+ * @return SUCCESS on successful operation, ERR_MUTEX on failure.
+ * @note The caller is responsible for handling the error appropriately.
  * @see t_mutex_action enumeration for valid action values.
  */
-void	w_mutex(t_mutex_action action, pthread_mutex_t *mutex)
+t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex)
 {
 	if (!mutex)
-		return ;
+		return (ERR_MUTEX);
 	if (action == LOCK)
 	{
-		if (!pthread_mutex_lock(mutex))
-			return ;
+		if (pthread_mutex_lock(mutex) == 0)
+			return (SUCCESS);
 		error_msg("failed to lock a mutex", NULL);
-		exit_philo(ERROR, NULL);
+		return (ERR_MUTEX);
 	}
 	if (action == UNLOCK)
 	{
-		if (!pthread_mutex_unlock(mutex))
-			return ;
+		if (pthread_mutex_unlock(mutex) == 0)
+			return (SUCCESS);
 		error_msg("failed to unlock a mutex", NULL);
-		exit_philo(ERROR, NULL);
+		return (ERR_MUTEX);
 	}
+	return (SUCCESS);
 }
