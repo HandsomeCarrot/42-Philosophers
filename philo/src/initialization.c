@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/02 22:12:49 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/03 14:59:21 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@
  * @param program Pointer to the main program structure.
  * @note Exits with error if arguments are invalid or pointers are NULL.
  */
-void	process_input(int argc, char **argv, t_program *program)
+static t_error	process_input(int argc, char **argv, t_program *program)
 {
 	if (!argv || !program)
-		exit_philo(ERROR, program);
+		return (ERROR);
 	program->philo_count = atoms((const char *)argv[1], program);
 	program->input.time_to_die = atoms((const char *)argv[2], program);
 	program->input.time_to_eat = atoms((const char *)argv[3], program);
@@ -55,13 +55,13 @@ static pthread_mutex_t	*new_mutex(t_program *program)
 	pthread_mutex_t	*new_mutex;
 
 	if (!program)
-		exit_philo(ERROR, program);
+		return (NULL);
 	new_mutex = w_calloc(1, sizeof(pthread_mutex_t), program);
 	if (pthread_mutex_init(new_mutex, NULL))
 	{
 		error_msg("failed to create mutex", NULL);
 		free(new_mutex);
-		exit_philo(ERROR, program);
+		return (NULL);
 	}
 	return (new_mutex);
 }
@@ -75,15 +75,19 @@ static pthread_mutex_t	*new_mutex(t_program *program)
  * @param program Pointer to the main program structure.
  * @note Exits with error if program pointer is NULL.
  */
-static void	initialize_mutexes(t_program *program)
+static t_error	initialize_mutexes(t_program *program)
 {
 	t_ms	fork_index;
 	t_ms	philo_count;
 
 	if (!program)
-		exit_philo(ERROR, program);
+		return (ERROR);
 	program->mutexes.print = new_mutex(program);
+	if (!program->mutexes.print)
+		return (ERROR);
 	program->mutexes.stop = new_mutex(program);
+	if (!program->mutexes.stop)
+		return (ERROR);
 	philo_count = program->philo_count;
 	program->mutexes.forks = w_calloc(philo_count + 1,
 			sizeof(pthread_mutex_t *), program);
@@ -91,6 +95,8 @@ static void	initialize_mutexes(t_program *program)
 	while (fork_index < philo_count)
 	{
 		program->mutexes.forks[fork_index] = new_mutex(program);
+		if (!program->mutexes.forks[fork_index])
+			return (ERROR);
 		fork_index++;
 	}
 }
@@ -106,19 +112,21 @@ static void	initialize_mutexes(t_program *program)
  * @param program_ptr Double pointer to the program structure to initialize.
  * @note Exits with error if program_ptr is NULL or allocation fails.
  */
-void	initialize_data(int argc, char **argv, t_program **program_ptr)
+t_error	initialize_data(int argc, char **argv, t_program **program_ptr)
 {
 	t_program	*program;
 
 	if (!program_ptr)
 	{
 		error_msg("missing program struct pointer", NULL);
-		exit_philo(ERROR, NULL);
+		return (ERROR);
 	}
 	*program_ptr = w_calloc(1, sizeof(t_program), NULL);
 	program = *program_ptr;
-	process_input(argc, argv, program);
-	initialize_mutexes(program);
+	if (process_input(argc, argv, program))
+		return (ERROR);
+	if (initialize_mutexes(program))
+		return (ERROR);
 	program->philos = w_calloc(program->philo_count, sizeof(t_philo), program);
 	program->error_flag = SUCCESS;
 }
