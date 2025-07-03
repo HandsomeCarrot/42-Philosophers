@@ -12,51 +12,59 @@
 
 # ================================ EXECUTABLES ================================ #
 
-NAME			= philo
-NAME_GARBAGE	= garbage
-NAME_SANITIZE	= sanitize
-ALL_NAMES		= $(NAME) $(NAME_GARBAGE) $(NAME_SANITIZE)
+NAME = philo
+NAME_GARBAGE = garbage
+NAME_SANITIZE = sanitize
+ALL_NAMES = $(NAME) $(NAME_GARBAGE) $(NAME_SANITIZE)
 
 # ================================ COMPILATION ================================ #
 
-CC				= cc
-CFLAGS			= -Wall -Wextra -Werror
-GARBAGEFLAG	= -g
-SANITIZEFLAGS	= $(GARBAGEFLAG) -fsanitize=thread
-INCLUDES		= -Iincludes
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+GARBAGEFLAG = -g
+SANITIZEFLAGS = $(GARBAGEFLAG) -fsanitize=thread
+INCLUDES = -Iincludes
 
 # ================================== PATHS =================================== #
 
-SRCS_DIR		= src/
-OBJS_DIR		= obj/
+SRCS_DIR = src/
+OBJS_DIR = obj/
 
 # ================================== FILES =================================== #
 
-SRCS			= $(wildcard src/*.c) \
-				  $(wildcard src/thread/*.c)
+SRCS =	$(wildcard src/*.c) \
+	$(wildcard src/thread/*.c)
 
-OBJS			= $(SRCS:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
+OBJS = $(SRCS:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 
 # ================================= UTILITIES ================================= #
 
-RM				= rm -rf
-TOTAL_SRCS		:= $(words $(SRCS))
-CURRENT			:= 0
+RM = rm -rf
+TOTAL_SRCS := $(words $(SRCS))
+CURRENT := 0
 
 # Progress display function for compilation
 define progress
-	$(eval CURRENT := $(shell echo $$(($(CURRENT) + 1))))
-	@printf "\rCompiling files: [$(CURRENT)/$(TOTAL_SRCS)] %s" "$(notdir $<)"
+	$(eval CURRENT := $(shell echo $(($(CURRENT) + 1))))
+	@printf "\r$(CYAN)Compiling files: [$(CURRENT)/$(TOTAL_SRCS)] %s$(RST)" "$(notdir $<)"
 endef
 
 # Link completion message
 define link_complete
-	@printf "\rCompiling files: [$(TOTAL_SRCS)/$(TOTAL_SRCS)] Complete!%*s\n" 20 ""
-	@printf "Linking executable..."
+	@printf "\r$(GREEN)Compiling files: [$(TOTAL_SRCS)/$(TOTAL_SRCS)] Complete!%*s\n$(RST)" 20 ""
+	@printf "$(YELLOW)Linking executable...$(RST)"
 	@$(CC) -o $@ $^ $(INCLUDES) $(CFLAGS)
-	@printf " Done!\n"
-	@echo "✓ $@ built successfully"
+	@printf "$(GREEN) Done!\n$(RST)"
+	@echo "$(GREEN)✓ $@ built successfully$(RST)"
 endef
+# ================================= COLORS ================================= #
+
+RST = \033[0m
+RED = \033[1;31m
+GREEN = \033[1;32m
+YELLOW = \033[1;33m
+BLUE = \033[1;34m
+CYAN = \033[1;36m
 
 # ================================== RULES =================================== #
 
@@ -77,6 +85,9 @@ sanitize: CFLAGS += $(SANITIZEFLAGS)
 sanitize: $(OBJS)
 	$(call link_complete)
 
+g: garbage
+s: sanitize
+
 # Compile source files to object files
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 	@mkdir -p $(dir $@)
@@ -88,16 +99,22 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 # Remove object files
 clean:
 	@$(RM) $(OBJS_DIR)
-	@echo "deleting object files"
+	@echo "$(RED)deleting object files$(RST)"
 
 # Remove object files and executables
 fclean: clean
 	@$(RM) $(ALL_NAMES)
-	@echo "deleting executables"
+	@echo "$(RED)deleting executables$(RST)"
+
+c: clean
+f: fclean
 
 # Rebuild everything
-re: fclean all
+re:
+	@echo "$(YELLOW)Recompiling...$(RST)"
+	@$(MAKE) fclean --no-print-directory
+	@$(MAKE) all --no-print-directory
 
 # ================================= PHONY =================================== #
 
-.PHONY: all debug sanitize clean fclean re
+.PHONY: all garbage sanitize g s clean fclean c f re
