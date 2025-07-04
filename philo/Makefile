@@ -6,7 +6,7 @@
 #    By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 19:28:52 by vpoka             #+#    #+#              #
-#    Updated: 2025/07/04 18:43:05 by vpoka            ###   ########.fr        #
+#    Updated: 2025/07/04 19:14:04 by vpoka            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,8 @@ OBJS_DIR = obj/
 # ================================== FILES =================================== #
 
 SRCS =	$(wildcard src/*.c) \
-	$(wildcard src/thread/*.c)
+	$(wildcard src/thread/*.c) \
+	$(wildcard src/cleanup/*.c)
 
 OBJS = $(SRCS:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 
