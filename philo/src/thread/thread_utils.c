@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:40:08 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/02 18:35:22 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/04 17:14:05 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
  *
  * @note This function is thread-safe when a valid mutex is provided.
  */
-int	get_time_in_ms(t_ms *ms_ptr, t_mutexes *mutexes)
+t_error	get_time_in_ms(t_ms *ms_ptr, t_mutexes *mutexes)
 {
 	struct timeval	tv;
 	t_ms			current_time;
@@ -40,9 +40,7 @@ int	get_time_in_ms(t_ms *ms_ptr, t_mutexes *mutexes)
 		return (ERROR);
 	if (gettimeofday(&tv, NULL) != SUCCESS && mutexes)
 	{
-		w_mutex(LOCK, mutexes->print);
 		error_msg("failed to get time", NULL);
-		w_mutex(UNLOCK, mutexes->print);
 		return (ERROR);
 	}
 	current_time = (t_ms)(tv.tv_sec * 1000);
@@ -69,12 +67,12 @@ int	get_time_in_ms(t_ms *ms_ptr, t_mutexes *mutexes)
  * @warning If any of the input parameters are NULL, the function returns
  *          early without performing any operation.
  */
-void	set_error_flag(t_error error, int *error_flag, t_mutexes *mutexes)
+void	terminate_threads(bool *term_flag_ptr, t_mutexes *mutexes)
 {
-	if (!mutexes || !error_flag || !mutexes)
+	if (!mutexes || !term_flag_ptr || !mutexes)
 		return ;
 	w_mutex(LOCK, mutexes->stop);
-	*error_flag = error;
+	*term_flag_ptr = true;
 	w_mutex(UNLOCK, mutexes->stop);
 }
 
@@ -91,22 +89,24 @@ void	set_error_flag(t_error error, int *error_flag, t_mutexes *mutexes)
  *                mutex used for thread synchronization.
  *
  * @return int -> returns the value saved in the 'int error' variable
- * 				  in the main struct. Is used to tell if a thread 
- * 				  should terminate.
+ * 					in the main struct. Is used to tell if a thread
+ * 					should terminate.
  * @note This function is thread-safe and uses mutex locking to ensure
  *       consistent reads of the error flag across multiple threads.
  * @warning If any of the input parameters are NULL, the function returns
  *          early without performing any operation. The function does not
- *          return the error value; it only reads it internally.
+ *          return (the error value); it only reads it internally.
  */
-int	get_error_flag(int *error_flag_ptr, t_mutexes *mutexes)
+bool	is_termination_requested(int *term_flag_ptr, t_mutexes *mutexes)
 {
-	int	error_flag;
+	bool	term_flag;
 
-	if (!error_flag_ptr || !mutexes)
-		return (ERROR);
-	w_mutex(LOCK, mutexes->stop);
-	error_flag = *error_flag_ptr;
-	w_mutex(UNLOCK, mutexes->stop);
-	return (error_flag);
+	if (!term_flag_ptr || !mutexes)
+		return (true);
+	if (w_mutex(LOCK, mutexes->stop))
+		return (true);
+	term_flag = *term_flag_ptr;
+	if (w_mutex(UNLOCK, mutexes->stop))
+		return (true);
+	return (term_flag);
 }

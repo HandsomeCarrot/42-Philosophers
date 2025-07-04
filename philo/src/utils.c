@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:26:42 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/03 22:13:58 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/04 17:04:11 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ t_error	atoms(const char *str, t_ms *result)
 	{
 		if (*nptr < '0' || *nptr > '9')
 		{
-			error_msg("Non-numeric character found in argument", (char *)str);
-			return (ERR_ARG);
+			error_msg("Non-numeric character in argument", (char *)str);
+			return (ERROR);
 		}
 		prev = res;
 		res = res * 10 + (*nptr - '0');
 		if (res < prev)
 		{
-			error_msg("argument is too large", (char *)str);
-			return (ERR_ARG);
+			error_msg("number is too large", (char *)str);
+			return (ERROR);
 		}
 		nptr++;
 	}
@@ -72,8 +72,6 @@ t_error	atoms(const char *str, t_ms *result)
  *
  * @param nmemb Number of elements to allocate memory for.
  * @param size Size in bytes of each element.
- * @param program Pointer to the main program structure used for error
- *                handling and program termination.
  *
  * @return Pointer to the allocated and zero-initialized memory block.
  *
@@ -81,7 +79,7 @@ t_error	atoms(const char *str, t_ms *result)
  *         or NULL on allocation failure.
  * @note The caller is responsible for checking the return value.
  */
-void	*w_calloc(size_t nmemb, size_t size, t_program *program)
+void	*w_calloc(size_t nmemb, size_t size)
 {
 	void	*new_ptr;
 
@@ -144,20 +142,23 @@ int	ft_strlen(char *str)
 t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex)
 {
 	if (!mutex)
-		return (ERR_MUTEX);
+	{
+		error_msg("missing parameters", "w_mutex");
+		return (ERROR);
+	}
 	if (action == LOCK)
 	{
 		if (pthread_mutex_lock(mutex) == 0)
 			return (SUCCESS);
 		error_msg("failed to lock a mutex", NULL);
-		return (ERR_MUTEX);
+		return (ERROR);
 	}
 	if (action == UNLOCK)
 	{
 		if (pthread_mutex_unlock(mutex) == 0)
 			return (SUCCESS);
 		error_msg("failed to unlock a mutex", NULL);
-		return (ERR_MUTEX);
+		return (ERROR);
 	}
 	return (SUCCESS);
 }

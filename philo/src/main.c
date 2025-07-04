@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:21:09 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/03 21:49:05 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/04 18:08:50 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,22 @@
 int	main(int argc, char **argv)
 {
 	t_program	*program;
-	t_error		err;
 
 	if (argc < 5 || argc > 6)
 	{
 		error_msg("Incorrect amount of Arguments", get_exec_pattern());
-		return (ERR_ARG);
+		return (ERROR);
 	}
 	program = NULL;
-	err = initialize_data(argc, argv, &program);
-	if (err != SUCCESS)
+	if (initialize_data(argc, argv, &program) != SUCCESS)
 	{
-		cleanup_program(program);
-		return (err);
+		cleanup_program(false, program);
+		return (ERROR);
 	}
-	err = start_simulation(program);
-	if (err != SUCCESS)
+	if (start_simulation(program) != SUCCESS)
 	{
-		cleanup_program(program);
-		return (err);
+		cleanup_program(true, program);
+		return (ERROR);
 	}
-	cleanup_program(program);
-	return (SUCCESS);
+	return (cleanup_program(false, program));
 }

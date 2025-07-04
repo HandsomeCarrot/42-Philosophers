@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/03 22:09:23 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/04 16:19:20 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,17 @@ t_error	all_forks(t_mutex_action action, t_program *program)
 	t_ms			fork_count;
 
 	if (!program)
-		return (ERR_ALLOC);
+	{
+		error_msg("missing parameters", "all_forks");
+		return (ERROR);
+	}
 	forks = program->mutexes.forks;
 	fork_index = 0;
 	fork_count = program->philo_count;
 	while (fork_index < fork_count)
 	{
-		w_mutex(action, forks[fork_index]);
+		if (w_mutex(action, forks[fork_index]) != SUCCESS)
+			return (ERROR);
 		fork_index++;
 	}
 	return (SUCCESS);
@@ -49,20 +53,22 @@ t_error	all_forks(t_mutex_action action, t_program *program)
  */
 static t_error	create_philo(t_ms id, t_program *program)
 {
+	if (!program)
+	{
+		error_msg("missing parameters", "create_philo");
+		return (ERROR);
+	}
 	program->philos[id].id = id;
 	program->philos[id].last_meal = 0;
 	program->philos[id].meals_eaten = 0;
 	program->philos[id].input = &program->input;
 	program->philos[id].mutexes = &program->mutexes;
-	program->philos[id].error_flag_ptr = &program->error_flag;
+	program->philos[id].term_flag_ptr = &program->terminate_threads;
 	if (pthread_create(&program->philos[id].thread, NULL, routine_start,
 			&program->philos[id]))
 	{
-		set_error_flag(ERR_THREAD, &program->error_flag, &program->mutexes);
-		w_mutex(LOCK, program->mutexes.print);
 		error_msg("failed to create philo: ", mstoa(id));
-		w_mutex(UNLOCK, program->mutexes.print);
-		return (ERR_THREAD);
+		return (ERROR);
 	}
 	return (SUCCESS);
 }
@@ -86,26 +92,25 @@ t_error	start_simulation(t_program *program)
 {
 	t_ms	philo_count;
 	t_ms	philo_index;
-	t_error	err;
 
 	if (!program)
-		return (ERR_SYNC);
+	{
+		error_msg("missing parameters", "start_simulation");
+		return (ERROR);
+	}
 	philo_index = 0;
 	philo_count = program->philo_count;
-	err = all_forks(LOCK, program);
-	if (err != SUCCESS)
-		return (err);
+	if (all_forks(LOCK, program) != SUCCESS)
+		return (all_forks(UNLOCK, program), ERROR);
 	while (philo_index < philo_count)
 	{
-		err = create_philo(philo_index, program);
-		if (err != SUCCESS)
-			break;
+		if (create_philo(philo_index, program) != SUCCESS)
+			return (all_forks(UNLOCK, program), ERROR);
 		philo_index++;
 	}
-	if (get_time_in_ms(&program->input.sim_start_time, &program->mutexes) != 0)
-		return (ERR_TIME);
-	err = all_forks(UNLOCK, program);
-	if (err != SUCCESS)
-		return (err);
+	if (get_time_in_ms(&program->input.sim_start_time, &program->mutexes))
+		return (all_forks(UNLOCK, program), ERROR);
+	if (all_forks(UNLOCK, program) != SUCCESS)
+		return (ERROR);
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/03 22:05:32 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/04 11:31:50 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,22 @@
 static t_error	process_input(int argc, char **argv, t_program *program)
 {
 	if (!argv || !program)
-		return (ERR_ARG);
+	{
+		error_msg("missing parameters", "process_input");
+		return (ERROR);
+	}
 	if (atoms((const char *)argv[1], &program->philo_count) != SUCCESS)
-		return (ERR_ARG);
+		return (ERROR);
 	if (atoms((const char *)argv[2], &program->input.time_to_die) != SUCCESS)
-		return (ERR_ARG);
+		return (ERROR);
 	if (atoms((const char *)argv[3], &program->input.time_to_eat) != SUCCESS)
-		return (ERR_ARG);
+		return (ERROR);
 	if (atoms((const char *)argv[4], &program->input.time_to_sleep) != SUCCESS)
-		return (ERR_ARG);
+		return (ERROR);
 	if (argc == 6)
 	{
 		if (atoms((const char *)argv[5], &program->input.meal_limit) != SUCCESS)
-			return (ERR_ARG);
+			return (ERROR);
 		program->input.has_meal_limit = true;
 	}
 	else
@@ -61,16 +64,43 @@ static pthread_mutex_t	*new_mutex(t_program *program)
 	pthread_mutex_t	*new_mutex;
 
 	if (!program)
+	{
+		error_msg("missing parameters", "new_mutex");
+		return (ERROR);
+	}
+	new_mutex = w_calloc(1, sizeof(pthread_mutex_t));
+	if (!new_mutex)
 		return (NULL);
-	new_mutex = w_calloc(1, sizeof(pthread_mutex_t), program);
-	if (!new_mutex || pthread_mutex_init(new_mutex, NULL))
+	if (pthread_mutex_init(new_mutex, NULL))
 	{
 		error_msg("failed to create mutex", NULL);
-		if (new_mutex)
-			free(new_mutex);
+		free(new_mutex);
 		return (NULL);
 	}
 	return (new_mutex);
+}
+
+// docs
+static t_error	initialize_forks(t_program *program)
+{
+	t_ms			fork_index;
+	t_ms			fork_count;
+	pthread_mutex_t	**forks;
+
+	fork_index = 0;
+	fork_count = program->philo_count;
+	forks = w_calloc(fork_count, sizeof(pthread_mutex_t *));
+	if (!forks)
+		return (ERROR);
+	program->mutexes.forks = forks;
+	while (fork_index < fork_count)
+	{
+		forks[fork_index] = new_mutex(program);
+		if (!forks[fork_index])
+			return (ERROR);
+		fork_index++;
+	}
+	return (SUCCESS);
 }
 
 /**
@@ -84,30 +114,19 @@ static pthread_mutex_t	*new_mutex(t_program *program)
  */
 static t_error	initialize_mutexes(t_program *program)
 {
-	t_ms	fork_index;
-	t_ms	philo_count;
-
 	if (!program)
-		return (ERR_INIT);
+	{
+		error_msg("missing parameters", "initialize_mutexes");
+		return (ERROR);
+	}
 	program->mutexes.print = new_mutex(program);
 	if (!program->mutexes.print)
-		return (ERR_MUTEX);
+		return (ERROR);
 	program->mutexes.stop = new_mutex(program);
 	if (!program->mutexes.stop)
-		return (ERR_MUTEX);
-	philo_count = program->philo_count;
-	program->mutexes.forks = w_calloc(philo_count + 1,
-			sizeof(pthread_mutex_t *), program);
-	if (!program->mutexes.forks)
-		return (ERR_ALLOC);
-	fork_index = 0;
-	while (fork_index < philo_count)
-	{
-		program->mutexes.forks[fork_index] = new_mutex(program);
-		if (!program->mutexes.forks[fork_index])
-			return (ERR_MUTEX);
-		fork_index++;
-	}
+		return (ERROR);
+	if (initialize_forks(program) != SUCCESS)
+		return (ERROR);
 	return (SUCCESS);
 }
 
@@ -128,20 +147,20 @@ t_error	initialize_data(int argc, char **argv, t_program **program_ptr)
 
 	if (!program_ptr)
 	{
-		error_msg("missing program struct pointer", NULL);
-		return (ERR_INIT);
+		error_msg("missing parameters", "initialize_data");
+		return (ERROR);
 	}
-	*program_ptr = w_calloc(1, sizeof(t_program), NULL);
+	*program_ptr = w_calloc(1, sizeof(t_program));
 	program = *program_ptr;
 	if (!program)
-		return (ERR_ALLOC);
+		return (ERROR);
 	if (process_input(argc, argv, program) != SUCCESS)
-		return (ERR_ARG);
+		return (ERROR);
 	if (initialize_mutexes(program) != SUCCESS)
-		return (ERR_INIT);
-	program->philos = w_calloc(program->philo_count, sizeof(t_philo), program);
+		return (ERROR);
+	program->philos = w_calloc(program->philo_count, sizeof(t_philo));
 	if (!program->philos)
-		return (ERR_ALLOC);
-	program->error_flag = SUCCESS;
+		return (ERROR);
+	program->terminate_threads = false;
 	return (SUCCESS);
 }

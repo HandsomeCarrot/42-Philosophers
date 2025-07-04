@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:19:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/03 23:33:32 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/04 18:07:54 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,29 @@
  *          is set but the function continues attempting to join remaining
  *          threads.
  */
-static void	join_philos(t_program *program)
+static t_error	join_philos(t_program *program)
 {
 	t_ms	philo_count;
 	t_ms	philo_index;
 
 	if (!program || !program->philos)
-		return ;
+	{
+		error_msg("missing parameters", "join_philos");
+		return (ERROR);
+	}
 	philo_index = 0;
 	philo_count = program->philo_count;
 	while (philo_index < philo_count)
 	{
 		if (pthread_join(program->philos[philo_index].thread, NULL))
 		{
-			set_error_flag(ERR_THREAD, &program->error_flag, &program->mutexes);
+			terminate_threads(&program->terminate_threads, &program->mutexes);
 			error_msg("failed to join thread: ", mstoa(philo_index));
-			return ;
+			return (ERROR);
 		}
 		philo_index++;
 	}
+	return (SUCCESS);
 }
 
 /**
@@ -64,11 +68,46 @@ static void	join_philos(t_program *program)
  *          function continues to free the memory, which may lead to
  *          resource leaks in the system.
  */
-void	free_mutex(pthread_mutex_t *mutex)
+static t_error	free_mutex(pthread_mutex_t *mutex)
 {
-	if (pthread_mutex_destroy(mutex))
-		error_msg("failed to destroy mutex", NULL);
+	t_error	error;
+
+	error = SUCCESS;
+	if (!mutex)
+	{
+		error_msg("missing parameters", "free_mutex");
+		return (ERROR);
+	}
+	error = pthread_mutex_destroy(mutex);
 	free(mutex);
+	if (error != SUCCESS)
+		error_msg("failed to destroy mutex", NULL);
+	return (error);
+}
+
+// docs
+static t_error	clean_forks(t_program *program)
+{
+	t_ms	fork_index;
+	t_ms	fork_count;
+	t_error	error;
+
+	if (!program || !program->mutexes.forks)
+	{
+		error_msg("missing parameters", "clean_forks");
+		return (ERROR);
+	}
+	error = SUCCESS;
+	fork_index = 0;
+	fork_count = program->philo_count;
+	while (fork_index < fork_count && program->mutexes.forks[fork_index])
+	{
+		if (free_mutex(program->mutexes.forks[fork_index]) != SUCCESS)
+			error = ERROR;
+		fork_index++;
+	}
+	free(program->mutexes.forks);
+	return (error);
 }
 
 /**
@@ -88,50 +127,24 @@ void	free_mutex(pthread_mutex_t *mutex)
  *          and null pointer, which may cause issues if the array is not
  *          properly null-terminated.
  */
-static void	clean_mutexes(t_program *program)
+static t_error	clean_mutexes(t_program *program)
 {
-	t_ms	fork_index;
-	t_ms	fork_count;
+
+	t_error	error;
 
 	if (!program)
-		return ;
-	if (program->mutexes.stop)
-		free_mutex(program->mutexes.stop);
-	if (program->mutexes.print)
-		free_mutex(program->mutexes.print);
-	if (!program->mutexes.forks)
-		return ;
-	fork_index = 0;
-	fork_count = program->philo_count;
-	while (fork_index < fork_count || program->mutexes.forks[fork_index])
 	{
-		free_mutex(program->mutexes.forks[fork_index]);
-		fork_index++;
+		error_msg("missing parameters", "clean_mutexes");
+		return (ERROR);
 	}
-	free(program->mutexes.forks);
-}
-
-/**
- * @brief Performs complete cleanup of program resources.
- *
- * This function orchestrates the cleanup of all program resources by
- * joining philosopher threads, freeing philosopher structures, cleaning
- * up mutexes, and finally freeing the main program structure itself.
- *
- * @param program Pointer to the main program structure to be cleaned up.
- *
- * @note This function handles the case where program->philos might be
- *       null, ensuring safe cleanup even in partially initialized states.
- */
-static void	cleanup(t_program *program)
-{
-	if (program->philos)
-	{
-		join_philos(program);
-		free(program->philos);
-	}
-	clean_mutexes(program);
-	free(program);
+	error = SUCCESS;
+	if (free_mutex(program->mutexes.stop) != SUCCESS)
+		error = ERROR;
+	if (free_mutex(program->mutexes.print) != SUCCESS)
+		error = ERROR;
+	if (clean_forks(program) != SUCCESS)
+		error = ERROR;
+	return (error);
 }
 
 /**
@@ -148,8 +161,25 @@ static void	cleanup(t_program *program)
  * @note If program is null, the function will still exit with the
  *       specified error code but skip cleanup operations.
  */
-void	cleanup_program(t_program *program)
+t_error	cleanup_program(bool set_term_flag, t_program *program)
 {
-	if (program)
-		cleanup(program);
+	t_error	error;
+
+	error = SUCCESS;
+	if (!program)
+	{
+		error_msg("missing parameters", "cleanup_program");
+		return (ERROR);
+	}
+	if (set_term_flag)
+		terminate_threads(&program->terminate_threads, &program->mutexes);
+	if (program->philos)
+	{
+		error = join_philos(program);
+		free(program->philos);
+	}
+	if (clean_mutexes(program) != SUCCESS)
+		error = ERROR;
+	free(program);
+	return (ERROR);
 }
