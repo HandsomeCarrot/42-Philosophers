@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/04 17:22:33 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/04 19:01:24 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,6 @@ void	*routine_start(void *data);
 
 t_error	get_time_in_ms(t_ms *ms_ptr, t_mutexes *mutexes);
 void	terminate_threads(bool *term_flag_ptr, t_mutexes *mutexes);
-bool	is_termination_requested(int *term_flag_ptr, t_mutexes *mutexes);
+bool	is_termination_requested(bool *term_flag_ptr, t_mutexes *mutexes);
 
 #endif

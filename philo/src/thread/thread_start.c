@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/04 18:16:48 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/04 19:04:04 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ void	*routine_start(void *data)
 
 	philo = data;
 	if (wait_for_start(philo) != SUCCESS)
-		return (NULL);
+		return ((void *)ERROR);
 	if (get_time_in_ms(&start, philo->mutexes))
-		return (NULL);
+		return ((void *)ERROR);
 	start -= philo->input->sim_start_time;
 	if (w_mutex(LOCK, philo->mutexes->print))
-		return (NULL);
+		return ((void *)ERROR);
 	printf("started philo number: %llu after: %llu ms\n", philo->id, start);
 	if (w_mutex(UNLOCK, philo->mutexes->print))
-		return (NULL);
-	return (NULL);
+		return ((void *)ERROR);
+	return ((void *)SUCCESS);
 }

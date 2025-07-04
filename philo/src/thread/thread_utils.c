@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:40:08 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/04 17:14:05 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/04 19:01:27 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	terminate_threads(bool *term_flag_ptr, t_mutexes *mutexes)
  *          early without performing any operation. The function does not
  *          return (the error value); it only reads it internally.
  */
-bool	is_termination_requested(int *term_flag_ptr, t_mutexes *mutexes)
+bool	is_termination_requested(bool *term_flag_ptr, t_mutexes *mutexes)
 {
 	bool	term_flag;
 

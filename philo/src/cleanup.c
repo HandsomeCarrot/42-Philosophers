@@ -6,11 +6,37 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:19:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/04 18:07:54 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/04 19:04:55 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+#include <stdint.h>
+
+// docs
+static t_error	join_philo(t_ms philo_index, t_program *program)
+{
+	void	*thread_return;
+
+	if (!program)
+	{
+		error_msg("missing parameters", "join_philo");
+		return (ERROR);
+	}
+	thread_return = NULL;
+	if (pthread_join(program->philos[philo_index].thread, &thread_return))
+	{
+		terminate_threads(&program->terminate_threads, &program->mutexes);
+		error_msg("failed to join thread: ", mstoa(philo_index));
+		return (ERROR);
+	}
+	if (thread_return && (intptr_t)thread_return != SUCCESS)
+	{
+		terminate_threads(&program->terminate_threads, &program->mutexes);
+		return (ERROR);
+	}
+	return (SUCCESS);
+}
 
 /**
  * @brief Joins all philosopher threads to ensure clean termination.
@@ -32,25 +58,23 @@ static t_error	join_philos(t_program *program)
 {
 	t_ms	philo_count;
 	t_ms	philo_index;
+	t_error	error;
 
 	if (!program || !program->philos)
 	{
 		error_msg("missing parameters", "join_philos");
 		return (ERROR);
 	}
+	error = SUCCESS;
 	philo_index = 0;
 	philo_count = program->philo_count;
 	while (philo_index < philo_count)
 	{
-		if (pthread_join(program->philos[philo_index].thread, NULL))
-		{
-			terminate_threads(&program->terminate_threads, &program->mutexes);
-			error_msg("failed to join thread: ", mstoa(philo_index));
-			return (ERROR);
-		}
+		if (join_philo(philo_index, program) != SUCCESS)
+			error = ERROR;
 		philo_index++;
 	}
-	return (SUCCESS);
+	return (error);
 }
 
 /**
@@ -129,7 +153,6 @@ static t_error	clean_forks(t_program *program)
  */
 static t_error	clean_mutexes(t_program *program)
 {
-
 	t_error	error;
 
 	if (!program)
@@ -181,5 +204,5 @@ t_error	cleanup_program(bool set_term_flag, t_program *program)
 	if (clean_mutexes(program) != SUCCESS)
 		error = ERROR;
 	free(program);
-	return (ERROR);
+	return (error);
 }
