@@ -6,32 +6,30 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 19:11:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/04 19:16:05 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/04 19:34:39 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
-// watch out
-#include <stdint.h>
 
 // docs
-static t_error	join_single_thread(t_ms philo_index, t_program *program)
+static t_error	join_thread(t_ms philo_index, t_program *program)
 {
-	void	*thread_return;
+	void	*thread_error;
 
 	if (!program)
 	{
 		error_msg("missing parameters", "join_philo");
 		return (ERROR);
 	}
-	thread_return = NULL;
-	if (pthread_join(program->philos[philo_index].thread, &thread_return))
+	thread_error = NULL;
+	if (pthread_join(program->philos[philo_index].thread, &thread_error))
 	{
 		terminate_threads(&program->terminate_threads, &program->mutexes);
 		error_msg("failed to join thread: ", mstoa(philo_index));
 		return (ERROR);
 	}
-	if (thread_return && (intptr_t)thread_return != SUCCESS)
+	if (thread_error)
 	{
 		terminate_threads(&program->terminate_threads, &program->mutexes);
 		return (ERROR);
@@ -71,7 +69,7 @@ t_error	join_all_threads(t_program *program)
 	philo_count = program->philo_count;
 	while (philo_index < philo_count)
 	{
-		if (join_single_thread(philo_index, program) != SUCCESS)
+		if (join_thread(philo_index, program) != SUCCESS)
 			error = ERROR;
 		philo_index++;
 	}
