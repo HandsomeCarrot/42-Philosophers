@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/04 11:31:50 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/04 18:10:11 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static pthread_mutex_t	*new_mutex(t_program *program)
 	if (!program)
 	{
 		error_msg("missing parameters", "new_mutex");
-		return (ERROR);
+		return (NULL);
 	}
 	new_mutex = w_calloc(1, sizeof(pthread_mutex_t));
 	if (!new_mutex)
