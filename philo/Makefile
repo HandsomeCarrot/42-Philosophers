@@ -6,7 +6,7 @@
 #    By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 19:28:52 by vpoka             #+#    #+#              #
-#    Updated: 2025/07/02 21:48:02 by vpoka            ###   ########.fr        #
+#    Updated: 2025/07/04 18:43:05 by vpoka            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,12 +99,12 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 # Remove object files
 clean:
 	@$(RM) $(OBJS_DIR)
-	@echo "$(RED)deleting object files$(RST)"
+	@echo "$(RED)deleted object files$(RST)"
 
 # Remove object files and executables
 fclean: clean
 	@$(RM) $(ALL_NAMES)
-	@echo "$(RED)deleting executables$(RST)"
+	@echo "$(RED)deleted executables$(RST)"
 
 c: clean
 f: fclean
