@@ -6,30 +6,30 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 19:11:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/05 15:52:46 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/05 18:16:20 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
 // docs
-static t_error	join_thread(t_ms philo_index, t_program *program)
+static t_error	join_thread(pthread_t thread, t_program *program)
 {
 	void	*thread_error;
 
 	if (!program)
 	{
-		error_msg("missing parameters", "join_philo");
+		error_msg("missing parameters", "join_thread");
 		return (ERROR);
 	}
 	thread_error = NULL;
-	if (pthread_join(program->philos[philo_index].thread, &thread_error))
+	if (pthread_join(thread, &thread_error))
 	{
 		terminate_threads(&program->terminate_threads, &program->mutexes);
-		error_msg("failed to join thread: ", mstoa(philo_index));
+		error_msg("failed to join a thread", NULL);
 		return (ERROR);
 	}
-	if (thread_error && (void *)thread_error == ERROR)
+	if (thread_error && thread_error == (void *)ERROR)
 	{
 		terminate_threads(&program->terminate_threads, &program->mutexes);
 		return (ERROR);
@@ -61,7 +61,7 @@ t_error	join_all_threads(t_program *program)
 
 	if (!program || !program->philos)
 	{
-		error_msg("missing parameters", "join_philos");
+		error_msg("missing parameters", "join_all_threads");
 		return (ERROR);
 	}
 	error = SUCCESS;
@@ -69,9 +69,11 @@ t_error	join_all_threads(t_program *program)
 	philo_count = program->philo_count;
 	while (philo_index < philo_count)
 	{
-		if (join_thread(philo_index, program) != SUCCESS)
+		if (join_thread(program->philos[philo_index].thread, program))
 			error = ERROR;
 		philo_index++;
 	}
+	if (join_thread(program->monitor_thread, program))
+		error = ERROR;
 	return (error);
 }

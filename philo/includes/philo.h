@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/05 15:54:47 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/05 17:59:16 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_error	atoms(const char *str, t_ms *result);
 void	*w_calloc(size_t nmemb, size_t size);
 int		ft_strlen(char *str);
 t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex);
+t_error	all_forks(t_mutex_action action, t_program *program);
 
 //----------mstoa.c----------//
 // could delete file if I do not tneed the function
@@ -52,16 +53,20 @@ t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex);
 char	*mstoa(t_ms number);
 
 //----------------------------------THREAD-----------------------------------//
-//----------thread/*_start.c----------//
+//----------thread_start.c----------//
 
-void	*routine_start(void *data);
+void	*philo_start(void *data);
+void	*monitor_start(void *data);
 
-//----------thread/*_utils.c----------//
+//----------thread_utils.c----------//
 
 t_error	get_time_in_ms(t_ms *ms_ptr, t_mutexes *mutexes);
 void	terminate_threads(bool *term_flag_ptr, t_mutexes *mutexes);
 bool	is_termination_requested(bool *term_flag_ptr, t_mutexes *mutexes);
-void	*handle_thread_error(t_error error, t_philo	*philo);
+void	*return_thread_error(t_error error, bool *term_flag_ptr,
+			t_mutexes *mutexes);
+
+//----------thread_monitor.c----------//
 
 //----------------------------------CLEANUP-----------------------------------//
 //----------cleanup.c----------//

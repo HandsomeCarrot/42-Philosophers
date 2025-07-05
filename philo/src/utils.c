@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:26:42 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/04 17:04:11 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/05 17:58:44 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,30 @@ t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex)
 			return (SUCCESS);
 		error_msg("failed to unlock a mutex", NULL);
 		return (ERROR);
+	}
+	return (SUCCESS);
+}
+
+// docs
+t_error	all_forks(t_mutex_action action, t_program *program)
+{
+	pthread_mutex_t	**forks;
+	t_ms			fork_index;
+	t_ms			fork_count;
+
+	if (!program)
+	{
+		error_msg("missing parameters", "all_forks");
+		return (ERROR);
+	}
+	forks = program->mutexes.forks;
+	fork_index = 0;
+	fork_count = program->philo_count;
+	while (fork_index < fork_count)
+	{
+		if (w_mutex(action, forks[fork_index]) != SUCCESS)
+			return (ERROR);
+		fork_index++;
 	}
 	return (SUCCESS);
 }

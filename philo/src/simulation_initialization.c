@@ -6,35 +6,11 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/04 16:19:20 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/05 18:17:49 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-
-// docs
-t_error	all_forks(t_mutex_action action, t_program *program)
-{
-	pthread_mutex_t	**forks;
-	t_ms			fork_index;
-	t_ms			fork_count;
-
-	if (!program)
-	{
-		error_msg("missing parameters", "all_forks");
-		return (ERROR);
-	}
-	forks = program->mutexes.forks;
-	fork_index = 0;
-	fork_count = program->philo_count;
-	while (fork_index < fork_count)
-	{
-		if (w_mutex(action, forks[fork_index]) != SUCCESS)
-			return (ERROR);
-		fork_index++;
-	}
-	return (SUCCESS);
-}
 
 /**
  * @brief Creates and initializes a philosopher thread with given ID.
@@ -64,10 +40,50 @@ static t_error	create_philo(t_ms id, t_program *program)
 	program->philos[id].input = &program->input;
 	program->philos[id].mutexes = &program->mutexes;
 	program->philos[id].term_flag_ptr = &program->terminate_threads;
-	if (pthread_create(&program->philos[id].thread, NULL, routine_start,
+	if (pthread_create(&program->philos[id].thread, NULL, philo_start,
 			&program->philos[id]))
 	{
+		terminate_threads(&program->terminate_threads, &program->mutexes);
 		error_msg("failed to create philo: ", mstoa(id));
+		return (ERROR);
+	}
+	return (SUCCESS);
+}
+
+// docs
+static t_error	start_all_philosophers(t_program *program)
+{
+	t_ms	philo_count;
+	t_ms	philo_index;
+
+	if (!program)
+	{
+		error_msg("missing parameters", "start_all_philosophers");
+		return (ERROR);
+	}
+	philo_index = 0;
+	philo_count = program->philo_count;
+	while (philo_index < philo_count)
+	{
+		if (create_philo(philo_index, program) != SUCCESS)
+			return (ERROR);
+		philo_index++;
+	}
+	return (SUCCESS);
+}
+
+// docs
+static t_error	start_monitor_thread(t_program *program)
+{
+	if (!program)
+	{
+		error_msg("missing parameters", "start_monitor_thread");
+		return (ERROR);
+	}
+	if (pthread_create(&program->monitor_thread, NULL, &monitor_start, program))
+	{
+		terminate_threads(&program->terminate_threads, &program->mutexes);
+		error_msg("failed to create monitoring thread", NULL);
 		return (ERROR);
 	}
 	return (SUCCESS);
@@ -90,27 +106,24 @@ static t_error	create_philo(t_ms id, t_program *program)
  */
 t_error	start_simulation(t_program *program)
 {
-	t_ms	philo_count;
-	t_ms	philo_index;
+	t_error	error;
 
 	if (!program)
 	{
 		error_msg("missing parameters", "start_simulation");
 		return (ERROR);
 	}
-	philo_index = 0;
-	philo_count = program->philo_count;
-	if (all_forks(LOCK, program) != SUCCESS)
-		return (all_forks(UNLOCK, program), ERROR);
-	while (philo_index < philo_count)
-	{
-		if (create_philo(philo_index, program) != SUCCESS)
-			return (all_forks(UNLOCK, program), ERROR);
-		philo_index++;
-	}
-	if (get_time_in_ms(&program->input.sim_start_time, &program->mutexes))
-		return (all_forks(UNLOCK, program), ERROR);
-	if (all_forks(UNLOCK, program) != SUCCESS)
+	error = SUCCESS;
+	if (all_forks(LOCK, program))
+		error = ERROR;
+	if (!error && start_all_philosophers(program))
+		error = ERROR;
+	if (!error && start_monitor_thread(program))
+		error = ERROR;
+	if (!error && get_time_in_ms(&program->input.sim_start_time,
+			&program->mutexes))
+		error = ERROR;
+	if (all_forks(UNLOCK, program))
 		return (ERROR);
-	return (SUCCESS);
+	return (error);
 }

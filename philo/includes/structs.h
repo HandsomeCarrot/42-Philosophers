@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/04 11:45:49 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/05 17:26:07 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_program
 {
 	t_ms				philo_count;
 	bool				terminate_threads;
+	pthread_t			monitor_thread;
 	t_philo				*philos;
 	struct s_input		input;
 	struct s_mutexes	mutexes;
