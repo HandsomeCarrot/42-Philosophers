@@ -6,7 +6,7 @@
 #    By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 19:28:52 by vpoka             #+#    #+#              #
-#    Updated: 2025/07/04 19:14:04 by vpoka            ###   ########.fr        #
+#    Updated: 2025/07/05 18:14:47 by vpoka            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,12 +42,10 @@ OBJS = $(SRCS:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 
 RM = rm -rf
 TOTAL_SRCS := $(words $(SRCS))
-CURRENT := 0
 
 # Progress display function for compilation
 define progress
-	$(eval CURRENT := $(shell echo $(($(CURRENT) + 1))))
-	@printf "\r$(CYAN)Compiling files: [$(CURRENT)/$(TOTAL_SRCS)] %s$(RST)" "$(notdir $<)"
+	@printf "\r$(CYAN)Compiling files: %s$(RST)" "$(notdir $<)"
 endef
 
 # Link completion message
