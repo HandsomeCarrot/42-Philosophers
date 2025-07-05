@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:40:08 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/05 18:11:42 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/05 18:32:16 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,18 +112,13 @@ bool	is_termination_requested(bool *term_flag_ptr, t_mutexes *mutexes)
 }
 
 // docs
-void	*return_thread_error(t_error error, bool *term_flag_ptr,
-		t_mutexes *mutexes)
+void	*thread_error(bool *term_flag_ptr, t_mutexes *mutexes)
 {
 	if (!term_flag_ptr || !mutexes)
 	{
-		error_msg("missing parameters", "return_thread_error");
+		error_msg("missing parameters", "thread_error");
 		return ((void *)ERROR);
 	}
-	if (error == ERROR)
-	{
-		terminate_threads(term_flag_ptr, mutexes);
-		return ((void *)ERROR);
-	}
-	return ((void *)SUCCESS);
+	terminate_threads(term_flag_ptr, mutexes);
+	return ((void *)ERROR);
 }
