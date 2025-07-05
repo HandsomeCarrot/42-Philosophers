@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 18:01:22 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/04 10:57:16 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/05 15:40:01 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ typedef enum e_error
 {
 	SUCCESS,
 	ERROR,
-	DEATH
+	DEATH,
+	TERM_REQ
 }					t_error;
 
 typedef enum e_mutex_action

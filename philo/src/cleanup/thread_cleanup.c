@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 19:11:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/04 19:34:39 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/05 15:52:46 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static t_error	join_thread(t_ms philo_index, t_program *program)
 		error_msg("failed to join thread: ", mstoa(philo_index));
 		return (ERROR);
 	}
-	if (thread_error)
+	if (thread_error && (void *)thread_error == ERROR)
 	{
 		terminate_threads(&program->terminate_threads, &program->mutexes);
 		return (ERROR);
