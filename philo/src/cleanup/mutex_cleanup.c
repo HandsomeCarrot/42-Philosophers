@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 19:11:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/04 19:18:02 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/07 20:53:56 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 /**
  * @brief Destroys and frees a pthread mutex.
  *
- * This function safely destroys a mutex using pthread_mutex_destroy and
- * then frees the memory allocated for the mutex. If the mutex destruction
- * fails, an error message is logged but the memory is still freed.
+ * This function safely destroys a mutex using pthread_mutex_destroy and then
+ * frees the memory allocated for the mutex. If the mutex destruction fails,
+ * an error message is logged but the memory is still freed.
  *
  * @param mutex Pointer to the pthread_mutex_t to be destroyed and freed.
  *
- * @note The mutex should be in an unlocked state before calling this
- *       function to avoid undefined behavior.
- * @warning If pthread_mutex_destroy fails, an error is logged but the
- *          function continues to free the memory, which may lead to
- *          resource leaks in the system.
+ * @return SUCCESS if the mutex was destroyed, ERROR otherwise.
+ *
+ * @note The mutex should be unlocked before calling this function.
+ * @warning If pthread_mutex_destroy fails, an error is logged but memory is
+ *          still freed, which may lead to resource leaks.
  */
 static t_error	destroy_mutex(pthread_mutex_t *mutex)
 {
@@ -44,7 +44,18 @@ static t_error	destroy_mutex(pthread_mutex_t *mutex)
 	return (error);
 }
 
-// docs
+/**
+ * @brief Destroys and frees all fork mutexes in the program.
+ *
+ * Iterates through the array of fork mutexes, destroying and freeing each one.
+ * Also frees the array itself.
+ *
+ * @param program Pointer to the main program structure containing fork mutexes.
+ *
+ * @return SUCCESS if all mutexes were destroyed, ERROR otherwise.
+ *
+ * @note The function checks for NULL pointers before proceeding.
+ */
 static t_error	destroy_forks(t_program *program)
 {
 	t_ms	fork_index;
@@ -70,21 +81,16 @@ static t_error	destroy_forks(t_program *program)
 }
 
 /**
- * @brief Cleans up all mutexes allocated in the program structure.
+ * @brief Destroys all mutexes used in the philosophers program.
  *
- * This function systematically destroys and frees all mutexes used in
- * the philosophers program, including the stop mutex, print mutex, and
- * all fork mutexes. It handles null pointer checks to prevent crashes
- * during cleanup.
+ * Destroys and frees the stop mutex, print mutex, and all fork mutexes in the
+ * program structure.
  *
- * @param program Pointer to the main program structure containing all
- *                mutexes to be cleaned up.
+ * @param program Pointer to the main program structure containing mutexes.
  *
- * @note This function performs null pointer checks before attempting to
- *       clean up any mutex resources.
- * @warning The fork cleanup loop condition checks both the index bound
- *          and null pointer, which may cause issues if the array is not
- *          properly null-terminated.
+ * @return SUCCESS if all mutexes were destroyed, ERROR otherwise.
+ *
+ * @note The function checks for NULL pointers before proceeding.
  */
 t_error	destroy_all_mutexes(t_program *program)
 {

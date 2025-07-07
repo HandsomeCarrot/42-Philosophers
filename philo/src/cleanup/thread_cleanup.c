@@ -6,13 +6,25 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 19:11:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/05 18:16:20 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/07 20:54:43 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
-// docs
+/**
+ * @brief Joins a single thread and checks for errors.
+ *
+ * Waits for the specified thread to finish execution. If the thread returns
+ * an error or pthread_join fails, the program's termination flag is set.
+ *
+ * @param thread The pthread_t to join.
+ * @param program Pointer to the main program structure for error handling.
+ *
+ * @return SUCCESS if the thread was joined successfully, ERROR otherwise.
+ *
+ * @note If thread returns (void*)ERROR, the termination flag is set.
+ */
 static t_error	join_thread(pthread_t thread, t_program *program)
 {
 	void	*thread_error;
@@ -38,20 +50,17 @@ static t_error	join_thread(pthread_t thread, t_program *program)
 }
 
 /**
- * @brief Joins all philosopher threads to ensure clean termination.
+ * @brief Joins all philosopher and monitor threads.
  *
- * This function iterates through all philosopher threads in the program
- * and waits for each thread to complete execution using pthread_join.
- * If any thread join operation fails, an error is set and logged.
+ * Iterates through all philosopher threads and the monitor thread, joining
+ * each one to ensure clean program termination.
  *
- * @param program Pointer to the main program structure containing the
- *                philosopher threads and program state information.
+ * @param program Pointer to the main program structure containing threads.
  *
- * @note This function performs null pointer checks on both program and
- *       program->philos before attempting to join threads.
- * @warning If pthread_join fails for any thread, the program error state
- *          is set but the function continues attempting to join remaining
- *          threads.
+ * @return SUCCESS if all threads were joined, ERROR otherwise.
+ *
+ * @note Continues joining remaining threads even if one join fails.
+ * @warning If program or program->philos is NULL, ERROR is returned.
  */
 t_error	join_all_threads(t_program *program)
 {

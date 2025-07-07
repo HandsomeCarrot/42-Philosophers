@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 22:53:53 by vpoka             #+#    #+#             */
-/*   Updated: 2025/06/28 19:28:39 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/07 20:56:35 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 /**
  * @brief Counts the number of digits in a t_ms value.
  *
- * This function calculates the number of digits required to represent
- * the given unsigned 64-bit integer `number`.
+ * Calculates the number of decimal digits required to represent the given
+ * unsigned integer.
  *
  * @param number The t_ms value whose digits are to be counted.
- * @return The number of digits in the t_ms value `number`.
+ *
+ * @return The number of digits in the t_ms value.
  */
 static int	count_nums(t_ms number)
 {
@@ -39,13 +40,14 @@ static int	count_nums(t_ms number)
 /**
  * @brief Converts a t_ms value to a null-terminated string.
  *
- * This function takes a t_ms value and converts it to a string
- * representation. The resulting string is dynamically allocated and
- * must be freed by the caller to avoid memory leaks.
+ * Converts the given t_ms value to its string representation. The result is
+ * dynamically allocated and must be freed by the caller.
  *
- * @param number The t_ms value to be converted.
- * @return A pointer to the newly allocated string representing the t_ms value.
- *         Returns NULL if memory allocation fails.
+ * @param number The t_ms value to convert.
+ *
+ * @return Pointer to the allocated string, or NULL on allocation failure.
+ *
+ * @note The caller is responsible for freeing the returned string.
  */
 char	*mstoa(t_ms number)
 {

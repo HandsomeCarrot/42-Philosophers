@@ -6,25 +6,29 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:19:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/04 19:18:30 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/07 20:52:35 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
 /**
- * @brief Exits the philosophers program with proper resource cleanup.
+ * @brief Cleans up all resources and exits the philosophers program.
  *
- * This function serves as the main exit point for the philosophers
- * program, ensuring all resources are properly cleaned up before
- * terminating the process with the specified error code.
+ * This function ensures all dynamically allocated resources, threads, and
+ * mutexes are properly cleaned up before the program terminates. It can also
+ * set the termination flag for threads if requested.
  *
- * @param error The error code to exit with, typically from t_error enum.
+ * @param set_term_flag Boolean indicating whether to set the thread
+ *                      termination flag before cleanup.
  * @param program Pointer to the main program structure containing all
- *                resources that need to be cleaned up before exit.
+ *                resources to be cleaned up.
  *
- * @note If program is null, the function will still exit with the
- *       specified error code but skip cleanup operations.
+ * @return SUCCESS if cleanup was successful, ERROR otherwise.
+ *
+ * @note If program is NULL, cleanup is skipped and ERROR is returned.
+ * @warning Freeing resources after partial initialization may lead to
+ *          undefined behavior if not all pointers are valid.
  */
 t_error	cleanup_program(bool set_term_flag, t_program *program)
 {

@@ -6,26 +6,25 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/05 18:17:49 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/07 20:57:56 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
 /**
- * @brief Creates and initializes a philosopher thread with given ID.
+ * @brief Creates and initializes a philosopher thread with a given ID.
  *
- * This function initializes a philosopher structure with the provided ID,
- * sets up its initial state (last meal time, meals eaten count), assigns
- * references to shared program resources (input parameters, mutexes, error
- * flag), and creates a new pthread to run the philosopher's routine.
+ * Initializes the philosopher structure, sets up references to shared
+ * resources, and creates a new pthread for the philosopher's routine.
  *
- * @param id The unique identifier for the philosopher to be created.
- * @param program Pointer to the main program structure containing all
- *                shared resources and philosopher array.
+ * @param id The unique identifier for the philosopher.
+ * @param program Pointer to the main program structure.
  *
- * @note This function will terminate the program if pthread creation fails.
- * @warning The function does not validate input parameters before use.
+ * @return SUCCESS on success, ERROR otherwise.
+ *
+ * @note Terminates the program if pthread creation fails.
+ * @warning Does not validate input parameters before use.
  */
 static t_error	create_philo(t_ms id, t_program *program)
 {
@@ -50,7 +49,15 @@ static t_error	create_philo(t_ms id, t_program *program)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Starts all philosopher threads.
+ *
+ * Iterates through all philosopher IDs, creating a thread for each.
+ *
+ * @param program Pointer to the main program structure.
+ *
+ * @return SUCCESS if all threads are created, ERROR otherwise.
+ */
 static t_error	start_all_philosophers(t_program *program)
 {
 	t_ms	philo_count;
@@ -72,7 +79,15 @@ static t_error	start_all_philosophers(t_program *program)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Starts the monitor thread.
+ *
+ * Creates a separate thread to monitor the state of the simulation.
+ *
+ * @param program Pointer to the main program structure.
+ *
+ * @return SUCCESS if the monitor thread is created, ERROR otherwise.
+ */
 static t_error	start_monitor_thread(t_program *program)
 {
 	if (!program)
@@ -92,16 +107,16 @@ static t_error	start_monitor_thread(t_program *program)
 /**
  * @brief Starts the dining philosophers simulation by creating all threads.
  *
- * This function initializes the simulation start time, then creates all
- * philosopher threads by calling create_philo for each philosopher ID
- * from 0 to philo_count-1. The simulation start time is recorded before
- * creating any threads to ensure consistent timing across all philosophers.
+ * Initializes the simulation start time, creates all philosopher threads,
+ * and starts the monitor thread. Ensures consistent timing across all
+ * philosophers.
  *
- * @param program Pointer to the main program structure containing
- *                simulation parameters and philosopher data.
+ * @param program Pointer to the main program structure.
  *
- * @note The function will terminate the program if program pointer is NULL
- *       or if getting the start time fails.
+ * @return SUCCESS if simulation starts successfully, ERROR otherwise.
+ *
+ * @note Terminates the program if program pointer is NULL or time retrieval
+ *       fails.
  * @see create_philo()
  */
 t_error	start_simulation(t_program *program)

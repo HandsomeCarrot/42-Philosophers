@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:40:08 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/07 20:40:43 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/07 20:59:32 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,16 @@
 /**
  * @brief Gets the current time in milliseconds since Unix epoch.
  *
- * This function retrieves the current system time using gettimeofday()
- * and converts it to milliseconds since the Unix epoch. The result is
- * stored in the provided pointer. If an error occurs during time
- * retrieval, an error message is displayed with proper mutex protection
- * for thread safety.
+ * Retrieves the current system time and converts it to milliseconds since
+ * the Unix epoch. Stores the result in the provided pointer.
  *
- * @param ms_ptr Pointer to a t_ms variable where the current time in
- *               milliseconds will be stored. Must not be NULL.
- * @param mutex Pointer to a mutex used for thread-safe error message
- *              output. Can be NULL if thread safety is not required.
+ * @param ms_ptr Pointer to a t_ms variable to store the current time.
+ * @param mutexes Pointer to the mutexes structure for thread-safe error
+ *                output, can be NULL.
  *
- * @return SUCCESS (0) if the time was successfully retrieved and stored,
- *         ERROR (1) if ms_ptr is NULL or gettimeofday() fails.
+ * @return SUCCESS if time was retrieved, ERROR otherwise.
  *
- * @note This function is thread-safe when a valid mutex is provided.
+ * @note Thread-safe when a valid mutex is provided.
  */
 t_error	get_time_in_ms(t_ms *ms_ptr, t_mutexes *mutexes)
 {
@@ -50,22 +45,12 @@ t_error	get_time_in_ms(t_ms *ms_ptr, t_mutexes *mutexes)
 }
 
 /**
- * @brief Sets an error flag in a thread-safe manner.
+ * @brief Sets the thread termination flag in a thread-safe manner.
  *
- * This function atomically updates the error flag by acquiring the stop
- * mutex lock before writing to the error flag variable. It performs
- * parameter validation to ensure all required pointers are valid before
- * proceeding with the operation.
+ * Acquires the stop mutex before writing to the termination flag variable.
  *
- * @param error The error code of type t_error to be set in the flag.
- * @param error_flag A pointer to the integer error flag to be updated.
- * @param mutexes A pointer to the mutexes structure containing the stop
- *                mutex used for thread synchronization.
- *
- * @note This function is thread-safe and uses mutex locking to prevent
- *       race conditions when multiple threads access the error flag.
- * @warning If any of the input parameters are NULL, the function returns
- *          early without performing any operation.
+ * @param term_flag_ptr Pointer to the termination flag.
+ * @param mutexes Pointer to the mutexes structure containing the stop mutex.
  */
 void	terminate_threads(bool *term_flag_ptr, t_mutexes *mutexes)
 {
@@ -77,25 +62,12 @@ void	terminate_threads(bool *term_flag_ptr, t_mutexes *mutexes)
 }
 
 /**
- * @brief Retrieves the current error flag value in a thread-safe manner.
+ * @brief Sets the thread termination flag in a thread-safe manner.
  *
- * This function atomically reads the error flag by acquiring the stop
- * mutex lock before accessing the error flag variable. The function
- * performs parameter validation to ensure all required pointers are
- * valid before attempting to read the error state.
+ * Acquires the stop mutex before writing to the termination flag variable.
  *
- * @param error_flag A pointer to the integer error flag to be read.
- * @param mutexes A pointer to the mutexes structure containing the stop
- *                mutex used for thread synchronization.
- *
- * @return int -> returns the value saved in the 'int error' variable
- * 					in the main struct. Is used to tell if a thread
- * 					should terminate.
- * @note This function is thread-safe and uses mutex locking to ensure
- *       consistent reads of the error flag across multiple threads.
- * @warning If any of the input parameters are NULL, the function returns
- *          early without performing any operation. The function does not
- *          return (the error value); it only reads it internally.
+ * @param term_flag_ptr Pointer to the termination flag.
+ * @param mutexes Pointer to the mutexes structure containing the stop mutex.
  */
 bool	is_termination_requested(bool *term_flag_ptr, t_mutexes *mutexes)
 {
@@ -112,23 +84,16 @@ bool	is_termination_requested(bool *term_flag_ptr, t_mutexes *mutexes)
 }
 
 /**
- * @brief Handles thread errors by setting termination flag and returning error.
+ * @brief Handles thread errors by setting the termination flag
+ * and returning error.
  *
- * This function is called when a thread encounters an unrecoverable error.
- * It sets the termination flag to signal other threads to stop and returns
- * an error value. The function performs parameter validation before proceeding.
+ * Sets the termination flag to signal other threads to stop and returns
+ * an error value.
  *
- * @param term_flag_ptr Pointer to the termination flag that will be set to
- *                      true to signal other threads to terminate. Must not
- *                      be NULL.
- * @param mutexes Pointer to the mutexes structure containing the stop mutex
- *                used for thread-safe flag updates. Must not be NULL.
+ * @param term_flag_ptr Pointer to the termination flag.
+ * @param mutexes Pointer to the mutexes structure containing the stop mutex.
  *
- * @return void* Always returns (void*)ERROR to indicate failure.
- * @note This function is thread-safe when proper mutexes are provided.
- * @warning If either parameter is NULL, an error message will be printed
- *          and the function will return ERROR without performing any
- *          termination signaling.
+ * @return Always returns (void*)ERROR.
  */
 void	*thread_error(bool *term_flag_ptr, t_mutexes *mutexes)
 {
@@ -144,20 +109,11 @@ void	*thread_error(bool *term_flag_ptr, t_mutexes *mutexes)
 /**
  * @brief Waits for simulation start by locking and unlocking a mutex.
  *
- * This function synchronizes thread startup by briefly acquiring and releasing
- * a mutex. It ensures all threads are properly initialized before the
- * simulation begins. The function is typically called by philosopher threads
- * before they start their main loop.
+ * Synchronizes thread startup by briefly acquiring and releasing a mutex.
  *
  * @param mutex Pointer to the pthread_mutex_t used for synchronization.
- *              Must not be NULL.
  *
- * @return t_error Returns SUCCESS (0) if the mutex operations succeed,
- *                 ERROR (1) if either mutex operation fails.
- * @note This function provides a simple synchronization mechanism but
- *       requires proper mutex initialization before calling.
- * @warning If the mutex parameter is NULL or not properly initialized,
- *          the function will return ERROR.
+ * @return SUCCESS if mutex operations succeed, ERROR otherwise.
  */
 t_error	wait_for_start(pthread_mutex_t *mutex)
 {

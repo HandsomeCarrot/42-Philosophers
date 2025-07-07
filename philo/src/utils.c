@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:26:42 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/05 17:58:44 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/07 21:00:18 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,15 @@
 /**
  * @brief Converts a string to an unsigned 64-bit integer with validation.
  *
- * This function parses a null-terminated string containing numeric
- * characters and converts it to a t_ms (uint64_t) value. It performs
- * validation to ensure all characters are digits and detects overflow
- * conditions. If any validation fails, the function displays an error
- * message and terminates the program.
+ * Parses a numeric string and converts it to t_ms, performing validation
+ * and overflow checks. Returns ERROR on invalid input.
  *
- * @param str A null-terminated string containing only numeric characters
- *            to be converted to an unsigned integer.
- * @param program Pointer to the main program structure used for error
- *                handling and program termination.
+ * @param str Null-terminated string containing numeric characters.
+ * @param result Pointer to t_ms to store the converted value.
  *
- * @return The converted unsigned 64-bit integer value from the string.
+ * @return SUCCESS on valid conversion, ERROR otherwise.
  *
- * @note This function will terminate the program if non-numeric
- *       characters are found or if overflow is detected.
- * @warning The function modifies program state on error by calling
- *          exit_philo(), which may terminate the entire program.
+ * @note Displays error messages on invalid input.
  */
 t_error	atoms(const char *str, t_ms *result)
 {
@@ -64,20 +56,13 @@ t_error	atoms(const char *str, t_ms *result)
 /**
  * @brief Allocates zero-initialized memory with error handling.
  *
- * This function allocates memory for an array of nmemb elements of size
- * bytes each and initializes all bytes to zero. If memory allocation
- * fails, it displays an error message and terminates the program. This
- * is a wrapper around malloc() and memset() with integrated error
- * handling for the philosophers program.
+ * Allocates memory for an array of nmemb elements of size bytes each,
+ * initializing all bytes to zero. Returns NULL on allocation failure.
  *
- * @param nmemb Number of elements to allocate memory for.
+ * @param nmemb Number of elements.
  * @param size Size in bytes of each element.
  *
- * @return Pointer to the allocated and zero-initialized memory block.
- *
- * @return Pointer to the allocated and zero-initialized memory block on success,
- *         or NULL on allocation failure.
- * @note The caller is responsible for checking the return value.
+ * @return Pointer to the allocated memory, or NULL on failure.
  */
 void	*w_calloc(size_t nmemb, size_t size)
 {
@@ -96,16 +81,12 @@ void	*w_calloc(size_t nmemb, size_t size)
 /**
  * @brief Calculates the length of a null-terminated string.
  *
- * This function iterates through the provided string counting characters
- * until it encounters a null terminator. It safely handles NULL input
- * by returning 0. This is a custom implementation of the standard
- * strlen() function.
+ * Counts characters in the string until the null terminator is reached.
+ * Returns 0 if str is NULL.
  *
- * @param str Pointer to the null-terminated string whose length is to
- *            be calculated. Can be NULL.
+ * @param str Pointer to the null-terminated string.
  *
- * @return The number of characters in the string, excluding the null
- *         terminator. Returns 0 if str is NULL.
+ * @return Number of characters in the string, excluding the null terminator.
  */
 int	ft_strlen(char *str)
 {
@@ -121,23 +102,15 @@ int	ft_strlen(char *str)
 }
 
 /**
- * @brief Wrapper function for pthread mutex operations with error handling.
+ * @brief Wrapper for pthread mutex operations with error handling.
  *
- * This function provides a unified interface for locking and unlocking
- * pthread mutexes with integrated error handling. If a mutex operation
- * fails, it displays an error message and terminates the program. This
- * ensures that mutex failures are handled consistently throughout the
- * philosophers program.
+ * Locks or unlocks a mutex based on the action parameter. Logs error and
+ * returns ERROR if the operation fails.
  *
- * @param action The mutex operation to perform (LOCK or UNLOCK) as
- *               defined by the t_mutex_action enumeration.
- * @param mutex Pointer to the pthread_mutex_t to operate on. If NULL,
- *              the function returns immediately without performing any
- *              operation.
+ * @param action The mutex operation to perform (LOCK or UNLOCK).
+ * @param mutex Pointer to the pthread_mutex_t to operate on.
  *
- * @return SUCCESS on successful operation, ERR_MUTEX on failure.
- * @note The caller is responsible for handling the error appropriately.
- * @see t_mutex_action enumeration for valid action values.
+ * @return SUCCESS on success, ERROR on failure.
  */
 t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex)
 {
@@ -163,7 +136,16 @@ t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Locks or unlocks all fork mutexes in the program.
+ *
+ * Iterates through all fork mutexes and performs the specified action.
+ *
+ * @param action The mutex operation to perform (LOCK or UNLOCK).
+ * @param program Pointer to the main program structure.
+ *
+ * @return SUCCESS if all operations succeed, ERROR otherwise.
+ */
 t_error	all_forks(t_mutex_action action, t_program *program)
 {
 	pthread_mutex_t	**forks;
