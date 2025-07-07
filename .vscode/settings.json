@@ -12,7 +12,8 @@
 		"functional": "c",
 		"tuple": "c",
 		"utility": "c",
-		"random": "c"
+		"random": "c",
+		"string_view": "c"
 	},
 	"cSpell.words": [
 		"atoui",
