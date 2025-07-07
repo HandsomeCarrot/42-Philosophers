@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:40:08 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/07 20:29:33 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/07 20:40:43 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,25 @@ bool	is_termination_requested(bool *term_flag_ptr, t_mutexes *mutexes)
 	return (term_flag);
 }
 
-// docs
+/**
+ * @brief Handles thread errors by setting termination flag and returning error.
+ *
+ * This function is called when a thread encounters an unrecoverable error.
+ * It sets the termination flag to signal other threads to stop and returns
+ * an error value. The function performs parameter validation before proceeding.
+ *
+ * @param term_flag_ptr Pointer to the termination flag that will be set to
+ *                      true to signal other threads to terminate. Must not
+ *                      be NULL.
+ * @param mutexes Pointer to the mutexes structure containing the stop mutex
+ *                used for thread-safe flag updates. Must not be NULL.
+ *
+ * @return void* Always returns (void*)ERROR to indicate failure.
+ * @note This function is thread-safe when proper mutexes are provided.
+ * @warning If either parameter is NULL, an error message will be printed
+ *          and the function will return ERROR without performing any
+ *          termination signaling.
+ */
 void	*thread_error(bool *term_flag_ptr, t_mutexes *mutexes)
 {
 	if (!term_flag_ptr || !mutexes)
@@ -123,7 +141,24 @@ void	*thread_error(bool *term_flag_ptr, t_mutexes *mutexes)
 	return ((void *)ERROR);
 }
 
-// docs
+/**
+ * @brief Waits for simulation start by locking and unlocking a mutex.
+ *
+ * This function synchronizes thread startup by briefly acquiring and releasing
+ * a mutex. It ensures all threads are properly initialized before the
+ * simulation begins. The function is typically called by philosopher threads
+ * before they start their main loop.
+ *
+ * @param mutex Pointer to the pthread_mutex_t used for synchronization.
+ *              Must not be NULL.
+ *
+ * @return t_error Returns SUCCESS (0) if the mutex operations succeed,
+ *                 ERROR (1) if either mutex operation fails.
+ * @note This function provides a simple synchronization mechanism but
+ *       requires proper mutex initialization before calling.
+ * @warning If the mutex parameter is NULL or not properly initialized,
+ *          the function will return ERROR.
+ */
 t_error	wait_for_start(pthread_mutex_t *mutex)
 {
 	if (w_mutex(LOCK, mutex) != SUCCESS)
