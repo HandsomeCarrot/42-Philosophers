@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/07 20:55:49 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/07 21:11:52 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,6 @@ t_error	initialize_data(int argc, char **argv, t_program **program_ptr)
 	program->philos = w_calloc(program->philo_count, sizeof(t_philo));
 	if (!program->philos)
 		return (ERROR);
-	program->terminate_threads = false;
+	program->term_flag = false;
 	return (SUCCESS);
 }

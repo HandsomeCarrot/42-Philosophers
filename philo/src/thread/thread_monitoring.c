@@ -6,14 +6,14 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/07 21:00:55 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/07 21:12:28 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
 // docs
-static t_error	check_sim_state(t_program *program)
+static t_error	check_philos(t_program *program)
 {
 	(void)program;
 	// TODO
@@ -38,9 +38,13 @@ void	*monitor_start(void *data)
 
 	program = (t_program *)data;
 	if (wait_for_start(program->mutexes.forks[0]))
-		return (thread_error(&program->terminate_threads, &program->mutexes));
-	while (!is_termination_requested(&program->terminate_threads, &program->mutexes))
+		return (thread_error(&program->term_flag, &program->mutexes));
+	while (!is_termination_requested(&program->term_flag, &program->mutexes))
 	{
+		if (check_philos(program))
+		{
+			//smth
+		}
 		// check each thread if
 		// 	dead?
 		// all threads full?

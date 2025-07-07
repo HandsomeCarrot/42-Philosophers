@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:19:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/07 20:52:35 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/07 21:11:52 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_error	cleanup_program(bool set_term_flag, t_program *program)
 		return (ERROR);
 	}
 	if (set_term_flag)
-		terminate_threads(&program->terminate_threads, &program->mutexes);
+		terminate_threads(&program->term_flag, &program->mutexes);
 	if (program->philos)
 	{
 		error = join_all_threads(program);

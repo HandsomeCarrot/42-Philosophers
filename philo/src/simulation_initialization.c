@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/07 20:57:56 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/07 21:11:52 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ static t_error	create_philo(t_ms id, t_program *program)
 	program->philos[id].meals_eaten = 0;
 	program->philos[id].input = &program->input;
 	program->philos[id].mutexes = &program->mutexes;
-	program->philos[id].term_flag_ptr = &program->terminate_threads;
+	program->philos[id].term_flag_ptr = &program->term_flag;
 	if (pthread_create(&program->philos[id].thread, NULL, philo_start,
 			&program->philos[id]))
 	{
-		terminate_threads(&program->terminate_threads, &program->mutexes);
+		terminate_threads(&program->term_flag, &program->mutexes);
 		error_msg("failed to create philo: ", mstoa(id));
 		return (ERROR);
 	}
@@ -97,7 +97,7 @@ static t_error	start_monitor_thread(t_program *program)
 	}
 	if (pthread_create(&program->monitor_thread, NULL, &monitor_start, program))
 	{
-		terminate_threads(&program->terminate_threads, &program->mutexes);
+		terminate_threads(&program->term_flag, &program->mutexes);
 		error_msg("failed to create monitoring thread", NULL);
 		return (ERROR);
 	}
