@@ -1,26 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   thread_start.c                                     :+:      :+:    :+:   */
+/*   thread_philo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/05 18:36:12 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/07 20:30:04 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
-
-// docs
-static t_error	wait_for_start(pthread_mutex_t *mutex)
-{
-	if (w_mutex(LOCK, mutex) != SUCCESS)
-		return (ERROR);
-	if (w_mutex(UNLOCK, mutex) != SUCCESS)
-		return (ERROR);
-	return (SUCCESS);
-}
 
 // docs
 // TODO
@@ -41,15 +31,5 @@ void	*philo_start(void *data)
 	printf("started philo number: %llu after: %llu ms\n", philo->id, start);
 	w_mutex(UNLOCK, philo->mutexes->print);
 	// end of temp code
-	return ((void *)SUCCESS);
-}
-
-void	*monitor_start(void *data)
-{
-	t_program	*program;
-
-	program = (t_program *)data;
-	if (wait_for_start(program->mutexes.forks[0]))
-		return (thread_error(&program->terminate_threads, &program->mutexes));
 	return ((void *)SUCCESS);
 }

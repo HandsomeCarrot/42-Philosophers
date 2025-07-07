@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:40:08 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/05 18:32:16 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/07 20:29:33 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,4 +121,14 @@ void	*thread_error(bool *term_flag_ptr, t_mutexes *mutexes)
 	}
 	terminate_threads(term_flag_ptr, mutexes);
 	return ((void *)ERROR);
+}
+
+// docs
+t_error	wait_for_start(pthread_mutex_t *mutex)
+{
+	if (w_mutex(LOCK, mutex) != SUCCESS)
+		return (ERROR);
+	if (w_mutex(UNLOCK, mutex) != SUCCESS)
+		return (ERROR);
+	return (SUCCESS);
 }
