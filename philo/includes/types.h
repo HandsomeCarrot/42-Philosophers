@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 18:01:22 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 15:20:02 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 16:59:39 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,12 @@ typedef enum e_philo_state
 	THINKING,
 	DEATH
 }							t_philo_state;
+
+// docs
+typedef enum e_protected_data
+{
+	LAST_MEAL,
+	MEALS_EATEN
+}							t_protected_data;
 
 #endif

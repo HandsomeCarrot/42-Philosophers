@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:18:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:26:40 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 17:04:00 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,34 @@ t_error	wait_for_start(pthread_mutex_t *mutex)
 	if (w_mutex(UNLOCK, mutex) != SUCCESS)
 		return (ERROR);
 	return (SUCCESS);
+}
+
+// docs
+t_error	get_protected_data(t_protected_data data, t_ms *storage_ptr,
+		t_philo *philo)
+{
+	if (!storage_ptr || !philo)
+	{
+		error_msg("missing parameters", "handle_thread_error");
+		return ((void *)ERROR);
+	}
+	if (data = LAST_MEAL)
+	{
+		if (w_mutex(LOCK, philo->mutexes->last_meal[philo->id]))
+			return (ERROR);
+		*storage_ptr = philo->last_meal;
+		if (w_mutex(UNLOCK, philo->mutexes->last_meal[philo->id]))
+			return (ERROR);
+		return (SUCCESS);
+	}
+	else if (data = MEALS_EATEN)
+	{
+		if (w_mutex(LOCK, philo->mutexes->last_meal[philo->id]))
+			return (ERROR);
+		*storage_ptr = philo->meals_eaten;
+		if (w_mutex(UNLOCK, philo->mutexes->last_meal[philo->id]))
+			return (ERROR);
+		return (SUCCESS);
+	}
+	return (ERROR);
 }

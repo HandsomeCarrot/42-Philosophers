@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:31:57 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 17:09:42 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,13 @@ void	set_termination_flag(bool *term_flag_ptr, t_mutexes *mutexes);
 bool	termination_requested(bool *term_flag_ptr, t_mutexes *mutexes);
 void	*handle_thread_error(bool *term_flag_ptr, t_mutexes *mutexes);
 t_error	wait_for_start(pthread_mutex_t *mutex);
+t_error	get_protected_data(t_protected_data data, t_ms *storage_ptr,
+			t_philo *philo);
 
 //----------time_utils.c----------//
 
 t_error	get_current_time_ms(t_ms *ms_ptr);
+t_error	validate_timestamps(t_ms smaller_timestamp, t_ms larger_timestamp);
 t_error	get_elapsed_time_ms(t_ms *ms_ptr, t_input *input);
 
 //----------------------------------THREADS-----------------------------------//
