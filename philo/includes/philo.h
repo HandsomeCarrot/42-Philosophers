@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:20:31 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 16:27:27 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,32 +41,32 @@ void	*w_calloc(size_t nmemb, size_t size);
 //----------mutex_utils.c----------//
 
 t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex);
-t_error	all_forks(t_mutex_action action, t_program *program);
+t_error	mutex_all_forks(t_mutex_action action, t_program *program);
 
 //----------output_utils.c----------//
 
 void	error_msg(char *msg1, char *msg2);
 void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex);
-t_error	print_state(t_philo_state state, t_ms timestamp, t_philo *philo);
+t_error	print_philo_state(t_philo_state state, t_ms timestamp, t_philo *philo);
 char	*get_exec_pattern(void);
 
 //----------string_utils.c----------//
 
-char	*mstoa(t_ms number);
+char	*ms_to_str(t_ms number);
 t_error	atoms(const char *str, t_ms *result);
 int		ft_strlen(char *str);
 
 //----------thread_helpers.c----------//
 
-void	terminate_threads(bool *term_flag_ptr, t_mutexes *mutexes);
-bool	is_termination_requested(bool *term_flag_ptr, t_mutexes *mutexes);
-void	*thread_error(bool *term_flag_ptr, t_mutexes *mutexes);
+void	set_termination_flag(bool *term_flag_ptr, t_mutexes *mutexes);
+bool	termination_requested(bool *term_flag_ptr, t_mutexes *mutexes);
+void	*handle_thread_error(bool *term_flag_ptr, t_mutexes *mutexes);
 t_error	wait_for_start(pthread_mutex_t *mutex);
 
 //----------time_utils.c----------//
 
-t_error	get_time_in_ms(t_ms *ms_ptr, t_mutexes *mutexes);
-t_error	get_time_since_start(t_ms *ms_ptr, t_input *input, t_mutexes *mutexes);
+t_error	get_current_time_ms(t_ms *ms_ptr, t_mutexes *mutexes);
+t_error	get_elapsed_time_ms(t_ms *ms_ptr, t_input *input, t_mutexes *mutexes);
 
 //----------------------------------THREADS-----------------------------------//
 //----------thread_philosophers.c----------//

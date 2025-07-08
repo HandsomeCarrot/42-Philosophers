@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:18:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:19:00 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 16:26:40 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * @param mutexes Pointer to the mutexes structure containing
  * the term_flag mutex.
  */
-void	terminate_threads(bool *term_flag_ptr, t_mutexes *mutexes)
+void	set_termination_flag(bool *term_flag_ptr, t_mutexes *mutexes)
 {
 	if (!mutexes || !term_flag_ptr || !mutexes)
 		return ;
@@ -39,7 +39,7 @@ void	terminate_threads(bool *term_flag_ptr, t_mutexes *mutexes)
  * @param mutexes Pointer to the mutexes structure containing
  * the term_flag mutex.
  */
-bool	is_termination_requested(bool *term_flag_ptr, t_mutexes *mutexes)
+bool	termination_requested(bool *term_flag_ptr, t_mutexes *mutexes)
 {
 	bool	term_flag;
 
@@ -66,14 +66,14 @@ bool	is_termination_requested(bool *term_flag_ptr, t_mutexes *mutexes)
  *
  * @return Always returns (void*)ERROR.
  */
-void	*thread_error(bool *term_flag_ptr, t_mutexes *mutexes)
+void	*handle_thread_error(bool *term_flag_ptr, t_mutexes *mutexes)
 {
 	if (!term_flag_ptr || !mutexes)
 	{
-		error_msg("missing parameters", "thread_error");
+		error_msg("missing parameters", "handle_thread_error");
 		return ((void *)ERROR);
 	}
-	terminate_threads(term_flag_ptr, mutexes);
+	set_termination_flag(term_flag_ptr, mutexes);
 	return ((void *)ERROR);
 }
 

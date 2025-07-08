@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:10:58 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:13:40 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 16:22:11 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex)
  *
  * @return SUCCESS if all operations succeed, ERROR otherwise.
  */
-t_error	all_forks(t_mutex_action action, t_program *program)
+t_error	mutex_all_forks(t_mutex_action action, t_program *program)
 {
 	pthread_mutex_t	**forks;
 	t_ms			fork_index;
@@ -65,7 +65,7 @@ t_error	all_forks(t_mutex_action action, t_program *program)
 
 	if (!program)
 	{
-		error_msg("missing parameters", "all_forks");
+		error_msg("missing parameters", "mutex_all_forks");
 		return (ERROR);
 	}
 	forks = program->mutexes.forks;

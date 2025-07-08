@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:16:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:18:29 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 16:27:58 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex)
 	w_mutex(UNLOCK, print_mutex);
 }
 
-
 // docs
 static char	*get_state_message(t_philo_state state)
 {
@@ -75,13 +74,13 @@ static char	*get_state_message(t_philo_state state)
 }
 
 // docs
-t_error	print_state(t_philo_state state, t_ms timestamp, t_philo *philo)
+t_error	print_philo_state(t_philo_state state, t_ms timestamp, t_philo *philo)
 {
 	char	*state_message;
 
 	if (!philo)
 	{
-		error_msg("missing parameters", "print_state");
+		error_msg("missing parameters", "print_philo_state");
 		return (ERROR);
 	}
 	state_message = get_state_message(state);

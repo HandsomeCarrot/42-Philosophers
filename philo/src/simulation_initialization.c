@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/07 21:11:52 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 16:24:59 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ static t_error	create_philo(t_ms id, t_program *program)
 	if (pthread_create(&program->philos[id].thread, NULL, philo_start,
 			&program->philos[id]))
 	{
-		terminate_threads(&program->term_flag, &program->mutexes);
-		error_msg("failed to create philo: ", mstoa(id));
+		set_termination_flag(&program->term_flag, &program->mutexes);
+		error_msg("failed to create philo: ", ms_to_str(id));
 		return (ERROR);
 	}
 	return (SUCCESS);
@@ -97,7 +97,7 @@ static t_error	start_monitor_thread(t_program *program)
 	}
 	if (pthread_create(&program->monitor_thread, NULL, &monitor_start, program))
 	{
-		terminate_threads(&program->term_flag, &program->mutexes);
+		set_termination_flag(&program->term_flag, &program->mutexes);
 		error_msg("failed to create monitoring thread", NULL);
 		return (ERROR);
 	}
@@ -129,16 +129,16 @@ t_error	start_simulation(t_program *program)
 		return (ERROR);
 	}
 	error = SUCCESS;
-	if (all_forks(LOCK, program))
+	if (mutex_all_forks(LOCK, program))
 		error = ERROR;
 	if (!error && start_all_philosophers(program))
 		error = ERROR;
 	if (!error && start_monitor_thread(program))
 		error = ERROR;
-	if (!error && get_time_in_ms(&program->input.sim_start_time,
+	if (!error && get_current_time_ms(&program->input.sim_start_time,
 			&program->mutexes))
 		error = ERROR;
-	if (all_forks(UNLOCK, program))
+	if (mutex_all_forks(UNLOCK, program))
 		return (ERROR);
 	return (error);
 }

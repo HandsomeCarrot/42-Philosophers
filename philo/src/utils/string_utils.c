@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:05:55 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:13:38 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 16:21:45 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	count_nums(t_ms number)
  *
  * @note The caller is responsible for freeing the returned string.
  */
-char	*mstoa(t_ms number)
+char	*ms_to_str(t_ms number)
 {
 	char	*digit_str;
 	int		digit_count;
