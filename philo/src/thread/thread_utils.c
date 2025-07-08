@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:40:08 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 12:44:50 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 13:00:03 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ t_error	get_time_in_ms(t_ms *ms_ptr, t_mutexes *mutexes)
  * Acquires the term_flag mutex before writing to the termination flag variable.
  *
  * @param term_flag_ptr Pointer to the termination flag.
- * @param mutexes Pointer to the mutexes structure containing the term_flag mutex.
+ * @param mutexes Pointer to the mutexes structure containing
+ * the term_flag mutex.
  */
 void	terminate_threads(bool *term_flag_ptr, t_mutexes *mutexes)
 {
@@ -67,7 +68,8 @@ void	terminate_threads(bool *term_flag_ptr, t_mutexes *mutexes)
  * Acquires the term_flag mutex before writing to the termination flag variable.
  *
  * @param term_flag_ptr Pointer to the termination flag.
- * @param mutexes Pointer to the mutexes structure containing the term_flag mutex.
+ * @param mutexes Pointer to the mutexes structure containing
+ * the term_flag mutex.
  */
 bool	is_termination_requested(bool *term_flag_ptr, t_mutexes *mutexes)
 {
@@ -91,7 +93,8 @@ bool	is_termination_requested(bool *term_flag_ptr, t_mutexes *mutexes)
  * an error value.
  *
  * @param term_flag_ptr Pointer to the termination flag.
- * @param mutexes Pointer to the mutexes structure containing the term_flag mutex.
+ * @param mutexes Pointer to the mutexes structure containing
+ * the term_flag mutex.
  *
  * @return Always returns (void*)ERROR.
  */
