@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:13:55 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:23:45 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 16:32:32 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,17 @@
  *
  * @note Thread-safe when a valid mutex is provided.
  */
-t_error	get_current_time_ms(t_ms *ms_ptr, t_mutexes *mutexes)
+t_error	get_current_time_ms(t_ms *ms_ptr)
 {
 	struct timeval	tv;
 	t_ms			current_time;
 
 	if (!ms_ptr)
+	{
+		error_msg("missing parameters", "get_current_time_ms");
 		return (ERROR);
-	if (gettimeofday(&tv, NULL) != SUCCESS && mutexes)
+	}
+	if (gettimeofday(&tv, NULL) != SUCCESS)
 	{
 		error_msg("failed to get time", NULL);
 		return (ERROR);
@@ -45,7 +48,7 @@ t_error	get_current_time_ms(t_ms *ms_ptr, t_mutexes *mutexes)
 }
 
 // docs
-t_error	get_elapsed_time_ms(t_ms *ms_ptr, t_input *input, t_mutexes *mutexes)
+t_error	get_elapsed_time_ms(t_ms *ms_ptr, t_input *input)
 {
 	t_ms	current_time;
 
@@ -54,7 +57,7 @@ t_error	get_elapsed_time_ms(t_ms *ms_ptr, t_input *input, t_mutexes *mutexes)
 		error_msg("missing parameters", "get_elapsed_time_ms");
 		return (ERROR);
 	}
-	if (get_current_time_ms(&current_time, mutexes))
+	if (get_current_time_ms(&current_time))
 		return (ERROR);
 	if (current_time > input->sim_start_time)
 		return (ERROR);

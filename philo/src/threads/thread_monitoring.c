@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:26:40 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 16:32:40 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@
 // TODO
 static t_error	check_death(t_philo *philo)
 {
+	t_ms	elapsed_time;
+
 	if (!philo)
 	{
 		error_msg("missing parameters", "check_death");
 		return (ERROR);
 	}
-	
+	if (get_elapsed_time_ms(&elapsed_time, philo->input))
+		return (ERROR);
 	return (SUCCESS);
 }
 
