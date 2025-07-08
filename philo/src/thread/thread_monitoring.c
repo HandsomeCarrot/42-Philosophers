@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 12:59:18 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 13:02:55 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 // is given philosopher dead?
 // if dead print message and return TERMINATE
 // if alive return SUCCESS and do nothing
+// TODO
 static t_error	check_death(t_philo *philo)
 {
 	if (!philo)
@@ -29,6 +30,7 @@ static t_error	check_death(t_philo *philo)
 // change function name
 // check if current philo is full
 // sets the boolean
+// DONE
 static t_error	check_fullness(bool *all_full, t_philo *philo)
 {
 	t_ms	meals_eaten;
@@ -51,6 +53,7 @@ static t_error	check_fullness(bool *all_full, t_philo *philo)
 // checks for given philo
 // is it dead?
 // if all before this one where full: is it full?
+// DONE
 static t_error	check_philo(bool *all_full, t_philo *philo)
 {
 	t_error	error;
@@ -74,6 +77,7 @@ static t_error	check_philo(bool *all_full, t_philo *philo)
 // docs
 // check if monitor should terminate threads
 // dead / all full
+// DONE
 static t_error	check_all_philos(t_program *program)
 {
 	t_ms	philo_index;
