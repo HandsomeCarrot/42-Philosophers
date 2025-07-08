@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 18:01:22 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/07 21:20:53 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 15:20:02 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,23 @@ typedef enum e_error
 	SUCCESS,
 	ERROR,
 	TERMINATE
-}					t_error;
+}							t_error;
 
+// docs
 typedef enum e_mutex_action
 {
 	LOCK,
 	UNLOCK
-}					t_mutex_action;
+}							t_mutex_action;
+
+// docs
+typedef enum e_philo_state
+{
+	FORK,
+	EATING,
+	SLEEPING,
+	THINKING,
+	DEATH
+}							t_philo_state;
 
 #endif

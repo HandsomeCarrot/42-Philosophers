@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/07 20:29:43 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 15:46:59 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,13 @@ t_error	initialize_data(int argc, char **argv, t_program **program);
 
 t_error	start_simulation(t_program *prografm);
 
+//-----------------------------------UTILS------------------------------------//
 //----------output.c----------//
 
 char	*get_exec_pattern(void);
 void	error_msg(char *msg1, char *msg2);
 void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex);
+t_error	print_state(t_philo_state state, t_ms timestamp, t_philo *philo);
 
 //----------utils.c----------//
 
@@ -48,7 +50,6 @@ t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex);
 t_error	all_forks(t_mutex_action action, t_program *program);
 
 //----------mstoa.c----------//
-// could delete file if I do not tneed the function
 
 char	*mstoa(t_ms number);
 

@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 12:24:53 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/07 20:57:06 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 15:46:02 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,42 @@ void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex)
 	w_mutex(LOCK, print_mutex);
 	write(fd, str, sizeof(char) * ft_strlen(str));
 	w_mutex(UNLOCK, print_mutex);
+}
+
+
+// docs
+static char	*get_state_message(t_philo_state state)
+{
+	if (state == FORK)
+		return ("has taken a fork");
+	else if (state == EATING)
+		return ("is eating");
+	else if (state == SLEEPING)
+		return ("is sleeping");
+	else if (state == THINKING)
+		return ("is thinking");
+	else if (state == DEATH)
+		return ("died");
+	return (NULL);
+}
+
+// docs
+t_error	print_state(t_philo_state state, t_ms timestamp, t_philo *philo)
+{
+	char	*state_message;
+
+	if (!philo)
+	{
+		error_msg("missing parameters", "print_state");
+		return (ERROR);
+	}
+	state_message = get_state_message(state);
+	if (!state_message)
+		return (ERROR);
+	if (w_mutex(LOCK, philo->mutexes->print))
+		return (ERROR);
+	printf("%llu %llu %s\n", timestamp, philo->id, state_message);
+	if (w_mutex(UNLOCK, philo->mutexes->print))
+		return (ERROR);
+	return (SUCCESS);
 }
