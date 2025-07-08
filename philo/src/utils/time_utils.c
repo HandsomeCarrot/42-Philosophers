@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:13:55 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:32:32 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 16:48:55 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,11 @@ t_error	get_elapsed_time_ms(t_ms *ms_ptr, t_input *input)
 	}
 	if (get_current_time_ms(&current_time))
 		return (ERROR);
-	if (current_time > input->sim_start_time)
+	if (input->sim_start_time < current_time)
+	{
+		error_msg("timestamps do not make sense", "get_elapsed_time_ms");
 		return (ERROR);
+	}
 	*ms_ptr = input->sim_start_time - current_time;
 	return (SUCCESS);
 }

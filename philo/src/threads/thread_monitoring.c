@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:32:40 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 16:49:00 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,34 @@
 // TODO
 static t_error	check_death(t_philo *philo)
 {
-	t_ms	elapsed_time;
+	t_ms	elapsed_time_start;
+	t_ms	elapsed_time_meal;
+	t_ms	last_meal;
 
 	if (!philo)
 	{
 		error_msg("missing parameters", "check_death");
 		return (ERROR);
 	}
-	if (get_elapsed_time_ms(&elapsed_time, philo->input))
+	if (w_mutex(LOCK, philo->mutexes->last_meal[philo->id]))
 		return (ERROR);
+	last_meal = philo->last_meal;
+	if (w_mutex(UNLOCK, philo->mutexes->last_meal[philo->id]))
+		return (ERROR);
+	if (last_meal < philo->input->sim_start_time)
+	{
+		error_msg("timestamps do not make sense", "check_death");
+		return (ERROR);
+	}
+	elapsed_time_meal = last_meal - philo->input->sim_start_time;
+	if (elapsed_time_meal >= philo->input->time_to_die)
+	{
+		if (get_elapsed_time_ms(&elapsed_time_start, philo->input))
+			return (ERROR);
+		if (print_philo_state(DEATH, &elapsed_time_start, philo))
+			return (ERROR);
+		return (TERMINATE);
+	}
 	return (SUCCESS);
 }
 
