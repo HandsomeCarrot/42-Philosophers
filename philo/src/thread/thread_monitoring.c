@@ -6,21 +6,68 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/07 22:41:27 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 12:13:09 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
-// docs
+// is given philosopher dead?
+// if dead print message and return TERMINATE
+// if alive return SUCCESS and do nothing
+static t_error	check_death(t_philo *philo)
+{
+	if (!philo)
+	{
+		error_msg("missing parameters", "check_death");
+		return (ERROR);
+	}
+	// TODO
+	return (SUCCESS);
+}
+
 // change function name
 // check if current philo is full
 // sets the boolean
-static t_error	current_philo_full(bool *all_full, t_philo *philo)
+static t_error	check_fullness(bool *all_full, t_philo *philo)
 {
+	t_ms	meals_eaten;
+
 	if (!philo || !all_full)
-		return (error_msg("missing parameters", "current_philo_full"), ERROR);
-	// TODO
+	{
+		error_msg("missing parameters", "check_fullness");
+		return (ERROR);
+	}
+	if (w_mutex(LOCK, NULL))
+		return (ERROR);
+	meals_eaten = philo->meals_eaten;
+	if (w_mutex(UNLOCK, NULL))
+		return (ERROR);
+	if (meals_eaten < philo->input->meal_limit)
+		*all_full = false;
+	return (SUCCESS);
+}
+
+// checks for given philo
+// is it dead?
+// if all before this one where full: is it full?
+static t_error	check_philo(bool *all_full, t_philo *philo)
+{
+	t_error	error;
+
+	if (!philo || !all_full)
+	{
+		error_msg("missing parameters", "check_philo");
+		return (ERROR);
+	}
+	error = check_death(philo);
+	if (error != SUCCESS);
+		return (error);
+	if (philo->input->has_meal_limit && *all_full)
+	{
+		if (check_fullness(all_full, philo) != SUCCESS)
+			return (ERROR);
+	}
 	return (SUCCESS);
 }
 
@@ -31,19 +78,20 @@ static t_error	check_all_philos(t_program *program)
 {
 	t_ms	philo_index;
 	bool	all_full;
+	t_error	error;
 
 	if (!program)
-		return (error_msg("missing parameters", "check_all_philos"), ERROR);
-	philo_index = 0;
+	{
+		error_msg("missing parameters", "check_all_philos");
+		return (ERROR);
+	}
 	all_full = true;
+	philo_index = 0;
 	while (philo_index < program->philo_count)
 	{
-		// 	dead? print message
-		if (all_full)
-		{
-			if (current_philo_full(&all_full, &program->philos[philo_index]))
-				return (ERROR);
-		}
+		error = check_philo(&all_full, &program->philos[philo_index]);
+		if (error != SUCCESS)
+			return (error);
 		philo_index++;
 	}
 	if (all_full)
