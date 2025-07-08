@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mstoa.c                                            :+:      :+:    :+:   */
+/*   string_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/27 22:53:53 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/07 20:56:35 by vpoka            ###   ########.fr       */
+/*   Created: 2025/07/08 16:05:55 by vpoka             #+#    #+#             */
+/*   Updated: 2025/07/08 16:13:38 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "../../includes/philo.h"
 
 /**
  * @brief Counts the number of digits in a t_ms value.
@@ -71,4 +71,68 @@ char	*mstoa(t_ms number)
 		number /= 10;
 	}
 	return (digit_str);
+}
+
+/**
+ * @brief Converts a string to an unsigned 64-bit integer with validation.
+ *
+ * Parses a numeric string and converts it to t_ms, performing validation
+ * and overflow checks. Returns ERROR on invalid input.
+ *
+ * @param str Null-terminated string containing numeric characters.
+ * @param result Pointer to t_ms to store the converted value.
+ *
+ * @return SUCCESS on valid conversion, ERROR otherwise.
+ *
+ * @note Displays error messages on invalid input.
+ */
+t_error	atoms(const char *str, t_ms *result)
+{
+	t_ms	res;
+	t_ms	prev;
+	char	*nptr;
+
+	res = 0;
+	nptr = (char *)str;
+	while (nptr && *nptr)
+	{
+		if (*nptr < '0' || *nptr > '9')
+		{
+			error_msg("Non-numeric character in argument", (char *)str);
+			return (ERROR);
+		}
+		prev = res;
+		res = res * 10 + (*nptr - '0');
+		if (res < prev)
+		{
+			error_msg("number is too large", (char *)str);
+			return (ERROR);
+		}
+		nptr++;
+	}
+	*result = res;
+	return (SUCCESS);
+}
+
+/**
+ * @brief Calculates the length of a null-terminated string.
+ *
+ * Counts characters in the string until the null terminator is reached.
+ * Returns 0 if str is NULL.
+ *
+ * @param str Pointer to the null-terminated string.
+ *
+ * @return Number of characters in the string, excluding the null terminator.
+ */
+int	ft_strlen(char *str)
+{
+	int	counter;
+
+	counter = 0;
+	while (str && *str)
+	{
+		counter++;
+		str++;
+	}
+	return (counter);
 }

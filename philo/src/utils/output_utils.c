@@ -1,34 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   output.c                                           :+:      :+:    :+:   */
+/*   output_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/27 12:24:53 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 15:46:02 by vpoka            ###   ########.fr       */
+/*   Created: 2025/07/08 16:16:00 by vpoka             #+#    #+#             */
+/*   Updated: 2025/07/08 16:18:29 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
-
-/**
- * @brief Returns the expected command-line usage pattern for the program.
- *
- * Provides the standard usage pattern for display when the program is run
- * with invalid or missing arguments.
- *
- * @return Pointer to a string describing the usage pattern.
- */
-char	*get_exec_pattern(void)
-{
-	return ("./philo "
-		"<number_of_philosophers> "
-		"<time_to_die> "
-		"<time_to_eat> "
-		"<time_to_sleep> "
-		"[number_of_times_each_philosopher_must_eat]");
-}
+#include "../../includes/philo.h"
 
 /**
  * @brief Prints an error message to standard error output.
@@ -111,4 +93,22 @@ t_error	print_state(t_philo_state state, t_ms timestamp, t_philo *philo)
 	if (w_mutex(UNLOCK, philo->mutexes->print))
 		return (ERROR);
 	return (SUCCESS);
+}
+
+/**
+ * @brief Returns the expected command-line usage pattern for the program.
+ *
+ * Provides the standard usage pattern for display when the program is run
+ * with invalid or missing arguments.
+ *
+ * @return Pointer to a string describing the usage pattern.
+ */
+char	*get_exec_pattern(void)
+{
+	return ("./philo "
+		"<number_of_philosophers> "
+		"<time_to_die> "
+		"<time_to_eat> "
+		"<time_to_sleep> "
+		"[number_of_times_each_philosopher_must_eat]");
 }

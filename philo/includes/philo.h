@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 15:46:59 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 16:20:31 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,40 +34,48 @@ t_error	initialize_data(int argc, char **argv, t_program **program);
 t_error	start_simulation(t_program *prografm);
 
 //-----------------------------------UTILS------------------------------------//
-//----------output.c----------//
+//----------memory_utils.c----------//
 
-char	*get_exec_pattern(void);
-void	error_msg(char *msg1, char *msg2);
-void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex);
-t_error	print_state(t_philo_state state, t_ms timestamp, t_philo *philo);
-
-//----------utils.c----------//
-
-t_error	atoms(const char *str, t_ms *result);
 void	*w_calloc(size_t nmemb, size_t size);
-int		ft_strlen(char *str);
+
+//----------mutex_utils.c----------//
+
 t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex);
 t_error	all_forks(t_mutex_action action, t_program *program);
 
-//----------mstoa.c----------//
+//----------output_utils.c----------//
+
+void	error_msg(char *msg1, char *msg2);
+void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex);
+t_error	print_state(t_philo_state state, t_ms timestamp, t_philo *philo);
+char	*get_exec_pattern(void);
+
+//----------string_utils.c----------//
 
 char	*mstoa(t_ms number);
+t_error	atoms(const char *str, t_ms *result);
+int		ft_strlen(char *str);
 
-//----------------------------------THREAD-----------------------------------//
-//----------thread_start.c----------//
+//----------thread_helpers.c----------//
 
-void	*philo_start(void *data);
-void	*monitor_start(void *data);
-
-//----------thread_utils.c----------//
-
-t_error	get_time_in_ms(t_ms *ms_ptr, t_mutexes *mutexes);
 void	terminate_threads(bool *term_flag_ptr, t_mutexes *mutexes);
 bool	is_termination_requested(bool *term_flag_ptr, t_mutexes *mutexes);
 void	*thread_error(bool *term_flag_ptr, t_mutexes *mutexes);
 t_error	wait_for_start(pthread_mutex_t *mutex);
 
-//----------thread_monitor.c----------//
+//----------time_utils.c----------//
+
+t_error	get_time_in_ms(t_ms *ms_ptr, t_mutexes *mutexes);
+t_error	get_time_since_start(t_ms *ms_ptr, t_input *input, t_mutexes *mutexes);
+
+//----------------------------------THREADS-----------------------------------//
+//----------thread_philosophers.c----------//
+
+void	*philo_start(void *data);
+
+//----------thread_monitoring.c----------//
+
+void	*monitor_start(void *data);
 
 //----------------------------------CLEANUP-----------------------------------//
 //----------cleanup.c----------//
