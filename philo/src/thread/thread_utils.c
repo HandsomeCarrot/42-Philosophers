@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:40:08 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 13:00:03 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 15:58:50 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,23 @@ t_error	wait_for_start(pthread_mutex_t *mutex)
 		return (ERROR);
 	if (w_mutex(UNLOCK, mutex) != SUCCESS)
 		return (ERROR);
+	return (SUCCESS);
+}
+
+// docs
+t_error	get_time_since_start(t_ms *ms_ptr, t_input *input, t_mutexes *mutexes)
+{
+	t_ms	current_time;
+
+	if (!ms_ptr || !input)
+	{
+		error_msg("missing parameters", "get_time_since_start");
+		return (ERROR);
+	}
+	if (get_time_in_ms(&current_time, mutexes))
+		return (ERROR);
+	if (current_time > input->sim_start_time)
+		return (ERROR);
+	*ms_ptr = input->sim_start_time - current_time;
 	return (SUCCESS);
 }
