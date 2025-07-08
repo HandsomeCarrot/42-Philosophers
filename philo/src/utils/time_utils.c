@@ -6,25 +6,24 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:13:55 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 17:09:44 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 17:46:37 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
 /**
- * @brief Gets the current time in milliseconds since Unix epoch.
+ * @brief Retrieves the current system time in milliseconds since the Unix epoch.
  *
- * Retrieves the current system time and converts it to milliseconds since
- * the Unix epoch. Stores the result in the provided pointer.
+ * This function uses gettimeofday to obtain the current time and converts it
+ * to milliseconds. The result is stored in the provided pointer.
  *
- * @param ms_ptr Pointer to a t_ms variable to store the current time.
- * @param mutexes Pointer to the mutexes structure for thread-safe error
- *                output, can be NULL.
+ * @param ms_ptr Pointer to a t_ms variable where the current time will be
+ *        stored.
  *
- * @return SUCCESS if time was retrieved, ERROR otherwise.
+ * @return SUCCESS if the time was successfully retrieved, ERROR otherwise.
  *
- * @note Thread-safe when a valid mutex is provided.
+ * @note The function returns ERROR if ms_ptr is NULL or if gettimeofday fails.
  */
 t_error	get_current_time_ms(t_ms *ms_ptr)
 {
@@ -47,7 +46,22 @@ t_error	get_current_time_ms(t_ms *ms_ptr)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Validates that the first timestamp is not greater than the second.
+ *
+ * Checks if the provided timestamps are in a logical order. Returns ERROR
+ * if the first (smaller_timestamp) is greater than the second
+ * (larger_timestamp).
+ *
+ * @param smaller_timestamp The timestamp expected to be less than or equal to
+ *        the larger timestamp.
+ * @param larger_timestamp The timestamp expected to be greater than or equal to
+ *        the smaller timestamp.
+ *
+ * @return SUCCESS if the timestamps are valid, ERROR otherwise.
+ *
+ * @note Intended to catch logic errors in timestamp calculations.
+ */
 t_error	validate_timestamps(t_ms smaller_timestamp, t_ms larger_timestamp)
 {
 	if (larger_timestamp < smaller_timestamp)
@@ -59,7 +73,22 @@ t_error	validate_timestamps(t_ms smaller_timestamp, t_ms larger_timestamp)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Calculates the elapsed time in milliseconds since the simulation start.
+ *
+ * Retrieves the current time and subtracts the simulation start time to
+ * determine the elapsed time. The result is stored in the provided pointer.
+ *
+ * @param ms_ptr Pointer to a t_ms variable where the elapsed time will be
+ *        stored.
+ * @param input Pointer to the input structure containing the simulation start
+ *        time.
+ *
+ * @return SUCCESS if the elapsed time was successfully calculated, ERROR
+ *         otherwise.
+ *
+ * @note Returns ERROR if ms_ptr or input is NULL, or if time retrieval fails.
+ */
 t_error	get_elapsed_time_ms(t_ms *ms_ptr, t_input *input)
 {
 	t_ms	current_time;

@@ -6,16 +6,26 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 17:11:46 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 17:49:00 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
-// is given philosopher dead?
-// if dead print message and return TERMINATE
-// if alive return SUCCESS and do nothing
-// TODO
+/**
+ * @brief Checks if a philosopher has died based on time since last meal.
+ *
+ * Compares the elapsed time since the philosopher's last meal to the allowed
+ * time to die. If the philosopher has exceeded this time, prints a death
+ * message and returns TERMINATE. Otherwise, returns SUCCESS.
+ *
+ * @param philo Pointer to the philosopher structure.
+ *
+ * @return TERMINATE if the philosopher has died, SUCCESS if alive,
+ *         ERROR on failure.
+ *
+ * @note Returns ERROR if philo is NULL or on data retrieval failure.
+ */
 static t_error	check_death(t_philo *philo)
 {
 	t_ms	elapsed_time_since_start;
@@ -43,10 +53,20 @@ static t_error	check_death(t_philo *philo)
 	return (SUCCESS);
 }
 
-// change function name
-// check if current philo is full
-// sets the boolean
-// DONE
+/**
+ * @brief Checks if a philosopher has died based on time since last meal.
+ *
+ * Compares the elapsed time since the philosopher's last meal to the allowed
+ * time to die. If the philosopher has exceeded this time, prints a death
+ * message and returns TERMINATE. Otherwise, returns SUCCESS.
+ *
+ * @param philo Pointer to the philosopher structure.
+ *
+ * @return TERMINATE if the philosopher has died, SUCCESS if alive,
+ *         ERROR on failure.
+ *
+ * @note Returns ERROR if philo is NULL or on data retrieval failure.
+ */
 static t_error	check_fullness(bool *all_full, t_philo *philo)
 {
 	t_ms	meals_eaten;
@@ -66,10 +86,20 @@ static t_error	check_fullness(bool *all_full, t_philo *philo)
 	return (SUCCESS);
 }
 
-// checks for given philo
-// is it dead?
-// if all before this one where full: is it full?
-// DONE
+/**
+ * @brief Checks the status of a single philosopher for death or fullness.
+ *
+ * Calls check_death to determine if the philosopher has died. If a meal
+ * limit is set and all_full is true, checks if the philosopher is full.
+ *
+ * @param all_full Pointer to a boolean tracking if all philosophers are full.
+ * @param philo Pointer to the philosopher structure.
+ *
+ * @return SUCCESS if the philosopher is alive and checks pass,
+ *         TERMINATE if dead or full, ERROR on failure.
+ *
+ * @note Returns ERROR if philo or all_full is NULL.
+ */
 static t_error	check_philo(bool *all_full, t_philo *philo)
 {
 	t_error	error;
@@ -90,10 +120,20 @@ static t_error	check_philo(bool *all_full, t_philo *philo)
 	return (SUCCESS);
 }
 
-// docs
-// check if monitor should terminate threads
-// dead / all full
-// DONE
+/**
+ * @brief Checks all philosophers for death or completion.
+ *
+ * Iterates through all philosophers, checking each for death and fullness.
+ * If any philosopher is dead, returns TERMINATE. If all are full, returns
+ * TERMINATE.
+ *
+ * @param program Pointer to the main program structure.
+ *
+ * @return TERMINATE if any philosopher is dead or all are full,
+ *         SUCCESS otherwise, ERROR on failure.
+ *
+ * @note Returns ERROR if program is NULL.
+ */
 static t_error	check_all_philos(t_program *program)
 {
 	t_ms	philo_index;
@@ -122,14 +162,15 @@ static t_error	check_all_philos(t_program *program)
 /**
  * @brief Entry point for the monitor thread.
  *
- * Waits for the simulation to start, then monitors the state of all
- * philosopher threads, checking for death or completion conditions.
+ * Waits for the simulation to start, then continuously monitors all
+ * philosophers for death or completion. Sets the termination flag and
+ * exits if a termination condition is met.
  *
  * @param data Pointer to the main program structure.
  *
  * @return Pointer to SUCCESS on normal completion, or ERROR on failure.
  *
- * @note The monitor loop runs until the termination flag is set.
+ * @note Returns (void*)ERROR if data is NULL or on error.
  */
 void	*monitor_start(void *data)
 {

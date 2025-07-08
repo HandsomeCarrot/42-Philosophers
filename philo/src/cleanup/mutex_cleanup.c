@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 19:11:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 12:55:05 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 17:36:41 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ static t_error	destroy_mutex_array(t_program *program,
 /**
  * @brief Destroys all mutexes used in the philosophers program.
  *
- * Destroys and frees the term_flag mutex, print mutex 
- * and all fork mutexes in the program structure.
+ * Destroys and frees the term_flag mutex, print mutex, and all fork, last_meal,
+ * and meals_eaten mutexes in the program structure.
  *
  * @param program Pointer to the main program structure containing mutexes.
  *

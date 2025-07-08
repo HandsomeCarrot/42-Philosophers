@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:16:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:27:58 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 17:51:54 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,20 @@ void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex)
 	w_mutex(UNLOCK, print_mutex);
 }
 
-// docs
+/**
+ * @brief Returns a human-readable message for a philosopher's state.
+ *
+ * Maps an enumerated philosopher state to a descriptive string such as
+ * "has taken a fork", "is eating", "is sleeping", "is thinking", or "died".
+ *
+ * @param state The current state of the philosopher
+ * (FORK, EATING, SLEEPING, THINKING, DEATH).
+ *
+ * @return Pointer to a constant string describing the state,
+ * or NULL if the state is invalid.
+ *
+ * @note The returned string must not be modified or freed by the caller.
+ */
 static char	*get_state_message(t_philo_state state)
 {
 	if (state == FORK)
@@ -73,7 +86,25 @@ static char	*get_state_message(t_philo_state state)
 	return (NULL);
 }
 
-// docs
+/**
+ * @brief Prints the current state of a philosopher with timestamp.
+ *
+ * Outputs a formatted message displaying the timestamp, philosopher ID,
+ * and a human-readable state such as "is eating" or "died". Ensures
+ * thread-safe output by acquiring the print mutex before printing.
+ *
+ * @param state The current state of the philosopher (e.g., EATING, DEATH).
+ * @param timestamp The time in milliseconds to display in the output.
+ * @param philo Pointer to the philosopher structure whose
+ * state is being printed.
+ *
+ * @return SUCCESS on successful output, ERROR on failure.
+ *
+ * @note Returns ERROR if philo is NULL, the state is invalid,
+ * or mutex operations fail.
+ * @warning The function must only be called with
+ * a valid philosopher structure and initialized mutexes.
+ */
 t_error	print_philo_state(t_philo_state state, t_ms timestamp, t_philo *philo)
 {
 	char	*state_message;

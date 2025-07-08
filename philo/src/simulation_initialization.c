@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:24:59 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 17:37:45 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,7 @@ t_error	start_simulation(t_program *program)
 		error = ERROR;
 	if (!error && start_monitor_thread(program))
 		error = ERROR;
-	if (!error && get_current_time_ms(&program->input.sim_start_time,
-			&program->mutexes))
+	if (!error && get_current_time_ms(&program->input.sim_start_time))
 		error = ERROR;
 	if (mutex_all_forks(UNLOCK, program))
 		return (ERROR);

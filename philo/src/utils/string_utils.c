@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:05:55 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:21:45 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 17:46:51 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,12 +117,15 @@ t_error	atoms(const char *str, t_ms *result)
 /**
  * @brief Calculates the length of a null-terminated string.
  *
- * Counts characters in the string until the null terminator is reached.
- * Returns 0 if str is NULL.
+ * Iterates through the characters of the string until the null terminator
+ * is found, returning the character count.
  *
  * @param str Pointer to the null-terminated string.
  *
- * @return Number of characters in the string, excluding the null terminator.
+ * @return The number of characters in the string, excluding the null
+ *         terminator.
+ *
+ * @note Returns 0 if str is NULL.
  */
 int	ft_strlen(char *str)
 {

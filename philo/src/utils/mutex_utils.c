@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:10:58 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:22:11 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 17:47:04 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,17 @@ t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex)
 /**
  * @brief Locks or unlocks all fork mutexes in the program.
  *
- * Iterates through all fork mutexes and performs the specified action.
+ * Iterates through all fork mutexes and performs the specified action
+ * (LOCK or UNLOCK) on each.
  *
  * @param action The mutex operation to perform (LOCK or UNLOCK).
- * @param program Pointer to the main program structure.
+ * @param program Pointer to the main program structure containing the
+ *        mutexes.
  *
  * @return SUCCESS if all operations succeed, ERROR otherwise.
+ *
+ * @note Returns ERROR if the program pointer is NULL or if any mutex
+ *       operation fails.
  */
 t_error	mutex_all_forks(t_mutex_action action, t_program *program)
 {

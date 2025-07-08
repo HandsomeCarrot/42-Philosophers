@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:18:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 17:12:41 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 17:45:50 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,24 @@ t_error	wait_for_start(pthread_mutex_t *mutex)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Retrieves protected data from a philosopher structure in a thread-safe
+ *        manner.
+ *
+ * Depending on the requested data type, this function locks the appropriate
+ * mutex, copies the value from the philosopher structure, and then unlocks the
+ * mutex. It ensures that concurrent access to shared data is handled safely.
+ *
+ * @param data The type of data to retrieve (LAST_MEAL or MEALS_EATEN).
+ * @param storage_ptr Pointer to where the retrieved value will be stored.
+ * @param philo Pointer to the philosopher structure from which to read data.
+ *
+ * @return SUCCESS if the data was successfully retrieved, ERROR otherwise.
+ *
+ * @note The function returns ERROR if any pointer is NULL or if mutex
+ *       operations fail.
+ * @warning Only use with valid philosopher structures and initialized mutexes.
+ */
 t_error	get_protected_data(t_protected_data data, t_ms *storage_ptr,
 		t_philo *philo)
 {

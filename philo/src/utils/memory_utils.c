@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:08:46 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:08:59 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 17:47:22 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@
  * Allocates memory for an array of nmemb elements of size bytes each,
  * initializing all bytes to zero. Returns NULL on allocation failure.
  *
- * @param nmemb Number of elements.
+ * @param nmemb Number of elements to allocate.
  * @param size Size in bytes of each element.
  *
  * @return Pointer to the allocated memory, or NULL on failure.
+ *
+ * @note The function prints an error message if memory allocation fails.
  */
 void	*w_calloc(size_t nmemb, size_t size)
 {
