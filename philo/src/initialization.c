@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/07 21:11:52 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 12:44:50 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ static t_error	initialize_forks(t_program *program)
 /**
  * @brief Initializes all mutexes required for the simulation.
  *
- * Creates print, stop, and fork mutexes. Allocates and initializes the fork
+ * Creates print, term_flag, and fork mutexes. Allocates and initializes the fork
  * mutex array.
  *
  * @param program Pointer to the main program structure.
@@ -139,8 +139,8 @@ static t_error	initialize_mutexes(t_program *program)
 	program->mutexes.print = new_mutex(program);
 	if (!program->mutexes.print)
 		return (ERROR);
-	program->mutexes.stop = new_mutex(program);
-	if (!program->mutexes.stop)
+	program->mutexes.term_flag = new_mutex(program);
+	if (!program->mutexes.term_flag)
 		return (ERROR);
 	if (initialize_forks(program) != SUCCESS)
 		return (ERROR);

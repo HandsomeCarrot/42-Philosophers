@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 19:11:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/07 20:53:56 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 12:44:50 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static t_error	destroy_forks(t_program *program)
 /**
  * @brief Destroys all mutexes used in the philosophers program.
  *
- * Destroys and frees the stop mutex, print mutex, and all fork mutexes in the
+ * Destroys and frees the term_flag mutex, print mutex, and all fork mutexes in the
  * program structure.
  *
  * @param program Pointer to the main program structure containing mutexes.
@@ -102,7 +102,7 @@ t_error	destroy_all_mutexes(t_program *program)
 		return (ERROR);
 	}
 	error = SUCCESS;
-	if (destroy_mutex(program->mutexes.stop) != SUCCESS)
+	if (destroy_mutex(program->mutexes.term_flag) != SUCCESS)
 		error = ERROR;
 	if (destroy_mutex(program->mutexes.print) != SUCCESS)
 		error = ERROR;
