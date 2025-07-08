@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 12:44:57 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 12:46:17 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef struct s_mutexes
 	pthread_mutex_t		*term_flag;
 	pthread_mutex_t		*print;
 	pthread_mutex_t		**forks;
+	pthread_mutex_t		**last_meal;
+	pthread_mutex_t		**meals_eaten;
 }						t_mutexes;
 
 //----------philosopher-data----------//

@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 12:44:50 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 12:52:20 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,33 +86,38 @@ static pthread_mutex_t	*new_mutex(t_program *program)
 }
 
 /**
- * @brief Initializes all fork mutexes for the simulation.
+ * @brief Initializes a mutex array for the simulation.
  *
- * Allocates and initializes an array of mutexes, one for each philosopher's
- * fork.
+ * Allocates and initializes an array of mutexes with the specified count.
  *
  * @param program Pointer to the main program structure.
+ * @param mutex_array_ptr Pointer to the mutex array to initialize.
+ * @param count Number of mutexes to create.
  *
- * @return SUCCESS if all forks are initialized, ERROR otherwise.
+ * @return SUCCESS if all mutexes are initialized, ERROR otherwise.
  */
-static t_error	initialize_forks(t_program *program)
+static t_error	initialize_mutex_array(t_program *program,
+		pthread_mutex_t ***mutex_array_ptr, t_ms count)
 {
-	t_ms			fork_index;
-	t_ms			fork_count;
-	pthread_mutex_t	**forks;
+	t_ms			index;
+	pthread_mutex_t	**mutexes;
 
-	fork_index = 0;
-	fork_count = program->philo_count;
-	forks = w_calloc(fork_count, sizeof(pthread_mutex_t *));
-	if (!forks)
-		return (ERROR);
-	program->mutexes.forks = forks;
-	while (fork_index < fork_count)
+	if (!program || !mutex_array_ptr)
 	{
-		forks[fork_index] = new_mutex(program);
-		if (!forks[fork_index])
+		error_msg("missing parameters", "initialize_mutex_array");
+		return (ERROR);
+	}
+	mutexes = w_calloc(count, sizeof(pthread_mutex_t *));
+	if (!mutexes)
+		return (ERROR);
+	*mutex_array_ptr = mutexes;
+	index = 0;
+	while (index < count)
+	{
+		mutexes[index] = new_mutex(program);
+		if (!mutexes[index])
 			return (ERROR);
-		fork_index++;
+		index++;
 	}
 	return (SUCCESS);
 }
@@ -120,8 +125,7 @@ static t_error	initialize_forks(t_program *program)
 /**
  * @brief Initializes all mutexes required for the simulation.
  *
- * Creates print, term_flag, and fork mutexes. Allocates and initializes the fork
- * mutex array.
+ * Creates print, term_flag, fork, last_meal and meals_eaten mutexes.
  *
  * @param program Pointer to the main program structure.
  *
@@ -142,7 +146,14 @@ static t_error	initialize_mutexes(t_program *program)
 	program->mutexes.term_flag = new_mutex(program);
 	if (!program->mutexes.term_flag)
 		return (ERROR);
-	if (initialize_forks(program) != SUCCESS)
+	if (initialize_mutex_array(program, &program->mutexes.forks,
+			program->philo_count) != SUCCESS)
+		return (ERROR);
+	if (initialize_mutex_array(program, &program->mutexes.last_meal,
+			program->philo_count) != SUCCESS)
+		return (ERROR);
+	if (initialize_mutex_array(program, &program->mutexes.meals_eaten,
+			program->philo_count) != SUCCESS)
 		return (ERROR);
 	return (SUCCESS);
 }

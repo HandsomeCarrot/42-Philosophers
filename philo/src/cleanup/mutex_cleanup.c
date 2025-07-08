@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 19:11:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 12:44:50 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 12:55:05 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static t_error	destroy_mutex(pthread_mutex_t *mutex)
 	error = SUCCESS;
 	if (!mutex)
 	{
-		error_msg("missing parameters", "free_mutex");
+		error_msg("missing parameters", "destroy_mutex");
 		return (ERROR);
 	}
 	error = pthread_mutex_destroy(mutex);
@@ -45,46 +45,46 @@ static t_error	destroy_mutex(pthread_mutex_t *mutex)
 }
 
 /**
- * @brief Destroys and frees all fork mutexes in the program.
+ * @brief Destroys and frees a mutex array.
  *
- * Iterates through the array of fork mutexes, destroying and freeing each one.
+ * Iterates through the array of mutexes, destroying and freeing each one.
  * Also frees the array itself.
  *
- * @param program Pointer to the main program structure containing fork mutexes.
+ * @param program Pointer to the main program structure.
+ * @param mutex_array_ptr Pointer to the mutex array to destroy.
+ * @param count Number of mutexes in the array.
  *
  * @return SUCCESS if all mutexes were destroyed, ERROR otherwise.
- *
- * @note The function checks for NULL pointers before proceeding.
  */
-static t_error	destroy_forks(t_program *program)
+static t_error	destroy_mutex_array(t_program *program,
+		pthread_mutex_t ***mutex_array_ptr, t_ms count)
 {
-	t_ms	fork_index;
-	t_ms	fork_count;
+	t_ms	index;
 	t_error	error;
 
-	if (!program || !program->mutexes.forks)
+	if (!program || !mutex_array_ptr || !*mutex_array_ptr)
 	{
-		error_msg("missing parameters", "clean_forks");
+		error_msg("missing parameters", "destroy_mutex_array");
 		return (ERROR);
 	}
 	error = SUCCESS;
-	fork_index = 0;
-	fork_count = program->philo_count;
-	while (fork_index < fork_count && program->mutexes.forks[fork_index])
+	index = 0;
+	while (index < count && (*mutex_array_ptr)[index])
 	{
-		if (destroy_mutex(program->mutexes.forks[fork_index]) != SUCCESS)
+		if (destroy_mutex((*mutex_array_ptr)[index]) != SUCCESS)
 			error = ERROR;
-		fork_index++;
+		index++;
 	}
-	free(program->mutexes.forks);
+	free(*mutex_array_ptr);
+	*mutex_array_ptr = NULL;
 	return (error);
 }
 
 /**
  * @brief Destroys all mutexes used in the philosophers program.
  *
- * Destroys and frees the term_flag mutex, print mutex, and all fork mutexes in the
- * program structure.
+ * Destroys and frees the term_flag mutex, print mutex 
+ * and all fork mutexes in the program structure.
  *
  * @param program Pointer to the main program structure containing mutexes.
  *
@@ -98,7 +98,7 @@ t_error	destroy_all_mutexes(t_program *program)
 
 	if (!program)
 	{
-		error_msg("missing parameters", "clean_mutexes");
+		error_msg("missing parameters", "destroy_all_mutexes");
 		return (ERROR);
 	}
 	error = SUCCESS;
@@ -106,7 +106,14 @@ t_error	destroy_all_mutexes(t_program *program)
 		error = ERROR;
 	if (destroy_mutex(program->mutexes.print) != SUCCESS)
 		error = ERROR;
-	if (destroy_forks(program) != SUCCESS)
+	if (destroy_mutex_array(program, &program->mutexes.forks,
+			program->philo_count) != SUCCESS)
+		error = ERROR;
+	if (destroy_mutex_array(program, &program->mutexes.last_meal,
+			program->philo_count) != SUCCESS)
+		error = ERROR;
+	if (destroy_mutex_array(program, &program->mutexes.meals_eaten,
+			program->philo_count) != SUCCESS)
 		error = ERROR;
 	return (error);
 }

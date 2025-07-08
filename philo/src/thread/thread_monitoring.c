@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 12:13:09 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 12:57:41 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ static t_error	check_fullness(bool *all_full, t_philo *philo)
 		error_msg("missing parameters", "check_fullness");
 		return (ERROR);
 	}
-	if (w_mutex(LOCK, NULL))
+	if (w_mutex(LOCK, philo->mutexes->meals_eaten[philo->id]))
 		return (ERROR);
 	meals_eaten = philo->meals_eaten;
-	if (w_mutex(UNLOCK, NULL))
+	if (w_mutex(UNLOCK, philo->mutexes->meals_eaten[philo->id]))
 		return (ERROR);
 	if (meals_eaten < philo->input->meal_limit)
 		*all_full = false;
