@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:18:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 17:04:00 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/08 17:12:41 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ t_error	get_protected_data(t_protected_data data, t_ms *storage_ptr,
 		error_msg("missing parameters", "handle_thread_error");
 		return ((void *)ERROR);
 	}
-	if (data = LAST_MEAL)
+	if (data == LAST_MEAL)
 	{
 		if (w_mutex(LOCK, philo->mutexes->last_meal[philo->id]))
 			return (ERROR);
@@ -113,7 +113,7 @@ t_error	get_protected_data(t_protected_data data, t_ms *storage_ptr,
 			return (ERROR);
 		return (SUCCESS);
 	}
-	else if (data = MEALS_EATEN)
+	else if (data == MEALS_EATEN)
 	{
 		if (w_mutex(LOCK, philo->mutexes->last_meal[philo->id]))
 			return (ERROR);
