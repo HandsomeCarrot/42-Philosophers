@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:20:03 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/09 13:53:30 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,11 @@ void	*philo_start(void *data)
 
 	philo = data;
 	if (wait_for_start(philo->mutexes->forks[philo->id]))
-		return (thread_error(philo->term_flag_ptr, philo->mutexes));
-	if (is_termination_requested(philo->term_flag_ptr, philo->mutexes))
+		return (handle_thread_error(philo->term_flag_ptr, philo->mutexes));
+	if (termination_requested(philo->term_flag_ptr, philo->mutexes))
 		return ((void *)SUCCESS);
 	// temp code
-	get_time_in_ms(&start, philo->mutexes);
-	start -= philo->input->sim_start_time;
+	get_elapsed_time_ms(&start, philo->input);
 	w_mutex(LOCK, philo->mutexes->print);
 	printf("started philo number: %llu after: %llu ms\n", philo->id, start);
 	w_mutex(UNLOCK, philo->mutexes->print);

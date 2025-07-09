@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 17:37:45 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/09 13:47:42 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static t_error	create_philo(t_ms id, t_program *program)
 	program->philos[id].input = &program->input;
 	program->philos[id].mutexes = &program->mutexes;
 	program->philos[id].term_flag_ptr = &program->term_flag;
-	if (pthread_create(&program->philos[id].thread, NULL, philo_start,
+	if (pthread_create(&program->philos[id].thread, NULL, &philo_start,
 			&program->philos[id]))
 	{
 		set_termination_flag(&program->term_flag, &program->mutexes);

@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 17:49:00 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/09 13:50:21 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static t_error	check_death(t_philo *philo)
 	{
 		if (get_elapsed_time_ms(&elapsed_time_since_start, philo->input))
 			return (ERROR);
-		if (print_philo_state(DEATH, &elapsed_time_since_start, philo))
+		if (print_philo_state(DEATH, elapsed_time_since_start, philo))
 			return (ERROR);
 		return (TERMINATE);
 	}

@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:18:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 17:45:50 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/09 13:46:25 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ t_error	get_protected_data(t_protected_data data, t_ms *storage_ptr,
 	if (!storage_ptr || !philo)
 	{
 		error_msg("missing parameters", "handle_thread_error");
-		return ((void *)ERROR);
+		return (ERROR);
 	}
 	if (data == LAST_MEAL)
 	{
