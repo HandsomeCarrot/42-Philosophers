@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/09 13:47:42 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/09 15:08:28 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ static t_error	create_philo(t_ms id, t_program *program)
 		return (ERROR);
 	}
 	program->philos[id].id = id;
-	program->philos[id].last_meal = 0;
-	program->philos[id].meals_eaten = 0;
 	program->philos[id].input = &program->input;
 	program->philos[id].mutexes = &program->mutexes;
 	program->philos[id].term_flag_ptr = &program->term_flag;
@@ -104,6 +102,29 @@ static t_error	start_monitor_thread(t_program *program)
 	return (SUCCESS);
 }
 
+// docs
+static t_error	set_start_time(t_program *program)
+{
+	t_ms	philo_index;
+	t_ms	start_time;
+
+	if (!program)
+	{
+		error_msg("missing parameters", "set_start_time");
+		return (ERROR);
+	}
+	if (get_current_time_ms(&start_time))
+		return (ERROR);
+	philo_index = 0;
+	while (philo_index < program->philo_count)
+	{
+		program->philos[philo_index].last_meal = start_time;
+		philo_index++;
+	}
+	program->input.sim_start_time = start_time;
+	return (SUCCESS);
+}
+
 /**
  * @brief Starts the dining philosophers simulation by creating all threads.
  *
@@ -133,9 +154,9 @@ t_error	start_simulation(t_program *program)
 		error = ERROR;
 	if (!error && start_all_philosophers(program))
 		error = ERROR;
-	if (!error && start_monitor_thread(program))
+	if (!error && set_start_time(program))
 		error = ERROR;
-	if (!error && get_current_time_ms(&program->input.sim_start_time))
+	if (!error && start_monitor_thread(program))
 		error = ERROR;
 	if (mutex_all_forks(UNLOCK, program))
 		return (ERROR);
