@@ -6,11 +6,11 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:19:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:24:59 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/09 17:29:15 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "../../includes/philo.h"
 
 /**
  * @brief Cleans up all resources and exits the philosophers program.

@@ -6,11 +6,11 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:10:58 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 17:47:04 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/09 17:06:39 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "../../includes/philo.h"
 
 /**
  * @brief Wrapper for pthread mutex operations with error handling.

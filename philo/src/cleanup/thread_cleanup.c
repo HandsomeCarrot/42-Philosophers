@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 19:11:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/09 16:23:57 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/09 17:29:57 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static t_error	join_thread(pthread_t thread, t_program *program)
 		error_msg("failed to join a thread", NULL);
 		return (ERROR);
 	}
-	if (thread_error && thread_error == (void *)ERROR)
+	if (thread_error == (void *)ERROR)
 	{
 		set_termination_flag(&program->term_flag, &program->mutexes);
 		return (ERROR);
