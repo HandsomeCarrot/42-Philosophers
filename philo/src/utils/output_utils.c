@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:16:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 17:51:54 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/09 17:51:04 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ t_error	print_philo_state(t_philo_state state, t_ms timestamp, t_philo *philo)
 		return (ERROR);
 	if (w_mutex(LOCK, philo->mutexes->print))
 		return (ERROR);
-	printf("%llu %llu %s\n", timestamp, philo->id, state_message);
+	printf("%llu %llu %s\n", timestamp, philo->id + 1, state_message);
 	if (w_mutex(UNLOCK, philo->mutexes->print))
 		return (ERROR);
 	return (SUCCESS);
