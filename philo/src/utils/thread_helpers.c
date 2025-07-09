@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:18:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/09 13:46:25 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/09 17:37:51 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
  */
 void	set_termination_flag(bool *term_flag_ptr, t_mutexes *mutexes)
 {
-	if (!mutexes || !term_flag_ptr || !mutexes)
-		return ;
+	if (!term_flag_ptr || !mutexes)
+		error_msg("missing parameters", "set_termination_flag");
 	w_mutex(LOCK, mutexes->term_flag);
 	*term_flag_ptr = true;
 	w_mutex(UNLOCK, mutexes->term_flag);
@@ -44,7 +44,10 @@ bool	termination_requested(bool *term_flag_ptr, t_mutexes *mutexes)
 	bool	term_flag;
 
 	if (!term_flag_ptr || !mutexes)
+	{
+		error_msg("missing parameters", "termination_requested");
 		return (true);
+	}
 	if (w_mutex(LOCK, mutexes->term_flag))
 		return (true);
 	term_flag = *term_flag_ptr;
@@ -88,6 +91,11 @@ void	*handle_thread_error(bool *term_flag_ptr, t_mutexes *mutexes)
  */
 t_error	wait_for_start(pthread_mutex_t *mutex)
 {
+	if (!mutex)
+	{
+		error_msg("missing parameters", "wait_for_start");
+		return (ERROR);
+	}
 	if (w_mutex(LOCK, mutex) != SUCCESS)
 		return (ERROR);
 	if (w_mutex(UNLOCK, mutex) != SUCCESS)

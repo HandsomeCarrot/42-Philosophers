@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/09 14:01:31 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/09 17:37:44 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static t_error	check_philo(bool *all_full, t_philo *philo)
 	error = check_death(philo);
 	if (error != SUCCESS)
 		return (error);
-	if (philo->input->has_meal_limit && *all_full)
+	if (*all_full)
 	{
 		if (check_fullness(all_full, philo) != SUCCESS)
 			return (ERROR);
@@ -145,7 +145,7 @@ static t_error	check_all_philos(t_program *program)
 		error_msg("missing parameters", "check_all_philos");
 		return (ERROR);
 	}
-	all_full = true;
+	all_full = program->input.has_meal_limit;
 	philo_index = 0;
 	while (philo_index < program->philo_count)
 	{
