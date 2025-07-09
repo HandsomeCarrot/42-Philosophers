@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 19:11:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:24:59 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/09 16:23:57 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static t_error	join_thread(pthread_t thread, t_program *program)
  */
 t_error	join_all_threads(t_program *program)
 {
-	t_ms	philo_count;
 	t_ms	philo_index;
 	t_error	error;
 
@@ -75,8 +74,7 @@ t_error	join_all_threads(t_program *program)
 	}
 	error = SUCCESS;
 	philo_index = 0;
-	philo_count = program->philo_count;
-	while (philo_index < philo_count)
+	while (philo_index < program->philo_count)
 	{
 		if (join_thread(program->philos[philo_index].thread, program))
 			error = ERROR;
