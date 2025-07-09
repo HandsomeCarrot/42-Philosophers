@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/09 13:50:21 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/09 14:01:31 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static t_error	check_death(t_philo *philo)
 	}
 	if (get_protected_data(LAST_MEAL, &last_meal, philo))
 		return (ERROR);
-	if (validate_timestamps(last_meal, philo->input->sim_start_time))
+	if (validate_timestamps(philo->input->sim_start_time, last_meal))
 		return (ERROR);
 	elapsed_time_since_meal = last_meal - philo->input->sim_start_time;
 	if (elapsed_time_since_meal >= philo->input->time_to_die)
