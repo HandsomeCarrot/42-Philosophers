@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:13:55 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 17:46:37 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/09 14:33:28 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,6 @@ t_error	get_elapsed_time_ms(t_ms *ms_ptr, t_input *input)
 		return (ERROR);
 	if (validate_timestamps(input->sim_start_time, current_time))
 		return (ERROR);
-	*ms_ptr = input->sim_start_time - current_time;
+	*ms_ptr = current_time - input->sim_start_time;
 	return (SUCCESS);
 }
