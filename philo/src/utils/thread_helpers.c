@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:18:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/09 17:37:51 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/10 18:45:06 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,10 +140,10 @@ t_error	get_protected_data(t_protected_data data, t_ms *storage_ptr,
 	}
 	else if (data == MEALS_EATEN)
 	{
-		if (w_mutex(LOCK, philo->mutexes->last_meal[philo->id]))
+		if (w_mutex(LOCK, philo->mutexes->meals_eaten[philo->id]))
 			return (ERROR);
 		*storage_ptr = philo->meals_eaten;
-		if (w_mutex(UNLOCK, philo->mutexes->last_meal[philo->id]))
+		if (w_mutex(UNLOCK, philo->mutexes->meals_eaten[philo->id]))
 			return (ERROR);
 		return (SUCCESS);
 	}
