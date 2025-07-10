@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/10 16:50:36 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/10 19:13:45 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,13 +177,19 @@ static t_error	philo_eat(t_philo *philo)
 // docs
 static t_error	philo_sleep(t_philo *philo)
 {
+	t_error	error;
+
 	if (!philo)
 	{
 		error_msg("missing parameters", "philo_sleep");
 		return (ERROR);
 	}
-	thread_sleep(philo->input->time_to_sleep, philo);
-	return (SUCCESS);
+	if (termination_requested(philo->term_flag_ptr, philo->mutexes))
+		return (TERMINATE);
+	if (print_philo_state(SLEEPING, philo))
+		return (ERROR);
+	error = thread_sleep(philo->input->time_to_sleep, philo);
+	return (error);
 }
 
 // docs
