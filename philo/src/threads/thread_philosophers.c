@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/10 16:31:22 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/10 16:50:36 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,40 @@ static t_error	philo_forks(t_mutex_action action, t_philo *philo)
 	return (SUCCESS);
 }
 
+static t_error	set_last_meal(t_philo *philo)
+{
+	t_ms	current_time;
+
+	if (!philo)
+	{
+		error_msg("missing parameters", "set_last_meal");
+		return (ERROR);
+	}
+	if (get_current_time_ms(&current_time))
+		return (ERROR);
+	if (w_mutex(LOCK, philo->mutexes->last_meal[philo->id]))
+		return (ERROR);
+	philo->last_meal = current_time;
+	if (w_mutex(UNLOCK, philo->mutexes->last_meal[philo->id]))
+		return (ERROR);
+	return (SUCCESS);
+}
+
+static t_error	increase_meals_eaten(t_philo *philo)
+{
+	if (!philo)
+	{
+		error_msg("missing parameters", "increase_meals_eaten");
+		return (ERROR);
+	}
+	if (w_mutex(LOCK, philo->mutexes->meals_eaten[philo->id]))
+		return (ERROR);
+	philo->meals_eaten++;
+	if (w_mutex(UNLOCK, philo->mutexes->meals_eaten[philo->id]))
+		return (ERROR);
+	return (SUCCESS);
+}
+
 // docs
 static t_error	philo_eat(t_philo *philo)
 {
@@ -121,27 +155,34 @@ static t_error	philo_eat(t_philo *philo)
 
 	if (!philo)
 	{
-		error_msg("missing parameters", "eat");
+		error_msg("missing parameters", "philo_eat");
 		return (ERROR);
 	}
 	if (termination_requested(philo->term_flag_ptr, philo->mutexes))
 		return (TERMINATE);
 	if (philo_forks(LOCK, philo))
 		return (ERROR);
+	if (set_last_meal(philo))
+		return (ERROR);
 	if (print_philo_state(EATING, philo))
 		return (ERROR);
 	error = thread_sleep(philo->input->time_to_eat, philo);
 	if (philo_forks(UNLOCK, philo))
 		return (ERROR);
-	
+	if (increase_meals_eaten(philo))
+		return (ERROR);
 	return (error);
 }
 
 // docs
 static t_error	philo_sleep(t_philo *philo)
 {
-	(void)philo;
-	// TODO
+	if (!philo)
+	{
+		error_msg("missing parameters", "philo_sleep");
+		return (ERROR);
+	}
+	thread_sleep(philo->input->time_to_sleep, philo);
 	return (SUCCESS);
 }
 
