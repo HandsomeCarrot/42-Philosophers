@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:16:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/09 17:51:04 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/10 14:13:42 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,13 @@ static char	*get_state_message(t_philo_state state)
 }
 
 /**
- * @brief Prints the current state of a philosopher with timestamp.
+ * @brief Prints the current state of a philosopher with elapsed time.
  *
- * Outputs a formatted message displaying the timestamp, philosopher ID,
+ * Outputs a formatted message displaying the elapsed time, philosopher ID,
  * and a human-readable state such as "is eating" or "died". Ensures
  * thread-safe output by acquiring the print mutex before printing.
  *
  * @param state The current state of the philosopher (e.g., EATING, DEATH).
- * @param timestamp The time in milliseconds to display in the output.
  * @param philo Pointer to the philosopher structure whose
  * state is being printed.
  *
@@ -105,21 +104,24 @@ static char	*get_state_message(t_philo_state state)
  * @warning The function must only be called with
  * a valid philosopher structure and initialized mutexes.
  */
-t_error	print_philo_state(t_philo_state state, t_ms timestamp, t_philo *philo)
+t_error	print_philo_state(t_philo_state state, t_philo *philo)
 {
 	char	*state_message;
+	t_ms	elapsed_time;
 
 	if (!philo)
 	{
 		error_msg("missing parameters", "print_philo_state");
 		return (ERROR);
 	}
+	if (get_elapsed_time_ms(&elapsed_time, philo->input))
+		return (ERROR);
 	state_message = get_state_message(state);
 	if (!state_message)
 		return (ERROR);
 	if (w_mutex(LOCK, philo->mutexes->print))
 		return (ERROR);
-	printf("%llu %llu %s\n", timestamp, philo->id + 1, state_message);
+	printf("%llu %llu %s\n", elapsed_time, philo->id + 1, state_message);
 	if (w_mutex(UNLOCK, philo->mutexes->print))
 		return (ERROR);
 	return (SUCCESS);
