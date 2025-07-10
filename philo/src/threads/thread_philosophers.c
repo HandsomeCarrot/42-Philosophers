@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/10 14:36:25 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/10 15:28:52 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,23 @@ static t_error	philo_forks(t_mutex_action action, t_philo *philo)
 // docs
 static t_error	eat(t_philo *philo)
 {
-	(void)philo;
-	// TODO
-	return (SUCCESS);
+	t_error	error;
+
+	if (!philo)
+	{
+		error_msg("missing parameters", "eat");
+		return (ERROR);
+	}
+	if (termination_requested(philo->term_flag_ptr, philo->mutexes))
+			return (TERMINATE);
+	if (philo_forks(LOCK, philo))
+		return (ERROR);
+	if (print_philo_state(EATING, philo))
+		return (ERROR);
+	error = thread_sleep(philo->input->time_to_eat, philo);
+	if (philo_forks(UNLOCK, philo))
+		return (ERROR);
+	return (error);
 }
 
 // docs
@@ -137,6 +151,33 @@ static t_error	think(t_philo *philo)
 	return (SUCCESS);
 }
 
+// docs
+static t_error	start_routine(t_philo *philo)
+{
+	t_error	error;
+
+	if (!philo)
+	{
+		error_msg("missing parameters", "routine");
+		return (ERROR);
+	}
+	error = SUCCESS;
+	while (error == SUCCESS)
+	{
+		error = eat(philo);
+		if (error == SUCCESS)
+			error = sleep(philo);
+		if (error == SUCCESS)
+			error = think(philo);
+		if (error == SUCCESS)
+		{
+			if (termination_requested(philo->term_flag_ptr, philo->mutexes))
+				error = TERMINATE;
+		}
+	}
+	return (error);
+}
+
 /**
  * @brief Entry point for a philosopher thread.
  *
@@ -153,6 +194,7 @@ void	*philo_start(void *data)
 {
 	t_philo	*philo;
 	t_ms	start;
+	t_error	error;
 
 	if (!data)
 	{
@@ -164,14 +206,8 @@ void	*philo_start(void *data)
 		return (handle_thread_error(philo->term_flag_ptr, philo->mutexes));
 	if (termination_requested(philo->term_flag_ptr, philo->mutexes))
 		return ((void *)SUCCESS);
-	while (!termination_requested(philo->term_flag_ptr, philo->mutexes))
-	{
-		if (eat(philo))
-			return ((void *)ERROR);
-		if (sleep(philo))
-			return ((void *)ERROR);
-		if (think(philo))
-			return ((void *)ERROR);
-	}
-	return ((void *)SUCCESS);
+	error = start_routine(philo);
+	if (error == ERROR)
+		set_termination_flag(philo->term_flag_ptr, philo->mutexes);
+	return ((void *)error);
 }
