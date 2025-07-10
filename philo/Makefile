@@ -6,7 +6,7 @@
 #    By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 19:28:52 by vpoka             #+#    #+#              #
-#    Updated: 2025/07/09 13:49:34 by vpoka            ###   ########.fr        #
+#    Updated: 2025/07/10 15:57:12 by vpoka            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ ALL_NAMES = $(NAME) $(NAME_GARBAGE) $(NAME_SANITIZE)
 # ================================ COMPILATION ================================ #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -pthread
 GARBAGEFLAG = -g
 SANITIZEFLAGS = $(GARBAGEFLAG) -fsanitize=thread
 INCLUDES = -Iincludes
