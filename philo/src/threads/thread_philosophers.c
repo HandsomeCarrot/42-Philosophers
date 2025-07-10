@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/10 15:28:52 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/10 15:50:27 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ static t_error	philo_forks(t_mutex_action action, t_philo *philo)
 }
 
 // docs
-static t_error	eat(t_philo *philo)
+static t_error	philo_eat(t_philo *philo)
 {
 	t_error	error;
 
@@ -124,7 +124,7 @@ static t_error	eat(t_philo *philo)
 		return (ERROR);
 	}
 	if (termination_requested(philo->term_flag_ptr, philo->mutexes))
-			return (TERMINATE);
+		return (TERMINATE);
 	if (philo_forks(LOCK, philo))
 		return (ERROR);
 	if (print_philo_state(EATING, philo))
@@ -136,7 +136,7 @@ static t_error	eat(t_philo *philo)
 }
 
 // docs
-static t_error	sleep(t_philo *philo)
+static t_error	philo_sleep(t_philo *philo)
 {
 	(void)philo;
 	// TODO
@@ -144,7 +144,7 @@ static t_error	sleep(t_philo *philo)
 }
 
 // docs
-static t_error	think(t_philo *philo)
+static t_error	philo_think(t_philo *philo)
 {
 	(void)philo;
 	// TODO
@@ -164,11 +164,11 @@ static t_error	start_routine(t_philo *philo)
 	error = SUCCESS;
 	while (error == SUCCESS)
 	{
-		error = eat(philo);
+		error = philo_eat(philo);
 		if (error == SUCCESS)
-			error = sleep(philo);
+			error = philo_sleep(philo);
 		if (error == SUCCESS)
-			error = think(philo);
+			error = philo_think(philo);
 		if (error == SUCCESS)
 		{
 			if (termination_requested(philo->term_flag_ptr, philo->mutexes))
@@ -193,7 +193,6 @@ static t_error	start_routine(t_philo *philo)
 void	*philo_start(void *data)
 {
 	t_philo	*philo;
-	t_ms	start;
 	t_error	error;
 
 	if (!data)
@@ -202,7 +201,7 @@ void	*philo_start(void *data)
 		return ((void *)ERROR);
 	}
 	philo = data;
-	if (wait_for_start(philo->mutexes->forks[philo->id]))
+	if (wait_for_start(philo->mutexes->start_mutexes[philo->id]))
 		return (handle_thread_error(philo->term_flag_ptr, philo->mutexes));
 	if (termination_requested(philo->term_flag_ptr, philo->mutexes))
 		return ((void *)SUCCESS);

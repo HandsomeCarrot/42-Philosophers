@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/10 14:14:13 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/10 15:46:52 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	*w_calloc(size_t nmemb, size_t size);
 //----------mutex_utils.c----------//
 
 t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex);
-t_error	mutex_all_forks(t_mutex_action action, t_program *program);
+t_error	mutex_start(t_mutex_action action, t_program *program);
 
 //----------output_utils.c----------//
 

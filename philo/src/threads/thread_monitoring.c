@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/10 14:14:28 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/10 15:48:59 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ void	*monitor_start(void *data)
 		return ((void *)ERROR);
 	}
 	program = (t_program *)data;
-	if (wait_for_start(program->mutexes.forks[0]))
+	if (wait_for_start(program->mutexes.start_mutexes[0]))
 		return (handle_thread_error(&program->term_flag, &program->mutexes));
 	error = SUCCESS;
 	while (!termination_requested(&program->term_flag, &program->mutexes))

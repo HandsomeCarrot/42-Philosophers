@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:10:58 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/10 12:35:30 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/10 15:48:13 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,25 +62,25 @@ t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex)
  * @note Returns ERROR if the program pointer is NULL or if any mutex
  *       operation fails.
  */
-t_error	mutex_all_forks(t_mutex_action action, t_program *program)
+t_error	mutex_start(t_mutex_action action, t_program *program)
 {
-	pthread_mutex_t	**forks;
-	t_ms			fork_index;
-	t_ms			fork_count;
+	pthread_mutex_t	**mutexes;
+	t_ms			mutex_index;
+	t_ms			philo_count;
 
 	if (!program)
 	{
-		error_msg("missing parameters", "mutex_all_forks");
+		error_msg("missing parameters", "mutex_start");
 		return (ERROR);
 	}
-	forks = program->mutexes.forks;
-	fork_index = 0;
-	fork_count = program->input.philo_count;
-	while (fork_index < fork_count)
+	mutexes = program->mutexes.start_mutexes;
+	philo_count = program->input.philo_count;
+	mutex_index = 0;
+	while (mutex_index < philo_count)
 	{
-		if (w_mutex(action, forks[fork_index]) != SUCCESS)
+		if (w_mutex(action, mutexes[mutex_index]) != SUCCESS)
 			return (ERROR);
-		fork_index++;
+		mutex_index++;
 	}
 	return (SUCCESS);
 }

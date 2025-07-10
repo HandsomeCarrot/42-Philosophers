@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/10 12:34:28 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/10 15:46:52 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ t_error	start_simulation(t_program *program)
 		return (ERROR);
 	}
 	error = SUCCESS;
-	if (mutex_all_forks(LOCK, program))
+	if (mutex_start(LOCK, program))
 		error = ERROR;
 	if (!error && start_all_philosophers(program))
 		error = ERROR;
@@ -158,7 +158,7 @@ t_error	start_simulation(t_program *program)
 		error = ERROR;
 	if (!error && start_monitor_thread(program))
 		error = ERROR;
-	if (mutex_all_forks(UNLOCK, program))
+	if (mutex_start(UNLOCK, program))
 		return (ERROR);
 	return (error);
 }

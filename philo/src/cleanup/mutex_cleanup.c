@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 19:11:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/10 12:34:56 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/10 15:49:59 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,9 @@ t_error	destroy_all_mutexes(t_program *program)
 			program->input.philo_count) != SUCCESS)
 		error = ERROR;
 	if (destroy_mutex_array(program, &program->mutexes.meals_eaten,
+			program->input.philo_count) != SUCCESS)
+		error = ERROR;
+	if (destroy_mutex_array(program, &program->mutexes.start_mutexes,
 			program->input.philo_count) != SUCCESS)
 		error = ERROR;
 	return (error);
