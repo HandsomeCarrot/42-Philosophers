@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/10 15:50:27 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/10 16:31:22 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,13 @@ static t_error	get_philo_forks(pthread_mutex_t **first,
 	id = philo->id;
 	right_fork = id;
 	left_fork = id + 1;
-	if (id == philo->input->philo_count)
+	if (id == philo->input->philo_count - 1)
 		left_fork = 0;
 	if (id % 2 == 0)
 	{
 		*first = philo->mutexes->forks[right_fork];
 		*second = philo->mutexes->forks[left_fork];
+		return (SUCCESS);
 	}
 	*first = philo->mutexes->forks[left_fork];
 	*second = philo->mutexes->forks[right_fork];
@@ -132,6 +133,7 @@ static t_error	philo_eat(t_philo *philo)
 	error = thread_sleep(philo->input->time_to_eat, philo);
 	if (philo_forks(UNLOCK, philo))
 		return (ERROR);
+	
 	return (error);
 }
 
