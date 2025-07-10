@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/09 17:37:44 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/10 12:35:24 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ static t_error	check_all_philos(t_program *program)
 	}
 	all_full = program->input.has_meal_limit;
 	philo_index = 0;
-	while (philo_index < program->philo_count)
+	while (philo_index < program->input.philo_count)
 	{
 		error = check_philo(&all_full, &program->philos[philo_index]);
 		if (error != SUCCESS)

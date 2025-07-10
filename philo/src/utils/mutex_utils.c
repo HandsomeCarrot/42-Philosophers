@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:10:58 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/09 17:06:39 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/10 12:35:30 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_error	mutex_all_forks(t_mutex_action action, t_program *program)
 	}
 	forks = program->mutexes.forks;
 	fork_index = 0;
-	fork_count = program->philo_count;
+	fork_count = program->input.philo_count;
 	while (fork_index < fork_count)
 	{
 		if (w_mutex(action, forks[fork_index]) != SUCCESS)

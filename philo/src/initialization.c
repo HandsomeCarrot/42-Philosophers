@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 12:52:20 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/10 12:33:47 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static t_error	process_input(int argc, char **argv, t_program *program)
 		error_msg("missing parameters", "process_input");
 		return (ERROR);
 	}
-	if (atoms((const char *)argv[1], &program->philo_count) != SUCCESS)
+	if (atoms((const char *)argv[1], &program->input.philo_count) != SUCCESS)
 		return (ERROR);
 	if (atoms((const char *)argv[2], &program->input.time_to_die) != SUCCESS)
 		return (ERROR);
@@ -147,13 +147,13 @@ static t_error	initialize_mutexes(t_program *program)
 	if (!program->mutexes.term_flag)
 		return (ERROR);
 	if (initialize_mutex_array(program, &program->mutexes.forks,
-			program->philo_count) != SUCCESS)
+			program->input.philo_count) != SUCCESS)
 		return (ERROR);
 	if (initialize_mutex_array(program, &program->mutexes.last_meal,
-			program->philo_count) != SUCCESS)
+			program->input.philo_count) != SUCCESS)
 		return (ERROR);
 	if (initialize_mutex_array(program, &program->mutexes.meals_eaten,
-			program->philo_count) != SUCCESS)
+			program->input.philo_count) != SUCCESS)
 		return (ERROR);
 	return (SUCCESS);
 }
@@ -189,7 +189,7 @@ t_error	initialize_data(int argc, char **argv, t_program **program_ptr)
 		return (ERROR);
 	if (initialize_mutexes(program) != SUCCESS)
 		return (ERROR);
-	program->philos = w_calloc(program->philo_count, sizeof(t_philo));
+	program->philos = w_calloc(program->input.philo_count, sizeof(t_philo));
 	if (!program->philos)
 		return (ERROR);
 	program->term_flag = false;

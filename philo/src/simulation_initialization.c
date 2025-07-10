@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/09 15:08:28 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/10 12:34:28 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static t_error	start_all_philosophers(t_program *program)
 		return (ERROR);
 	}
 	philo_index = 0;
-	philo_count = program->philo_count;
+	philo_count = program->input.philo_count;
 	while (philo_index < philo_count)
 	{
 		if (create_philo(philo_index, program) != SUCCESS)
@@ -116,7 +116,7 @@ static t_error	set_start_time(t_program *program)
 	if (get_current_time_ms(&start_time))
 		return (ERROR);
 	philo_index = 0;
-	while (philo_index < program->philo_count)
+	while (philo_index < program->input.philo_count)
 	{
 		program->philos[philo_index].last_meal = start_time;
 		philo_index++;

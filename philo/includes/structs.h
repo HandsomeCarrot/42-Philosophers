@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 12:46:17 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/10 12:33:01 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ typedef struct s_input
 	t_ms				time_to_die;
 	t_ms				time_to_eat;
 	t_ms				time_to_sleep;
-	bool				has_meal_limit;
+	t_ms				philo_count;
 	t_ms				meal_limit;
+	bool				has_meal_limit;
 	t_ms				sim_start_time;
 }						t_input;
 
@@ -61,7 +62,6 @@ typedef struct s_philo
 // docs
 typedef struct s_program
 {
-	t_ms				philo_count;
 	bool				term_flag;
 	pthread_t			monitor_thread;
 	t_philo				*philos;
