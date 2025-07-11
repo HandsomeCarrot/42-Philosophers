@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/11 09:53:13 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/11 18:07:54 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static t_error	check_death(t_philo *philo)
 	elapsed_time_since_meal = current_time - last_meal;
 	if (elapsed_time_since_meal >= philo->input->time_to_die)
 	{
-		if (print_philo_state(DEATH, philo) == ERROR	)
+		if (print_philo_state(DEATH, philo) == ERROR)
 			return (ERROR);
 		set_termination_flag(philo->term_flag_ptr, philo->mutexes);
 		return (TERMINATE);
@@ -77,10 +77,7 @@ static t_error	check_fullness(bool *all_full, t_philo *philo)
 		error_msg("missing parameters", "check_fullness");
 		return (ERROR);
 	}
-	if (w_mutex(LOCK, philo->mutexes->meals_eaten[philo->id]))
-		return (ERROR);
-	meals_eaten = philo->meals_eaten;
-	if (w_mutex(UNLOCK, philo->mutexes->meals_eaten[philo->id]))
+	if (get_protected_data(MEALS_EATEN, &meals_eaten, philo))
 		return (ERROR);
 	if (meals_eaten < philo->input->meal_limit)
 		*all_full = false;
@@ -198,6 +195,7 @@ void	*monitor_start(void *data)
 			set_termination_flag(&program->term_flag, &program->mutexes);
 			break ;
 		}
+		usleep(1000);
 		// wait a bit after all checks?
 	}
 	return ((void *)error);
