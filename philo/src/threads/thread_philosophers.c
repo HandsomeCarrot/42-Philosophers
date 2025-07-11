@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/11 17:51:53 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/11 18:35:30 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_error	thread_sleep(t_ms time, t_philo *philo)
 			sleep_time = time;
 		else
 			sleep_time = interval;
-		if (usleep(sleep_time * 1000) != 0)
+		if (usleep(sleep_time * MS_TO_USEC) != 0)
 			return (ERROR);
 		if (termination_requested(philo->term_flag_ptr, philo->mutexes))
 			return (TERMINATE);
@@ -54,9 +54,7 @@ static t_error	get_philo_forks(pthread_mutex_t **first,
 	}
 	id = philo->id;
 	own_fork = id;
-	neighbors_fork = id + 1;
-	if (id == philo->input->philo_count - 1)
-		neighbors_fork = 0;
+	neighbors_fork = (id + 1) % philo->input->philo_count;
 	if (id % 2 == 0)
 	{
 		*first = philo->mutexes->forks[own_fork];

@@ -6,12 +6,14 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 18:01:22 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 16:59:39 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/11 18:19:16 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPES_H
 # define TYPES_H
+
+# define MS_TO_USEC 1000
 
 // docs
 typedef unsigned long long	t_ms;
