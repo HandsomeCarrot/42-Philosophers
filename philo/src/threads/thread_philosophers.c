@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/11 09:57:50 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/11 10:59:53 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_error	thread_sleep(t_ms time, t_philo *philo)
 		error_msg("missing parameters", "thread_sleep");
 		return (ERROR);
 	}
-	interval = 5;
+	interval = 100;
 	while (time > 0)
 	{
 		if (time < interval)
@@ -116,6 +116,7 @@ static t_error	philo_forks(t_mutex_action action, t_philo *philo)
 	return (SUCCESS);
 }
 
+// docs
 static t_error	set_last_meal(t_philo *philo)
 {
 	t_ms	current_time;
@@ -135,6 +136,7 @@ static t_error	set_last_meal(t_philo *philo)
 	return (SUCCESS);
 }
 
+// docs
 static t_error	increase_meals_eaten(t_philo *philo)
 {
 	if (!philo)
@@ -231,6 +233,22 @@ static t_error	start_routine(t_philo *philo)
 	return (error);
 }
 
+// docs
+static t_error	handle_single_philo(t_philo *philo)
+{
+	t_error	error;
+
+	if (!philo)
+	{
+		error_msg("missing parameters", "handle_single_philo");
+		return (ERROR);
+	}
+	error = mutex_fork(LOCK, philo->mutexes->forks[0], philo);
+	if (error != SUCCESS)
+		return (error);
+	return (mutex_fork(UNLOCK, philo->mutexes->forks[0], philo));
+}
+
 /**
  * @brief Entry point for a philosopher thread.
  *
@@ -260,7 +278,10 @@ void	*philo_start(void *data)
 		return (handle_thread_error(philo->term_flag_ptr, philo->mutexes));
 	if (termination_requested(philo->term_flag_ptr, philo->mutexes))
 		return ((void *)SUCCESS);
-	error = start_routine(philo);
+	if (philo->input->philo_count == 1)
+		error = handle_single_philo(philo);
+	else
+		error = start_routine(philo);
 	if (error == ERROR)
 		set_termination_flag(philo->term_flag_ptr, philo->mutexes);
 	return ((void *)error);
