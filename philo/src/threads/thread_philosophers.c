@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/11 13:35:00 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/11 17:51:53 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_error	thread_sleep(t_ms time, t_philo *philo)
 		error_msg("missing parameters", "thread_sleep");
 		return (ERROR);
 	}
-	interval = 5000;
+	interval = 10000;
 	while (time > 0)
 	{
 		if (time < interval)
@@ -120,6 +120,7 @@ static t_error	philo_forks(t_mutex_action action, t_philo *philo)
 static t_error	set_last_meal(t_philo *philo)
 {
 	t_ms	current_time;
+	pthread_mutex_t	*mutex;
 
 	if (!philo)
 	{
@@ -128,10 +129,11 @@ static t_error	set_last_meal(t_philo *philo)
 	}
 	if (get_current_time_ms(&current_time))
 		return (ERROR);
-	if (w_mutex(LOCK, philo->mutexes->last_meal[philo->id]))
+	mutex = philo->mutexes->last_meal[philo->id];
+	if (w_mutex(LOCK, mutex))
 		return (ERROR);
 	philo->last_meal = current_time;
-	if (w_mutex(UNLOCK, philo->mutexes->last_meal[philo->id]))
+	if (w_mutex(UNLOCK, mutex))
 		return (ERROR);
 	return (SUCCESS);
 }
@@ -139,15 +141,18 @@ static t_error	set_last_meal(t_philo *philo)
 // docs
 static t_error	increase_meals_eaten(t_philo *philo)
 {
+	pthread_mutex_t	*mutex;
+
 	if (!philo)
 	{
 		error_msg("missing parameters", "increase_meals_eaten");
 		return (ERROR);
 	}
-	if (w_mutex(LOCK, philo->mutexes->meals_eaten[philo->id]))
+	mutex = philo->mutexes->meals_eaten[philo->id];
+	if (w_mutex(LOCK, mutex))
 		return (ERROR);
 	philo->meals_eaten++;
-	if (w_mutex(UNLOCK, philo->mutexes->meals_eaten[philo->id]))
+	if (w_mutex(UNLOCK, mutex))
 		return (ERROR);
 	return (SUCCESS);
 }
@@ -162,8 +167,6 @@ static t_error	philo_eat(t_philo *philo)
 		error_msg("missing parameters", "philo_eat");
 		return (ERROR);
 	}
-	if (termination_requested(philo->term_flag_ptr, philo->mutexes))
-		return (TERMINATE);
 	error = philo_forks(LOCK, philo);
 	if (error != SUCCESS)
 		return (error);
@@ -208,6 +211,9 @@ static t_error	philo_think(t_philo *philo)
 		return (ERROR);
 	}
 	error = print_philo_state(THINKING, philo);
+	if (error != SUCCESS)
+		return (error);
+	//error = thread_sleep(1, philo);
 	return (error);
 }
 
