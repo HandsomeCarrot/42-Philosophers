@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 19:11:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/10 12:35:17 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/11 09:08:08 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ t_error	join_all_threads(t_program *program)
 			error = ERROR;
 		philo_index++;
 	}
-	if (!termination_requested(&program->term_flag, &program->mutexes))
-		set_termination_flag(&program->term_flag, &program->mutexes);
 	if (join_thread(program->monitor_thread, program))
 		error = ERROR;
 	return (error);

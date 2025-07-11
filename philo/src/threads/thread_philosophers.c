@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/11 08:51:06 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/11 09:05:45 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,6 +252,8 @@ void	*philo_start(void *data)
 		return ((void *)ERROR);
 	}
 	philo = data;
+	if (philo->input->time_to_die == 0)
+		return ((void *)SUCCESS);
 	if (wait_for_start(philo->mutexes->start_mutexes[philo->id]))
 		return (handle_thread_error(philo->term_flag_ptr, philo->mutexes));
 	if (termination_requested(philo->term_flag_ptr, philo->mutexes))
