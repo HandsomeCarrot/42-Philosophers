@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/10 15:44:51 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/11 18:56:11 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,9 @@ t_error	initialize_data(int argc, char **argv, t_program **program_ptr)
 		return (ERROR);
 	if (initialize_mutexes(program) != SUCCESS)
 		return (ERROR);
+	program->input.time_to_think = 0;
+	if (program->input.philo_count % 2 == 1)
+		program->input.time_to_think = 1;
 	program->philos = w_calloc(program->input.philo_count, sizeof(t_philo));
 	if (!program->philos)
 		return (ERROR);

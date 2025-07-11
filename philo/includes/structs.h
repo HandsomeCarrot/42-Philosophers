@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/10 15:44:21 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/11 18:53:54 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_input
 	t_ms				time_to_die;
 	t_ms				time_to_eat;
 	t_ms				time_to_sleep;
+	t_ms				time_to_think;
 	t_ms				philo_count;
 	t_ms				meal_limit;
 	bool				has_meal_limit;

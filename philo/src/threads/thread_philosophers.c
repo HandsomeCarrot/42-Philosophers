@@ -6,14 +6,14 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/11 18:35:30 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/11 18:57:25 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
 // docs
-static t_error	thread_sleep(t_ms time, t_philo *philo)
+static t_error		thread_sleep(t_ms time, t_philo *philo)
 {
 	t_ms	interval;
 	t_ms	sleep_time;
@@ -211,7 +211,7 @@ static t_error	philo_think(t_philo *philo)
 	error = print_philo_state(THINKING, philo);
 	if (error != SUCCESS)
 		return (error);
-	//error = thread_sleep(1, philo);
+	error = thread_sleep(philo->input->time_to_think, philo);
 	return (error);
 }
 
