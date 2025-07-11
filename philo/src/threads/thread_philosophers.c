@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/11 10:59:53 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/11 13:00:43 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_error	thread_sleep(t_ms time, t_philo *philo)
 		error_msg("missing parameters", "thread_sleep");
 		return (ERROR);
 	}
-	interval = 100;
+	interval = 5000;
 	while (time > 0)
 	{
 		if (time < interval)
@@ -67,6 +67,34 @@ static t_error	get_philo_forks(pthread_mutex_t **first,
 	*second = philo->mutexes->forks[own_fork];
 	return (SUCCESS);
 }
+
+//// docs
+//static t_error	get_philo_forks(pthread_mutex_t **first,
+//		pthread_mutex_t **second, t_philo *philo)
+//{
+//	t_ms	own_fork;
+//	t_ms	neighbors_fork;
+//	t_ms	id;
+
+//	if (!first || !second || !philo)
+//	{
+//		error_msg("missing parameters", "get_philo_forks");
+//		return (ERROR);
+//	}
+//	id = philo->id;
+//	own_fork = id;
+//	if (id == philo->input->philo_count - 1)
+//	{
+//		neighbors_fork = 0;
+//		*first = philo->mutexes->forks[neighbors_fork];
+//		*second = philo->mutexes->forks[own_fork];
+//		return (SUCCESS);
+//	}
+//	neighbors_fork = id + 1;
+//	*first = philo->mutexes->forks[own_fork];
+//	*second = philo->mutexes->forks[neighbors_fork];
+//	return (SUCCESS);
+//}
 
 // docs
 static t_error	mutex_fork(t_mutex_action action, pthread_mutex_t *fork,
