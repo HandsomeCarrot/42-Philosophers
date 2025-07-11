@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:18:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/10 18:45:06 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/11 18:02:23 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,28 +124,24 @@ t_error	wait_for_start(pthread_mutex_t *mutex)
 t_error	get_protected_data(t_protected_data data, t_ms *storage_ptr,
 		t_philo *philo)
 {
+	pthread_mutex_t	*mutex;
+
 	if (!storage_ptr || !philo)
 	{
 		error_msg("missing parameters", "handle_thread_error");
 		return (ERROR);
 	}
 	if (data == LAST_MEAL)
-	{
-		if (w_mutex(LOCK, philo->mutexes->last_meal[philo->id]))
-			return (ERROR);
+		mutex = philo->mutexes->last_meal[philo->id];
+	else
+		mutex = philo->mutexes->meals_eaten[philo->id];
+	if (w_mutex(LOCK, mutex))
+		return (ERROR);
+	if (data == LAST_MEAL)
 		*storage_ptr = philo->last_meal;
-		if (w_mutex(UNLOCK, philo->mutexes->last_meal[philo->id]))
-			return (ERROR);
-		return (SUCCESS);
-	}
-	else if (data == MEALS_EATEN)
-	{
-		if (w_mutex(LOCK, philo->mutexes->meals_eaten[philo->id]))
-			return (ERROR);
+	else
 		*storage_ptr = philo->meals_eaten;
-		if (w_mutex(UNLOCK, philo->mutexes->meals_eaten[philo->id]))
-			return (ERROR);
-		return (SUCCESS);
-	}
-	return (ERROR);
+	if (w_mutex(UNLOCK, mutex))
+		return (ERROR);
+	return (SUCCESS);
 }
