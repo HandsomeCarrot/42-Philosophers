@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/11 09:05:45 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/11 09:57:50 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static t_error	thread_sleep(t_ms time, t_philo *philo)
 static t_error	get_philo_forks(pthread_mutex_t **first,
 		pthread_mutex_t **second, t_philo *philo)
 {
-	t_ms	right_fork;
-	t_ms	left_fork;
+	t_ms	own_fork;
+	t_ms	neighbors_fork;
 	t_ms	id;
 
 	if (!first || !second || !philo)
@@ -53,18 +53,18 @@ static t_error	get_philo_forks(pthread_mutex_t **first,
 		return (ERROR);
 	}
 	id = philo->id;
-	right_fork = id;
-	left_fork = id + 1;
+	own_fork = id;
+	neighbors_fork = id + 1;
 	if (id == philo->input->philo_count - 1)
-		left_fork = 0;
+		neighbors_fork = 0;
 	if (id % 2 == 0)
 	{
-		*first = philo->mutexes->forks[right_fork];
-		*second = philo->mutexes->forks[left_fork];
+		*first = philo->mutexes->forks[own_fork];
+		*second = philo->mutexes->forks[neighbors_fork];
 		return (SUCCESS);
 	}
-	*first = philo->mutexes->forks[left_fork];
-	*second = philo->mutexes->forks[right_fork];
+	*first = philo->mutexes->forks[neighbors_fork];
+	*second = philo->mutexes->forks[own_fork];
 	return (SUCCESS);
 }
 
@@ -72,6 +72,8 @@ static t_error	get_philo_forks(pthread_mutex_t **first,
 static t_error	mutex_fork(t_mutex_action action, pthread_mutex_t *fork,
 		t_philo *philo)
 {
+	t_error	error;
+
 	if (!fork || !philo)
 	{
 		error_msg("missing parameters", "mutex_fork");
@@ -79,15 +81,12 @@ static t_error	mutex_fork(t_mutex_action action, pthread_mutex_t *fork,
 	}
 	if (w_mutex(action, fork))
 		return (ERROR);
-	if (action == LOCK)
-	{
-		if (print_philo_state(FORK, philo))
-		{
-			w_mutex(UNLOCK, fork);
-			return (ERROR);
-		}
-	}
-	return (SUCCESS);
+	if (action == UNLOCK)
+		return (SUCCESS);
+	error = print_philo_state(FORK, philo);
+	if (error != SUCCESS)
+		w_mutex(UNLOCK, fork);
+	return (error);
 }
 
 // docs
@@ -95,6 +94,7 @@ static t_error	philo_forks(t_mutex_action action, t_philo *philo)
 {
 	pthread_mutex_t	*first_fork;
 	pthread_mutex_t	*second_fork;
+	t_error			error;
 
 	if (!philo)
 	{
@@ -103,13 +103,15 @@ static t_error	philo_forks(t_mutex_action action, t_philo *philo)
 	}
 	if (get_philo_forks(&first_fork, &second_fork, philo))
 		return (ERROR);
-	if (mutex_fork(action, first_fork, philo))
-		return (ERROR);
-	if (mutex_fork(action, second_fork, philo))
+	error = mutex_fork(action, first_fork, philo);
+	if (error != SUCCESS)
+		return (error);
+	error = mutex_fork(action, second_fork, philo);
+	if (error != SUCCESS)
 	{
 		if (action == LOCK)
 			mutex_fork(UNLOCK, first_fork, philo);
-		return (ERROR);
+		return (error);
 	}
 	return (SUCCESS);
 }
@@ -160,12 +162,14 @@ static t_error	philo_eat(t_philo *philo)
 	}
 	if (termination_requested(philo->term_flag_ptr, philo->mutexes))
 		return (TERMINATE);
-	if (philo_forks(LOCK, philo))
-		return (ERROR);
+	error = philo_forks(LOCK, philo);
+	if (error != SUCCESS)
+		return (error);
 	if (set_last_meal(philo))
 		return (ERROR);
-	if (print_philo_state(EATING, philo))
-		return (ERROR);
+	error = print_philo_state(EATING, philo);
+	if (error != SUCCESS)
+		return (error);
 	error = thread_sleep(philo->input->time_to_eat, philo);
 	if (philo_forks(UNLOCK, philo))
 		return (ERROR);
@@ -184,10 +188,9 @@ static t_error	philo_sleep(t_philo *philo)
 		error_msg("missing parameters", "philo_sleep");
 		return (ERROR);
 	}
-	if (termination_requested(philo->term_flag_ptr, philo->mutexes))
-		return (TERMINATE);
-	if (print_philo_state(SLEEPING, philo))
-		return (ERROR);
+	error = print_philo_state(SLEEPING, philo);
+	if (error != SUCCESS)
+		return (error);
 	error = thread_sleep(philo->input->time_to_sleep, philo);
 	return (error);
 }
@@ -195,16 +198,15 @@ static t_error	philo_sleep(t_philo *philo)
 // docs
 static t_error	philo_think(t_philo *philo)
 {
+	t_error	error;
+
 	if (!philo)
 	{
 		error_msg("missing parameters", "philo_think");
 		return (ERROR);
 	}
-	if (termination_requested(philo->term_flag_ptr, philo->mutexes))
-		return (TERMINATE);
-	if (print_philo_state(THINKING, philo))
-		return (ERROR);
-	return (SUCCESS);
+	error = print_philo_state(THINKING, philo);
+	return (error);
 }
 
 // docs
