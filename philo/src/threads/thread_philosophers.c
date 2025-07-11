@@ -6,14 +6,14 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/11 18:57:25 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/11 20:22:24 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
 // docs
-static t_error		thread_sleep(t_ms time, t_philo *philo)
+static t_error	thread_sleep(t_ms time, t_philo *philo)
 {
 	t_ms	interval;
 	t_ms	sleep_time;
@@ -31,7 +31,10 @@ static t_error		thread_sleep(t_ms time, t_philo *philo)
 		else
 			sleep_time = interval;
 		if (usleep(sleep_time * MS_TO_USEC) != 0)
+		{
+			error_msg("failed to sleep", "thread_sleep");
 			return (ERROR);
+		}
 		if (termination_requested(philo->term_flag_ptr, philo->mutexes))
 			return (TERMINATE);
 		time -= sleep_time;
@@ -117,7 +120,7 @@ static t_error	philo_forks(t_mutex_action action, t_philo *philo)
 // docs
 static t_error	set_last_meal(t_philo *philo)
 {
-	t_ms	current_time;
+	t_ms			current_time;
 	pthread_mutex_t	*mutex;
 
 	if (!philo)
