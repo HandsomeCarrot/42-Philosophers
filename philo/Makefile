@@ -6,7 +6,7 @@
 #    By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 19:28:52 by vpoka             #+#    #+#              #
-#    Updated: 2025/07/10 15:57:12 by vpoka            ###   ########.fr        #
+#    Updated: 2025/07/12 17:57:48 by vpoka            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OBJS_DIR = obj/
 # ================================== FILES =================================== #
 
 SRCS =	$(wildcard src/*.c) \
-	$(wildcard src/threads/*.c) \
+	$(wildcard src/simulation/*.c) \
 	$(wildcard src/utils/*.c) \
 	$(wildcard src/cleanup/*.c)
 
