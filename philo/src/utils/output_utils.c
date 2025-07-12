@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:16:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/12 16:17:29 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/12 17:28:19 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,24 +104,21 @@ static char	*get_state_message(t_philo_state state)
  * @warning The function must only be called with
  * a valid philosopher structure and initialized mutexes.
  */
-t_error	print_philo_state(t_philo_state state, t_philo *philo)
+t_error	print_philo_state(t_philo_state state, t_ms timestamp, t_philo *philo)
 {
 	char	*state_message;
-	t_ms	elapsed_time;
 
 	if (!philo)
 	{
 		error_msg("missing parameters", "print_philo_state");
 		return (ERROR);
 	}
-	if (get_elapsed_time_ms(&elapsed_time, philo->input))
-		return (ERROR);
 	state_message = get_state_message(state);
 	if (!state_message)
 		return (ERROR);
 	if (w_mutex(LOCK, philo->mutexes->print))
 		return (ERROR);
-	printf("%lu %lu %s\n", elapsed_time, philo->id + 1, state_message);
+	printf("%lu %lu %s\n", timestamp, philo->id + 1, state_message);
 	if (w_mutex(UNLOCK, philo->mutexes->print))
 		return (ERROR);
 	return (SUCCESS);

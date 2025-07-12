@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/12 16:09:10 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/12 17:34:08 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
  */
 static t_error	check_death(t_philo *philo)
 {
-	t_ms	elapsed_time_since_meal;
-	t_ms	current_time;
+	t_ms	time_starved;
+	t_ms	elapsed_time;
 	t_ms	last_meal;
 
 	if (!philo)
@@ -39,15 +39,15 @@ static t_error	check_death(t_philo *philo)
 	}
 	if (get_protected_data(LAST_MEAL, &last_meal, philo))
 		return (ERROR);
-	if (get_current_time_ms(&current_time))
+	if (get_elapsed_time_ms(&elapsed_time, philo->input))
 		return (ERROR);
-	if (validate_timestamps(last_meal, current_time))
+	if (validate_timestamps(last_meal, elapsed_time))
 		return (ERROR);
-	elapsed_time_since_meal = current_time - last_meal;
-	if (elapsed_time_since_meal >= philo->input->time_to_die)
+	time_starved = elapsed_time - last_meal;
+	if (time_starved >= philo->input->time_to_die)
 	{
 		set_termination_flag(philo->term_flag_ptr, philo->mutexes);
-		if (print_philo_state(DEATH, philo) == ERROR)
+		if (print_philo_state(DEATH, elapsed_time, philo) == ERROR)
 			return (ERROR);
 		return (TERMINATE);
 	}

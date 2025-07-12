@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/12 14:09:02 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/12 17:33:52 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_error	mutex_start(t_mutex_action action, t_program *program);
 
 void	error_msg(char *msg1, char *msg2);
 void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex);
-t_error	print_philo_state(t_philo_state state, t_philo *philo);
+t_error	print_philo_state(t_philo_state state, t_ms timestamp, t_philo *philo);
 char	*get_exec_pattern(void);
 
 //----------string_utils.c----------//
