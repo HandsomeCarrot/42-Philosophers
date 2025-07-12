@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/10 15:46:52 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/12 14:09:02 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include "types.h"
 # include <errno.h>
 # include <limits.h>
-# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -31,7 +30,7 @@ t_error	initialize_data(int argc, char **argv, t_program **program);
 
 //----------simulation_initialization.c.c----------//
 
-t_error	start_simulation(t_program *prografm);
+t_error	start_simulation(t_program *program);
 
 //-----------------------------------UTILS------------------------------------//
 //----------memory_utils.c----------//
