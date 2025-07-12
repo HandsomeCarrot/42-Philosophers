@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/12 15:53:39 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/12 16:30:18 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,11 @@ static t_error	mutex_fork(t_mutex_action action, pthread_mutex_t *fork,
 		return (ERROR);
 	if (action == UNLOCK)
 		return (SUCCESS);
+	if (termination_requested(philo->term_flag_ptr, philo->mutexes))
+	{
+		w_mutex(UNLOCK, fork);
+		return (TERMINATE);
+	}
 	error = print_philo_state(FORK, philo);
 	if (error != SUCCESS)
 		w_mutex(UNLOCK, fork);
@@ -108,13 +113,9 @@ static t_error	philo_forks(t_mutex_action action, t_philo *philo)
 	if (error != SUCCESS)
 		return (error);
 	error = mutex_fork(action, second_fork, philo);
-	if (error != SUCCESS)
-	{
-		if (action == LOCK)
-			mutex_fork(UNLOCK, first_fork, philo);
-		return (error);
-	}
-	return (SUCCESS);
+	if (error != SUCCESS && action == LOCK)
+		mutex_fork(UNLOCK, first_fork, philo);
+	return (error);
 }
 
 // docs
@@ -128,9 +129,9 @@ static t_error	set_last_meal(t_philo *philo)
 		error_msg("missing parameters", "set_last_meal");
 		return (ERROR);
 	}
+	mutex = philo->mutexes->last_meal[philo->id];
 	if (get_current_time_ms(&current_time))
 		return (ERROR);
-	mutex = philo->mutexes->last_meal[philo->id];
 	if (w_mutex(LOCK, mutex))
 		return (ERROR);
 	philo->last_meal = current_time;
@@ -149,9 +150,9 @@ static t_error	increase_meals_eaten(t_philo *philo)
 		error_msg("missing parameters", "increase_meals_eaten");
 		return (ERROR);
 	}
+	mutex = philo->mutexes->meals_eaten[philo->id];
 	if (!philo->input->has_meal_limit)
 		return (SUCCESS);
-	mutex = philo->mutexes->meals_eaten[philo->id];
 	if (w_mutex(LOCK, mutex))
 		return (ERROR);
 	philo->meals_eaten++;
@@ -196,6 +197,8 @@ static t_error	philo_sleep(t_philo *philo)
 		error_msg("missing parameters", "philo_sleep");
 		return (ERROR);
 	}
+	if (termination_requested(philo->term_flag_ptr, philo->mutexes))
+		return (TERMINATE);
 	error = print_philo_state(SLEEPING, philo);
 	if (error != SUCCESS)
 		return (error);
@@ -213,6 +216,8 @@ static t_error	philo_think(t_philo *philo)
 		error_msg("missing parameters", "philo_think");
 		return (ERROR);
 	}
+	if (termination_requested(philo->term_flag_ptr, philo->mutexes))
+		return (TERMINATE);
 	error = print_philo_state(THINKING, philo);
 	if (error != SUCCESS)
 		return (error);

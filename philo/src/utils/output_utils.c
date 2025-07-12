@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:16:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/11 09:42:24 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/12 16:17:29 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ t_error	print_philo_state(t_philo_state state, t_philo *philo)
 {
 	char	*state_message;
 	t_ms	elapsed_time;
-	bool	terminate;
 
 	if (!philo)
 	{
@@ -122,13 +121,9 @@ t_error	print_philo_state(t_philo_state state, t_philo *philo)
 		return (ERROR);
 	if (w_mutex(LOCK, philo->mutexes->print))
 		return (ERROR);
-	terminate = termination_requested(philo->term_flag_ptr, philo->mutexes);
-	if (!terminate)
-		printf("%llu %llu %s\n", elapsed_time, philo->id + 1, state_message);
+	printf("%lu %lu %s\n", elapsed_time, philo->id + 1, state_message);
 	if (w_mutex(UNLOCK, philo->mutexes->print))
 		return (ERROR);
-	if (terminate)
-		return (TERMINATE);
 	return (SUCCESS);
 }
 

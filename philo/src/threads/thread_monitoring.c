@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/11 20:22:12 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/12 16:09:10 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ static t_error	check_death(t_philo *philo)
 	elapsed_time_since_meal = current_time - last_meal;
 	if (elapsed_time_since_meal >= philo->input->time_to_die)
 	{
+		set_termination_flag(philo->term_flag_ptr, philo->mutexes);
 		if (print_philo_state(DEATH, philo) == ERROR)
 			return (ERROR);
-		set_termination_flag(philo->term_flag_ptr, philo->mutexes);
 		return (TERMINATE);
 	}
 	return (SUCCESS);
