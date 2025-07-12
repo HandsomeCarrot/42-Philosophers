@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/11 20:22:24 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/12 15:53:39 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,8 @@ static t_error	increase_meals_eaten(t_philo *philo)
 		error_msg("missing parameters", "increase_meals_eaten");
 		return (ERROR);
 	}
+	if (!philo->input->has_meal_limit)
+		return (SUCCESS);
 	mutex = philo->mutexes->meals_eaten[philo->id];
 	if (w_mutex(LOCK, mutex))
 		return (ERROR);
