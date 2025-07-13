@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/11 20:21:37 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/13 12:25:53 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,94 @@ static t_error	initialize_mutexes(t_program *program)
 	return (SUCCESS);
 }
 
+// docs
+static t_error	set_forks(t_philo *philo, t_program *program)
+{
+	t_ms	own_fork;
+	t_ms	neighbors_fork;
+	t_ms	id;
+
+	if (!philo || !program)
+	{
+		error_msg("missing parameters", "set_forks");
+		return (ERROR);
+	}
+	id = philo->id;
+	own_fork = id;
+	neighbors_fork = (id + 1) % philo->input->philo_count;
+	if (id % 2 == 0)
+	{
+		philo->mutexes->first_fork = program->mutexes.forks[own_fork];
+		philo->mutexes->second_fork = program->mutexes.forks[neighbors_fork];
+		return (SUCCESS);
+	}
+	philo->mutexes->first_fork = program->mutexes.forks[neighbors_fork];
+	philo->mutexes->second_fork = program->mutexes.forks[own_fork];
+	return (SUCCESS);
+}
+
+// docs
+static t_error	assign_mutexes(t_philo *philo, t_program *program)
+{
+	if (!philo || !program)
+	{
+		error_msg("missing parameters", "assign_mutexes");
+		return (ERROR);
+	}
+	philo->mutexes = w_calloc(1, sizeof(t_philo_mutexes));
+	if (!philo->mutexes)
+		return (ERROR);
+	philo->mutexes->print = program->mutexes.print;
+	philo->mutexes->term_flag = program->mutexes.term_flag;
+	philo->mutexes->start = program->mutexes.start_mutexes[philo->id];
+	philo->mutexes->last_meal = program->mutexes.last_meal[philo->id];
+	philo->mutexes->meals_eaten = program->mutexes.meals_eaten[philo->id];
+	if (set_forks(philo, program))
+		return (ERROR);
+	return (SUCCESS);
+}
+
+// docs
+static t_error	initialize_philo(t_ms id, t_program *program)
+{
+	if (!program)
+	{
+		error_msg("missing parameters", "initialize_philo");
+		return (ERROR);
+	}
+	program->philos[id].id = id;
+	program->philos[id].input = &program->input;
+	program->philos[id].term_flag_ptr = &program->term_flag;
+	if (assign_mutexes(&program->philos[id], program))
+		return (ERROR);
+	return (SUCCESS);
+}
+
+// docs
+static t_error	initialize_philos(t_program *program)
+{
+	t_ms	philo_count;
+	t_ms	philo_index;
+
+	if (!program)
+	{
+		error_msg("missing parameters", "initialize_philos");
+		return (ERROR);
+	}
+	philo_count = program->input.philo_count;
+	program->philos = w_calloc(philo_count, sizeof(t_philo));
+	if (!program->philos)
+		return (ERROR);
+	philo_index = 0;
+	while (philo_index < philo_count)
+	{
+		if (initialize_philo(philo_index, program))
+			return (ERROR);
+		philo_index++;
+	}
+	return (SUCCESS);
+}
+
 /**
  * @brief Initializes the main program data structure.
  *
@@ -195,8 +283,7 @@ t_error	initialize_data(int argc, char **argv, t_program **program_ptr)
 		return (ERROR);
 	if (initialize_mutexes(program) != SUCCESS)
 		return (ERROR);
-	program->philos = w_calloc(program->input.philo_count, sizeof(t_philo));
-	if (!program->philos)
+	if (initialize_philos(program) != SUCCESS)
 		return (ERROR);
 	program->term_flag = false;
 	return (SUCCESS);

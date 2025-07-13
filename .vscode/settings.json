@@ -13,7 +13,8 @@
 		"tuple": "c",
 		"utility": "c",
 		"random": "c",
-		"string_view": "c"
+		"string_view": "c",
+		"type_traits": "c"
 	},
 	"cSpell.words": [
 		"atoui",

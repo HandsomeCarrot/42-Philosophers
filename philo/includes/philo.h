@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/12 17:33:52 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/13 12:01:44 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ int		ft_strlen(char *str);
 
 //----------thread_helpers.c----------//
 
-void	set_termination_flag(bool *term_flag_ptr, t_mutexes *mutexes);
-bool	termination_requested(bool *term_flag_ptr, t_mutexes *mutexes);
-void	*handle_thread_error(bool *term_flag_ptr, t_mutexes *mutexes);
+void	set_termination_flag(bool *term_flag_ptr, pthread_mutex_t *mutex);
+bool	termination_requested(bool *term_flag_ptr, pthread_mutex_t *mutex);
+void	*handle_thread_error(bool *term_flag_ptr, pthread_mutex_t *mutex);
 t_error	wait_for_start(pthread_mutex_t *mutex);
 t_error	get_protected_data(t_protected_data data, t_ms *storage_ptr,
 			t_philo *philo);

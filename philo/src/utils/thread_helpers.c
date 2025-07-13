@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:18:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/11 18:02:23 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/13 12:18:05 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@
  * @param mutexes Pointer to the mutexes structure containing
  * the term_flag mutex.
  */
-void	set_termination_flag(bool *term_flag_ptr, t_mutexes *mutexes)
+void	set_termination_flag(bool *term_flag_ptr, pthread_mutex_t *mutex)
 {
-	if (!term_flag_ptr || !mutexes)
+	if (!term_flag_ptr || !mutex)
 		error_msg("missing parameters", "set_termination_flag");
-	w_mutex(LOCK, mutexes->term_flag);
+	w_mutex(LOCK, mutex);
 	*term_flag_ptr = true;
-	w_mutex(UNLOCK, mutexes->term_flag);
+	w_mutex(UNLOCK, mutex);
 }
 
 /**
@@ -39,19 +39,19 @@ void	set_termination_flag(bool *term_flag_ptr, t_mutexes *mutexes)
  * @param mutexes Pointer to the mutexes structure containing
  * the term_flag mutex.
  */
-bool	termination_requested(bool *term_flag_ptr, t_mutexes *mutexes)
+bool	termination_requested(bool *term_flag_ptr, pthread_mutex_t *mutex)
 {
 	bool	term_flag;
 
-	if (!term_flag_ptr || !mutexes)
+	if (!term_flag_ptr || !mutex)
 	{
 		error_msg("missing parameters", "termination_requested");
 		return (true);
 	}
-	if (w_mutex(LOCK, mutexes->term_flag))
+	if (w_mutex(LOCK, mutex))
 		return (true);
 	term_flag = *term_flag_ptr;
-	if (w_mutex(UNLOCK, mutexes->term_flag))
+	if (w_mutex(UNLOCK, mutex))
 		return (true);
 	return (term_flag);
 }
@@ -69,14 +69,14 @@ bool	termination_requested(bool *term_flag_ptr, t_mutexes *mutexes)
  *
  * @return Always returns (void*)ERROR.
  */
-void	*handle_thread_error(bool *term_flag_ptr, t_mutexes *mutexes)
+void	*handle_thread_error(bool *term_flag_ptr, pthread_mutex_t *mutex)
 {
-	if (!term_flag_ptr || !mutexes)
+	if (!term_flag_ptr || !mutex)
 	{
 		error_msg("missing parameters", "handle_thread_error");
 		return ((void *)ERROR);
 	}
-	set_termination_flag(term_flag_ptr, mutexes);
+	set_termination_flag(term_flag_ptr, mutex);
 	return ((void *)ERROR);
 }
 
@@ -132,9 +132,9 @@ t_error	get_protected_data(t_protected_data data, t_ms *storage_ptr,
 		return (ERROR);
 	}
 	if (data == LAST_MEAL)
-		mutex = philo->mutexes->last_meal[philo->id];
+		mutex = philo->mutexes->last_meal;
 	else
-		mutex = philo->mutexes->meals_eaten[philo->id];
+		mutex = philo->mutexes->meals_eaten;
 	if (w_mutex(LOCK, mutex))
 		return (ERROR);
 	if (data == LAST_MEAL)

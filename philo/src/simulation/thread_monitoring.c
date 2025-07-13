@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/12 17:34:08 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/13 12:18:57 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static t_error	check_death(t_philo *philo)
 	time_starved = elapsed_time - last_meal;
 	if (time_starved >= philo->input->time_to_die)
 	{
-		set_termination_flag(philo->term_flag_ptr, philo->mutexes);
+		set_termination_flag(philo->term_flag_ptr, philo->mutexes->term_flag);
 		if (print_philo_state(DEATH, elapsed_time, philo) == ERROR)
 			return (ERROR);
 		return (TERMINATE);
@@ -154,7 +154,7 @@ static t_error	check_all_philos(t_program *program)
 	}
 	if (all_full)
 	{
-		set_termination_flag(&program->term_flag, &program->mutexes);
+		set_termination_flag(&program->term_flag, program->mutexes.term_flag);
 		return (TERMINATE);
 	}
 	return (SUCCESS);
@@ -185,14 +185,14 @@ void	*monitor_start(void *data)
 	}
 	program = (t_program *)data;
 	if (wait_for_start(program->mutexes.start_mutexes[0]))
-		return (handle_thread_error(&program->term_flag, &program->mutexes));
+		return (handle_thread_error(&program->term_flag, program->mutexes.term_flag));
 	error = SUCCESS;
-	while (!termination_requested(&program->term_flag, &program->mutexes))
+	while (!termination_requested(&program->term_flag, program->mutexes.term_flag))
 	{
 		error = check_all_philos(program);
 		if (error != SUCCESS)
 		{
-			set_termination_flag(&program->term_flag, &program->mutexes);
+			set_termination_flag(&program->term_flag, program->mutexes.term_flag);
 			break ;
 		}
 	}
