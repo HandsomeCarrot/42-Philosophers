@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/13 14:17:51 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/13 14:19:12 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,8 +197,7 @@ static t_error	philo_sleep(t_ms *timestamp, t_philo *philo)
 	}
 	if (termination_requested(philo->term_flag_ptr, philo->mutexes.term_flag))
 		return (TERMINATE);
-	if (get_elapsed_time_ms(timestamp, philo->input))
-		return (ERROR);
+	*timestamp += (philo->input->time_to_eat / MS_TO_USEC);
 	error = print_philo_state(SLEEPING, *timestamp, philo);
 	if (error != SUCCESS)
 		return (error);
@@ -218,7 +217,7 @@ static t_error	philo_think(t_ms *timestamp, t_philo *philo)
 	}
 	if (termination_requested(philo->term_flag_ptr, philo->mutexes.term_flag))
 		return (TERMINATE);
-	*timestamp += (philo->input->time_to_think / MS_TO_USEC);
+	*timestamp += (philo->input->time_to_sleep / MS_TO_USEC);
 	error = print_philo_state(THINKING, *timestamp, philo);
 	if (error != SUCCESS)
 		return (error);
