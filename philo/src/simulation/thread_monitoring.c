@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/13 13:14:19 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/13 13:22:43 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,9 +195,8 @@ void	*monitor_start(void *data)
 			set_termination_flag(&program->term_flag, program->mutexes.term_flag);
 			break ;
 		}
-		t_ms sleep_time = program->input.time_to_die / 100;
-		if (sleep_time < 1) sleep_time = 1;
-		usleep(sleep_time * MS_TO_USEC);
+		if (usleep(program->monitor_sleep))
+			return (ERROR);
 	}
 	return ((void *)error);
 }
