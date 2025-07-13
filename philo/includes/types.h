@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 18:01:22 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/12 14:05:29 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/13 14:07:58 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdint.h>
 
 # define MS_TO_USEC 1000
+# define SLEEP_INTERVAL 10000000
 
 // docs
 typedef uint64_t	t_ms;

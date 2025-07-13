@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/13 13:54:35 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/13 14:08:23 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ static t_error	thread_sleep(t_ms time, t_philo *philo)
 		error_msg("missing parameters", "thread_sleep");
 		return (ERROR);
 	}
-	interval = 10000;
+	interval = SLEEP_INTERVAL;
 	while (time > 0)
 	{
 		if (time < interval)
 			sleep_time = time;
 		else
 			sleep_time = interval;
-		if (usleep(sleep_time * MS_TO_USEC) != 0)
+		if (usleep(sleep_time) != 0)
 		{
 			error_msg("failed to sleep", "thread_sleep");
 			return (ERROR);

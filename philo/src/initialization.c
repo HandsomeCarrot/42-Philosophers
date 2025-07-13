@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/13 13:21:59 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/13 14:08:06 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,5 +286,9 @@ t_error	initialize_data(int argc, char **argv, t_program **program_ptr)
 	program->monitor_sleep = (program->input.time_to_die / 100) * MS_TO_USEC;
 	if (program->monitor_sleep < 1)
 		program->monitor_sleep = 1 * MS_TO_USEC;
+	program->input.time_to_die *= MS_TO_USEC;
+	program->input.time_to_eat *= MS_TO_USEC;
+	program->input.time_to_sleep *= MS_TO_USEC;
+	program->input.time_to_think *= MS_TO_USEC;
 	return (SUCCESS);
 }
