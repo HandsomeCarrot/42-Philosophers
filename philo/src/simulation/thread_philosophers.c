@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:53:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/13 12:42:13 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/13 13:54:35 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,12 +158,11 @@ static t_error	increase_meals_eaten(t_philo *philo)
 }
 
 // docs
-static t_error	philo_eat(t_philo *philo)
+static t_error	philo_eat(t_ms *timestamp, t_philo *philo)
 {
-	t_ms	timestamp;
 	t_error	error;
 
-	if (!philo)
+	if (!timestamp || !philo)
 	{
 		error_msg("missing parameters", "philo_eat");
 		return (ERROR);
@@ -171,11 +170,11 @@ static t_error	philo_eat(t_philo *philo)
 	error = philo_forks(LOCK, philo);
 	if (error != SUCCESS)
 		return (error);
-	if (get_elapsed_time_ms(&timestamp, philo->input))
+	if (get_elapsed_time_ms(timestamp, philo->input))
 		return (ERROR);
-	if (set_last_meal(timestamp, philo))
+	if (set_last_meal(*timestamp, philo))
 		return (ERROR);
-	error = print_philo_state(EATING, timestamp, philo);
+	error = print_philo_state(EATING, *timestamp, philo);
 	if (error != SUCCESS)
 		return (error);
 	error = thread_sleep(philo->input->time_to_eat, philo);
@@ -187,21 +186,19 @@ static t_error	philo_eat(t_philo *philo)
 }
 
 // docs
-static t_error	philo_sleep(t_philo *philo)
+static t_error	philo_sleep(t_ms *timestamp, t_philo *philo)
 {
-	t_ms	timestamp;
 	t_error	error;
 
-	if (!philo)
+	if (!timestamp || !philo)
 	{
 		error_msg("missing parameters", "philo_sleep");
 		return (ERROR);
 	}
 	if (termination_requested(philo->term_flag_ptr, philo->mutexes.term_flag))
 		return (TERMINATE);
-	if (get_elapsed_time_ms(&timestamp, philo->input))
-		return (ERROR);
-	error = print_philo_state(SLEEPING, timestamp, philo);
+	*timestamp += philo->input->time_to_sleep;
+	error = print_philo_state(SLEEPING, *timestamp, philo);
 	if (error != SUCCESS)
 		return (error);
 	error = thread_sleep(philo->input->time_to_sleep, philo);
@@ -209,21 +206,19 @@ static t_error	philo_sleep(t_philo *philo)
 }
 
 // docs
-static t_error	philo_think(t_philo *philo)
+static t_error	philo_think(t_ms *timestamp, t_philo *philo)
 {
-	t_ms	timestamp;
 	t_error	error;
 
-	if (!philo)
+	if (!timestamp || !philo)
 	{
 		error_msg("missing parameters", "philo_think");
 		return (ERROR);
 	}
 	if (termination_requested(philo->term_flag_ptr, philo->mutexes.term_flag))
 		return (TERMINATE);
-	if (get_elapsed_time_ms(&timestamp, philo->input))
-		return (ERROR);
-	error = print_philo_state(THINKING, timestamp, philo);
+	*timestamp += philo->input->time_to_think;
+	error = print_philo_state(THINKING, *timestamp, philo);
 	if (error != SUCCESS)
 		return (error);
 	error = thread_sleep(philo->input->time_to_think, philo);
@@ -234,20 +229,22 @@ static t_error	philo_think(t_philo *philo)
 static t_error	start_routine(t_philo *philo)
 {
 	t_error	error;
+	t_ms	timestamp;
 
 	if (!philo)
 	{
 		error_msg("missing parameters", "routine");
 		return (ERROR);
 	}
+	timestamp = 0;
 	error = SUCCESS;
 	while (error == SUCCESS)
 	{
-		error = philo_eat(philo);
+		error = philo_eat(&timestamp, philo);
 		if (error == SUCCESS)
-			error = philo_sleep(philo);
+			error = philo_sleep(&timestamp, philo);
 		if (error == SUCCESS)
-			error = philo_think(philo);
+			error = philo_think(&timestamp, philo);
 	}
 	return (error);
 }
