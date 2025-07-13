@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/13 13:22:43 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/13 13:23:19 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ void	*monitor_start(void *data)
 			break ;
 		}
 		if (usleep(program->monitor_sleep))
-			return (ERROR);
+			return ((void *)ERROR);
 	}
 	return ((void *)error);
 }
