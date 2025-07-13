@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/13 12:39:09 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/13 12:40:52 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static t_error	create_philo(t_philo *philo, t_program *program)
 	}
 	if (pthread_create(&philo->thread, NULL, &philo_start, philo))
 	{
-		set_termination_flag(philo->term_flag_ptr, philo->mutexes->term_flag);
+		set_termination_flag(philo->term_flag_ptr, philo->mutexes.term_flag);
 		error_msg("failed to create philo: ", ms_to_str(philo->id));
 		return (ERROR);
 	}

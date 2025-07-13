@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/13 12:25:53 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/13 12:40:41 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,12 +181,12 @@ static t_error	set_forks(t_philo *philo, t_program *program)
 	neighbors_fork = (id + 1) % philo->input->philo_count;
 	if (id % 2 == 0)
 	{
-		philo->mutexes->first_fork = program->mutexes.forks[own_fork];
-		philo->mutexes->second_fork = program->mutexes.forks[neighbors_fork];
+		philo->mutexes.first_fork = program->mutexes.forks[own_fork];
+		philo->mutexes.second_fork = program->mutexes.forks[neighbors_fork];
 		return (SUCCESS);
 	}
-	philo->mutexes->first_fork = program->mutexes.forks[neighbors_fork];
-	philo->mutexes->second_fork = program->mutexes.forks[own_fork];
+	philo->mutexes.first_fork = program->mutexes.forks[neighbors_fork];
+	philo->mutexes.second_fork = program->mutexes.forks[own_fork];
 	return (SUCCESS);
 }
 
@@ -198,14 +198,11 @@ static t_error	assign_mutexes(t_philo *philo, t_program *program)
 		error_msg("missing parameters", "assign_mutexes");
 		return (ERROR);
 	}
-	philo->mutexes = w_calloc(1, sizeof(t_philo_mutexes));
-	if (!philo->mutexes)
-		return (ERROR);
-	philo->mutexes->print = program->mutexes.print;
-	philo->mutexes->term_flag = program->mutexes.term_flag;
-	philo->mutexes->start = program->mutexes.start_mutexes[philo->id];
-	philo->mutexes->last_meal = program->mutexes.last_meal[philo->id];
-	philo->mutexes->meals_eaten = program->mutexes.meals_eaten[philo->id];
+	philo->mutexes.print = program->mutexes.print;
+	philo->mutexes.term_flag = program->mutexes.term_flag;
+	philo->mutexes.start = program->mutexes.start_mutexes[philo->id];
+	philo->mutexes.last_meal = program->mutexes.last_meal[philo->id];
+	philo->mutexes.meals_eaten = program->mutexes.meals_eaten[philo->id];
 	if (set_forks(philo, program))
 		return (ERROR);
 	return (SUCCESS);
