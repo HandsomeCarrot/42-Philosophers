@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 20:57:12 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/13 12:37:35 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/13 12:39:09 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,17 @@
  * @note Terminates the program if pthread creation fails.
  * @warning Does not validate input parameters before use.
  */
-static t_error	create_philo(t_ms id, t_program *program)
+static t_error	create_philo(t_philo *philo, t_program *program)
 {
 	if (!program)
 	{
 		error_msg("missing parameters", "create_philo");
 		return (ERROR);
 	}
-	if (pthread_create(&program->philos[id].thread, NULL, &philo_start,
-			&program->philos[id]))
+	if (pthread_create(&philo->thread, NULL, &philo_start, philo))
 	{
-		set_termination_flag(&program->term_flag, program->mutexes.term_flag);
-		error_msg("failed to create philo: ", ms_to_str(id));
+		set_termination_flag(philo->term_flag_ptr, philo->mutexes->term_flag);
+		error_msg("failed to create philo: ", ms_to_str(philo->id));
 		return (ERROR);
 	}
 	return (SUCCESS);
@@ -66,7 +65,7 @@ static t_error	start_all_philosophers(t_program *program)
 	philo_count = program->input.philo_count;
 	while (philo_index < philo_count)
 	{
-		if (create_philo(philo_index, program) != SUCCESS)
+		if (create_philo(&program->philos[philo_index], program) != SUCCESS)
 			return (ERROR);
 		philo_index++;
 	}
