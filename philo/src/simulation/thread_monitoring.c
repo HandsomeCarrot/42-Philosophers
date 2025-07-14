@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:46:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/13 13:23:19 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/14 15:17:54 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static t_error	check_death(t_philo *philo)
 	if (time_starved >= philo->input->time_to_die)
 	{
 		set_termination_flag(philo->term_flag_ptr, philo->mutexes.term_flag);
-		if (print_philo_state(DEATH, elapsed_time, philo) == ERROR)
+		if (print_philo_state(DEATH, NULL, philo) == ERROR)
 			return (ERROR);
 		return (TERMINATE);
 	}

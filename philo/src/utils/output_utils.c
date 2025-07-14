@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:16:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/13 12:42:28 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/14 15:14:33 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,10 @@ static char	*get_state_message(t_philo_state state)
  * @warning The function must only be called with
  * a valid philosopher structure and initialized mutexes.
  */
-t_error	print_philo_state(t_philo_state state, t_ms timestamp, t_philo *philo)
+t_error	print_philo_state(t_philo_state state, t_ms *timestamp, t_philo *philo)
 {
 	char	*state_message;
+	t_ms	elapsed_time;
 
 	if (!philo)
 	{
@@ -118,9 +119,16 @@ t_error	print_philo_state(t_philo_state state, t_ms timestamp, t_philo *philo)
 		return (ERROR);
 	if (w_mutex(LOCK, philo->mutexes.print))
 		return (ERROR);
-	printf("%lu %lu %s\n", timestamp, philo->id + 1, state_message);
+	if (get_elapsed_time_ms(&elapsed_time, philo->input))
+	{
+		w_mutex(UNLOCK, philo->mutexes.print);
+		return (ERROR);
+	}
+	printf("%lu %lu %s\n", elapsed_time, philo->id + 1, state_message);
 	if (w_mutex(UNLOCK, philo->mutexes.print))
 		return (ERROR);
+	if (timestamp)
+		*timestamp = elapsed_time;
 	return (SUCCESS);
 }
 
