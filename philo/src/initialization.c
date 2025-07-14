@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:58:49 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/13 14:08:06 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/14 15:08:32 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static t_error	process_input(int argc, char **argv, t_program *program)
 		program->input.has_meal_limit = false;
 	program->input.time_to_think = 0;
 	if (program->input.philo_count % 2 == 1)
-		program->input.time_to_think = 1;
+		program->input.time_to_think = (program->input.time_to_eat * 2 - program->input.time_to_sleep) * 0.5;
 	return (SUCCESS);
 }
 
