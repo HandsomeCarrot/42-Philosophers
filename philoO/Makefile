@@ -6,7 +6,7 @@
 #    By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/15 10:58:10 by vpoka             #+#    #+#              #
-#    Updated: 2025/07/15 11:22:51 by vpoka            ###   ########.fr        #
+#    Updated: 2025/07/15 11:18:34 by vpoka            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,15 +104,15 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 
 # Remove object files
 clean:
-	@echo -n "$(RED)deleting object files...$(RST)"
+	@echo "$(RED)deleting object files...$(RST)"
 	@$(RM) $(OBJS_DIR)
-	@echo "$(GREEN) Done!$(RST)"
+	@printf "$(GREEN) Done!\n$(RST)"
 
 # Remove object files and executables
 fclean: clean
-	@echo -n "$(RED)deleting executables...$(RST)"
+	@echo "$(RED)deleting executables...$(RST)"
 	@$(RM) $(ALL_NAMES)
-	@echo "$(GREEN) Done!$(RST)"
+	@printf "$(GREEN) Done!\n$(RST)"
 
 # Rebuild everything
 re:
