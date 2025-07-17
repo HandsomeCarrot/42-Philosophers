@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/17 12:37:04 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/17 12:47:03 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,14 @@ t_data	*initialize_data(int argc, char **argv);
 
 //------------------------------UTILS-------------------------------//
 
-void	error_msg(char *msg1, char *msg2);
+// output
+
+t_error	error_msg(char *msg1, char *msg2);
 void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex);
 char	*get_exec_pattern(void);
+
+// memory
+
+void	*w_calloc(size_t nmemb, size_t size);
 
 #endif

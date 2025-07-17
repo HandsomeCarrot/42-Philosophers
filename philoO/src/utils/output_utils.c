@@ -6,13 +6,13 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:16:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/17 12:37:09 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/17 12:46:21 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
 
-void	error_msg(char *msg1, char *msg2)
+t_error	error_msg(char *msg1, char *msg2)
 {
 	write(STDERR_FILENO, "-philo", sizeof(char) * 7);
 	if (msg1)
@@ -26,6 +26,7 @@ void	error_msg(char *msg1, char *msg2)
 		write(STDERR_FILENO, msg2, sizeof(char) * ft_strlen(msg2));
 	}
 	write(STDERR_FILENO, "\n", sizeof(char) * 1);
+	return (ERROR);
 }
 
 void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex)
