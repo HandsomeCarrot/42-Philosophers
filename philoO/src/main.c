@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:21:09 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/17 12:37:17 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/17 12:52:40 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	main(int argc, char **argv)
 		error_msg("Incorrect amount of Arguments", get_exec_spattern());
 		return (ERROR);
 	}
-	data = initialize_data(argc, argv);
-	if (!data)
+	data = NULL;
+	if (initialize_data(argc, argv, &data) != SUCCESS)
 	{
 		cleanup_program(false, data);
 		return (ERROR);
