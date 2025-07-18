@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:16:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/18 11:59:37 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/18 12:15:17 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex)
 //}
 
 // docs
-//t_error	print_philo_state(t_philo_state state, t_ms *timestamp, t_philo *philo)
+//t_error	print_philo_state(t_philo_state state, t_ms *timestamp, 
+// t_philo *philo)
 //{
 //	char	*state_message;
 //	t_ms	elapsed_time;

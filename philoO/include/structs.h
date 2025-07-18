@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/18 12:05:11 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/18 12:14:29 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ typedef struct s_threads
 	pthread_t	*philos;
 	pthread_t	monitor;
 }	t_threads;
-
 
 // docs
 typedef struct s_data
