@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:05:55 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/18 12:07:24 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/18 12:08:33 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,64 +52,6 @@
 //	}
 //	return (digit_str);
 //}
-
-// docs
-t_error	atoms(const char *str, t_ms *result)
-{
-	t_ms	res;
-	t_ms	prev;
-	char	*nptr;
-
-	res = 0;
-	nptr = (char *)str;
-	while (nptr && *nptr)
-	{
-		if (*nptr < '0' || *nptr > '9')
-		{
-			error_msg("Non-numeric character in argument", (char *)str);
-			return (ERROR);
-		}
-		prev = res;
-		res = res * 10 + (*nptr - '0');
-		if (res < prev)
-		{
-			error_msg("number is too large (uint64)", (char *)str);
-			return (ERROR);
-		}
-		nptr++;
-	}
-	*result = res;
-	return (SUCCESS);
-}
-
-// docs
-t_error	atocount(const char *str, t_count *result)
-{
-	t_count	res;
-	t_count	prev;
-	char	*nptr;
-
-	res = 0;
-	nptr = (char *)str;
-	while (nptr && *nptr)
-	{
-		if (*nptr < '0' || *nptr > '9')
-		{
-			error_msg("Non-numeric character in argument", (char *)str);
-			return (ERROR);
-		}
-		prev = res;
-		res = res * 10 + (*nptr - '0');
-		if (res < prev)
-		{
-			error_msg("number is too large (uint16)", (char *)str);
-			return (ERROR);
-		}
-		nptr++;
-	}
-	*result = res;
-	return (SUCCESS);
-}
 
 // docs
 //int	ft_strlen(char *str)
