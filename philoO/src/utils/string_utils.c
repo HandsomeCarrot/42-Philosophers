@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:05:55 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/18 11:58:38 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/18 12:07:24 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_error	atoms(const char *str, t_ms *result)
 		res = res * 10 + (*nptr - '0');
 		if (res < prev)
 		{
-			error_msg("number is too large", (char *)str);
+			error_msg("number is too large (uint64)", (char *)str);
 			return (ERROR);
 		}
 		nptr++;
@@ -102,7 +102,7 @@ t_error	atocount(const char *str, t_count *result)
 		res = res * 10 + (*nptr - '0');
 		if (res < prev)
 		{
-			error_msg("number is too large", (char *)str);
+			error_msg("number is too large (uint16)", (char *)str);
 			return (ERROR);
 		}
 		nptr++;
