@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/17 11:51:43 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/18 12:05:11 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ typedef struct s_data
 {
 	struct s_input			input;
 	struct s_all_mutexes	mutexes;
-	struct s_threads		threads;
 	struct s_philo_data		philos;
 	struct s_monitor		monitor;
+	struct s_threads		threads;
 	bool					term_flag;
 }	t_data;
 

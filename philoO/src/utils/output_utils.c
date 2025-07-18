@@ -6,12 +6,13 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:16:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/17 12:46:21 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/18 11:59:37 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
 
+// docs
 t_error	error_msg(char *msg1, char *msg2)
 {
 	write(STDERR_FILENO, "-philo", sizeof(char) * 7);
@@ -29,6 +30,7 @@ t_error	error_msg(char *msg1, char *msg2)
 	return (ERROR);
 }
 
+// docs
 void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex)
 {
 	if (!str || fd < 0)
@@ -38,6 +40,7 @@ void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex)
 	w_mutex(UNLOCK, print_mutex);
 }
 
+// docs
 //static char	*get_state_message(t_philo_state state)
 //{
 //	if (state == FORK)
@@ -53,6 +56,7 @@ void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex)
 //	return (NULL);
 //}
 
+// docs
 //t_error	print_philo_state(t_philo_state state, t_ms *timestamp, t_philo *philo)
 //{
 //	char	*state_message;
@@ -81,6 +85,7 @@ void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex)
 //	return (SUCCESS);
 //}
 
+// docs
 char	*get_exec_pattern(void)
 {
 	return ("./philo "
