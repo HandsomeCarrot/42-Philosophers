@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/18 12:14:29 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/20 11:22:18 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ typedef struct s_all_mutexes
 // docs
 typedef struct s_philo_data
 {
-	struct s_philo	*philo_data;
 	t_ms			*last_meals;
 	bool			*philo_full;
+	struct s_philo	*philo_data;
 }	t_philo_data;
 
 // docs
