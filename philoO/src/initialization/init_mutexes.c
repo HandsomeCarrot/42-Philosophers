@@ -6,12 +6,13 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 12:28:32 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/20 10:36:07 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/20 10:42:57 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
 
+// docs
 static t_error	init_mutex(pthread_mutex_t *mutex)
 {
 	int	error;
@@ -59,4 +60,20 @@ t_error	create_mutexes(t_data *data)
 {
 	if (!data)
 		return (error_msg("missing parameters", "create_mutexes"));
+	if (init_mutex(&data->mutexes.print_mutex) != SUCCESS)
+		return (ERROR);
+	if (init_mutex(&data->mutexes.term_mutex) != SUCCESS)
+		return (ERROR);
+	data->mutexes.start_mutexes = new_mutex_array(data);
+	if (!data->mutexes.start_mutexes)
+		return (ERROR);
+	data->mutexes.fork_mutexes = new_mutex_array(data);
+	if (!data->mutexes.fork_mutexes)
+		return (ERROR);
+	data->mutexes.meal_mutexes = new_mutex_array(data);
+	if (!data->mutexes.meal_mutexes)
+		return (ERROR);
+	data->mutexes.full_mutexes = new_mutex_array(data);
+	if (!data->mutexes.full_mutexes)
+		return (ERROR);
 }
