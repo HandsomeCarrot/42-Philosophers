@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 12:28:32 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/20 10:42:57 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/20 10:45:59 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ static pthread_mutex_t	*new_mutex_array(t_data *data)
 
 	if (!data)
 		return (error_msg("missing parameters", "new_mutex_array"));
+	count = data->input.philo_count;
 	mutexes = w_calloc(count, sizeof(pthread_mutex_t));
 	if (!mutexes)
 		return (NULL);
 	index = 0;
-	count = data->input.philo_count;
 	while (index < count)
 	{
 		if (init_mutex(mutexes + index) != SUCCESS)
