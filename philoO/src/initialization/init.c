@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:23:07 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/18 12:01:17 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/20 11:20:14 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_error	initialize_data(int argc, char **argv, t_data **data_ptr)
 		return (ERROR);
 	*data_ptr = data;
 	if (proccess_input(argc == 6, argv, data) != SUCCESS)
+		return (ERROR);
+	if (create_mutexes(data) != SUCCESS)
 		return (ERROR);
 	return (SUCCESS);
 }
