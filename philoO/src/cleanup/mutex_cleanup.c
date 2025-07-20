@@ -6,12 +6,13 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 10:44:48 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/20 11:13:40 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/20 11:16:00 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
 
+// docs
 static t_error	destroy_mutex(pthread_mutex_t *mutex)
 {
 	int	error;
@@ -28,6 +29,7 @@ static t_error	destroy_mutex(pthread_mutex_t *mutex)
 	return (ERROR);
 }
 
+// docs
 t_error	destroy_mutex_array(t_count count, pthread_mutex_t **mutex_array)
 {
 	t_count	index;
