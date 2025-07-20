@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 10:44:48 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/20 11:11:12 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/20 11:13:40 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_error	destroy_mutex(pthread_mutex_t *mutex)
 	return (ERROR);
 }
 
-t_error	mutex_array_cleanup(t_count count, pthread_mutex_t **mutex_array)
+t_error	destroy_mutex_array(t_count count, pthread_mutex_t **mutex_array)
 {
 	t_count	index;
 
