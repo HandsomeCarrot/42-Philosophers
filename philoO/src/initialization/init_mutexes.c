@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 12:28:32 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/20 10:45:59 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/20 11:14:59 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ static pthread_mutex_t	*new_mutex_array(t_data *data)
 	t_count			count;
 	t_count			index;
 
-	if (!data)
-		return (error_msg("missing parameters", "new_mutex_array"));
 	count = data->input.philo_count;
 	mutexes = w_calloc(count, sizeof(pthread_mutex_t));
 	if (!mutexes)
@@ -47,7 +45,7 @@ static pthread_mutex_t	*new_mutex_array(t_data *data)
 	{
 		if (init_mutex(mutexes + index) != SUCCESS)
 		{
-			// destroy and free mutexes
+			destroy_mutex_array(index + 1, &mutexes);
 			return (NULL);
 		}
 		index++;
@@ -58,8 +56,6 @@ static pthread_mutex_t	*new_mutex_array(t_data *data)
 // docs
 t_error	create_mutexes(t_data *data)
 {
-	if (!data)
-		return (error_msg("missing parameters", "create_mutexes"));
 	if (init_mutex(&data->mutexes.print_mutex) != SUCCESS)
 		return (ERROR);
 	if (init_mutex(&data->mutexes.term_mutex) != SUCCESS)
@@ -76,4 +72,5 @@ t_error	create_mutexes(t_data *data)
 	data->mutexes.full_mutexes = new_mutex_array(data);
 	if (!data->mutexes.full_mutexes)
 		return (ERROR);
+	return (SUCCESS);
 }

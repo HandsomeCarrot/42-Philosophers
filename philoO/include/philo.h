@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/18 12:09:07 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/20 11:13:24 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ t_error	initialize_data(int argc, char **argv, t_data **data_ptr);
 
 t_error	proccess_input(bool meal_limit, char **argv, t_data *data);
 
+// mutexes
+
+t_error	create_mutexes(t_data *data);
+
 //------------------------------UTILS-------------------------------//
 
 // output
@@ -42,5 +46,10 @@ char	*get_exec_pattern(void);
 // memory
 
 void	*w_calloc(size_t nmemb, size_t size);
+
+//------------------------------CLEANUP-------------------------------//
+// mutexes
+
+t_error	destroy_mutex_array(t_count count, pthread_mutex_t **mutex_array);
 
 #endif
