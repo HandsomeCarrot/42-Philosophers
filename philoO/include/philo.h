@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/22 17:20:05 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/22 22:48:04 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@ char	*get_exec_pattern(void);
 // memory
 
 void	*w_calloc(size_t nmemb, size_t size);
+
+// mutexes
+
+t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex);
 
 //------------------------------CLEANUP-------------------------------//
 // mutexes
