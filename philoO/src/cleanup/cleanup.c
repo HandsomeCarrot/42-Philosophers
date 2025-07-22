@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:50:37 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/22 23:52:05 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/23 00:11:18 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,6 @@
 // docs
 void	erase_data(t_data *data)
 {
-	(void)data;
+	if (!data)
+		return ;
 }
