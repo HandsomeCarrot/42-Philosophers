@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/22 23:26:18 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/22 23:28:42 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_error	create_philo_data(t_data *data);
 void	assign_monitor_data(t_data *data);
 
 //------------------------------SIMULATION-------------------------------//
+
+t_error	start_simulation(t_data *data);
 
 // philos
 
