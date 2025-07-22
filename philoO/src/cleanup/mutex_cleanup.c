@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 10:44:48 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/23 01:34:56 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/23 01:36:01 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static t_error	destroy_mutex(pthread_mutex_t *mutex)
 	int	error;
 
 	if (!mutex)
-		return (error_msg("missing parameters", "destroy_mutex"));
+		return (SUCCESS);
 	error = pthread_mutex_destroy(mutex);
 	if (error == 0)
 		return (SUCCESS);
