@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:23:07 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/22 16:57:46 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/22 17:21:49 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ t_error	initialize_data(int argc, char **argv, t_data **data_ptr)
 		return (ERROR);
 	if (create_philo_data(data) != SUCCESS)
 		return (ERROR);
+	assign_monitor_data(data);
 	return (SUCCESS);
 }

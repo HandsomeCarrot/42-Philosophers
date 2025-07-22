@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 12:16:52 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/22 16:32:40 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/22 16:59:02 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_monitor_philo_data
 typedef struct s_monitor
 {
 	struct s_input				*input;
-	struct s_monitor_philo_data	*philos;
+	struct s_monitor_philo_data	philos;
 	pthread_mutex_t				*term_mutex;
 	bool						*term_flag;
 	pthread_mutex_t				*print_mutex;
