@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:10:58 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/22 22:47:15 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/22 22:50:18 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@
 t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex)
 {
 	if (!mutex)
-	{
-		error_msg("missing parameters", "w_mutex");
-		return (ERROR);
-	}
+		return (error_msg("missing parameters", "w_mutex"));
 	if (action == LOCK)
 	{
 		if (pthread_mutex_lock(mutex) == 0)
