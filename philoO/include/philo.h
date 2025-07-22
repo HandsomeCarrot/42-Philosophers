@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/22 23:32:22 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/22 23:52:02 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@ bool	termination_requested(bool *term_flag_ptr, pthread_mutex_t *mutex);
 t_error	get_current_time_ms(t_ms *ms_ptr);
 
 //------------------------------CLEANUP-------------------------------//
+
+void	erase_data(t_data *data);
+
 // mutexes
 
 t_error	destroy_mutex_array(t_count count, pthread_mutex_t **mutex_array);
