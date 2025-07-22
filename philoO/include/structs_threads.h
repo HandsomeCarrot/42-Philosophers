@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 12:16:52 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/20 11:28:45 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/22 16:32:40 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_philo_mutexes
 // meals_eaten will be a local variable (maybe static)
 typedef struct s_philo
 {
-	struct s_philo_mutexes	*mutexes;
+	struct s_philo_mutexes	mutexes;
 	struct s_input			*input;
 	bool					*term_flag;
 	t_ms					*last_meal;
