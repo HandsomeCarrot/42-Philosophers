@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:23:07 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/22 17:21:49 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/22 17:31:36 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,8 @@ t_error	initialize_data(int argc, char **argv, t_data **data_ptr)
 	if (create_philo_data(data) != SUCCESS)
 		return (ERROR);
 	assign_monitor_data(data);
+	data->threads.philos = w_calloc(data->input.philo_count, sizeof(pthread_t));
+	if (!data->threads.philos)
+		return (ERROR);
 	return (SUCCESS);
 }
