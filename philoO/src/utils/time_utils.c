@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:13:55 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/22 23:32:25 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/22 23:34:00 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,9 @@ t_error	get_current_time_ms(t_ms *ms_ptr)
 	t_ms			current_time;
 
 	if (!ms_ptr)
-	{
-		error_msg("missing parameters", "get_current_time_ms");
-		return (ERROR);
-	}
+		return (error_msg("missing parameters", "get_current_time_ms"));
 	if (gettimeofday(&tv, NULL) != SUCCESS)
-	{
-		error_msg("failed to get time", NULL);
-		return (ERROR);
-	}
+		return (error_msg("failed to get time", NULL));
 	current_time = (t_ms)(tv.tv_sec * 1000);
 	current_time += (t_ms)(tv.tv_usec / 1000);
 	*ms_ptr = current_time;
