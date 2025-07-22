@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 19:33:27 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/22 23:43:31 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/22 23:47:27 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,14 @@ static t_error	start_threads(t_data *data)
 // docs
 t_error	start_simulation(t_data *data)
 {
-	if (start_mutexes(LOCK, data) != SUCCESS)
+	t_error	error;
+
+	error = start_mutexes(LOCK, data);
+	if (!error)
+		error = start_threads(data);
+	if (!error)
+		error = get_current_time_ms(&data->input.sim_start_time);
+	if (start_mutexes(UNLOCK, data))
 		return (ERROR);
-	if (start_threads(data) != SUCCESS)
-		return (ERROR);
-	if (get_current_time_ms(&data->input.sim_start_time) != SUCCESS)
-		return (ERROR);
-	if (start_mutexes(UNLOCK, data) != SUCCESS)
-		return (ERROR);
-	return (SUCCESS);
+	return (error);
 }
