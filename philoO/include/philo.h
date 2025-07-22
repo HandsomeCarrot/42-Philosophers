@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/23 01:41:00 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/23 01:42:40 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_error	get_current_time_ms(t_ms *ms_ptr);
 
 //------------------------------CLEANUP-------------------------------//
 
-void	erase_data(t_data *data);
+t_error	erase_data(t_data *data);
 t_error	join_all_threads(t_data *data);
 t_error	free_philo_data(t_data *data);
 

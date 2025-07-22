@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:21:09 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/23 00:13:46 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/23 01:43:09 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(int argc, char **argv)
 		error = ERROR;
 		set_termination_flag(&data->term_flag, &data->mutexes.term_mutex);
 	}
-	erase_data(data);
+	if (erase_data(data) != SUCCESS)
+		error = ERROR;
 	return (error);
 }
