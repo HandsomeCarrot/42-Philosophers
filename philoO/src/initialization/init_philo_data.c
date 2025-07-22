@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 11:18:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/22 16:34:40 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/22 16:49:48 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,28 @@ static void	assign_mutexes(t_philo *philo, t_data *data)
 }
 
 // docs
-static t_error	init_philo(t_philo *philo, t_data *data)
+static t_error	init_philo(t_count id, t_philo *philo, t_data *data)
 {
+	philo->id = id;
 	assign_mutexes(philo, data);
+	philo->input = &data->input;
+	philo->term_flag = &data->term_flag;
+	philo->last_meal = &data->philos.last_meals[philo->id];
+	philo->full = &data->philos.philo_full[philo->id];
 	return (SUCCESS);
 }
 
 // docs
 static t_error	init_all_philos(t_data *data)
 {
-	t_count	philo_index;
+	t_count	index;
 
-	philo_index = 0;
-	while (philo_index < data->input.philo_count)
+	index = 0;
+	while (index < data->input.philo_count)
 	{
-		data->philos.philo_data[philo_index].id = philo_index;
-		if (init_philo(&data->philos.philo_data[philo_index], data) != SUCCESS)
+		if (init_philo(index, &data->philos.philo_data[index], data))
 			return (ERROR);
-		philo_index++;
+		index++;
 	}
 	return (SUCCESS);
 }
