@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:00:48 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/22 17:21:22 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/22 22:57:24 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,18 @@
 // docs
 void	assign_monitor_data(t_data *data)
 {
-	data->monitor.input = &data->input;
-	data->monitor.philos.meal_mutexes = data->mutexes.meal_mutexes;
-	data->monitor.philos.last_meals = data->philos.last_meals;
-	data->monitor.philos.full_mutexes = data->mutexes.full_mutexes;
-	data->monitor.philos.philo_full = data->philos.philo_full;
-	data->monitor.term_mutex = &data->mutexes.term_mutex;
-	data->monitor.term_flag = &data->term_flag;
-	data->monitor.print_mutex = &data->mutexes.print_mutex;
-	data->monitor.start_mutex = &data->mutexes.start_mutexes[data->input.philo_count];
+	t_monitor		monitor;
+	t_all_mutexes	mutexes;
+
+	monitor = data->monitor;
+	mutexes = data->mutexes;
+	monitor.input = &data->input;
+	monitor.philos.meal_mutexes = mutexes.meal_mutexes;
+	monitor.philos.last_meals = data->philos.last_meals;
+	monitor.philos.full_mutexes = mutexes.full_mutexes;
+	monitor.philos.philo_full = data->philos.philo_full;
+	monitor.term_mutex = &mutexes.term_mutex;
+	monitor.term_flag = &data->term_flag;
+	monitor.print_mutex = &mutexes.print_mutex;
+	monitor.start_mutex = &mutexes.start_mutexes[data->input.philo_count];
 }

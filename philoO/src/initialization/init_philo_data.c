@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 11:18:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/22 16:49:48 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/22 22:59:09 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@
 static void	assign_forks(t_philo *philo, t_data *data)
 {
 	t_count	own_fork;
-	t_count	neighbors_fork;
+	t_count	next_fork;
 
 	own_fork = philo->id;
-	neighbors_fork = (own_fork + 1) % data->input.philo_count;
+	next_fork = (own_fork + 1) % data->input.philo_count;
 	if (philo->id % 2 == 0)
 	{
 		philo->mutexes.first_fork = &data->mutexes.fork_mutexes[own_fork];
-		philo->mutexes.second_fork = &data->mutexes.fork_mutexes[neighbors_fork];
+		philo->mutexes.second_fork = &data->mutexes.fork_mutexes[next_fork];
 	}
 	else
 	{
-		philo->mutexes.first_fork = &data->mutexes.fork_mutexes[neighbors_fork];
+		philo->mutexes.first_fork = &data->mutexes.fork_mutexes[next_fork];
 		philo->mutexes.second_fork = &data->mutexes.fork_mutexes[own_fork];
 	}
 }
