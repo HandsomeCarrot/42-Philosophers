@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:16:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/23 23:29:43 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 00:30:31 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_error	print_state(t_philo_state state, t_ms *timestamp, t_philo *philo)
 		error = ERROR;
 	if (!error && termination_requested(philo->term_flag, philo->mutexes.term_flag))
 		error = TERMINATE;
-	if (!error && get_elapsed_time(&elapsed_time, philo->input))
+	if (!error && get_elapsed_time(&elapsed_time, philo->input->sim_start_time))
 		error = ERROR;
 	if (!error)
 		printf("%lu %d %s\n", elapsed_time, philo->id + 1, state_message); // use write instead of printf?

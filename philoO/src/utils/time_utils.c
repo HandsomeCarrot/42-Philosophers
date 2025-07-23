@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:13:55 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/23 19:35:45 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 00:30:57 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,35 +67,48 @@ static t_error	validate_timestamps(t_ms smaller_timestamp, t_ms larger_timestamp
 	return (SUCCESS);
 }
 
-/**
- * @brief Calculates the elapsed time in milliseconds since the simulation start.
- *
- * Retrieves the current time and subtracts the simulation start time to
- * determine the elapsed time. The result is stored in the provided pointer.
- *
- * @param ms_ptr Pointer to a t_ms variable where the elapsed time will be
- *        stored.
- * @param input Pointer to the input structure containing the simulation start
- *        time.
- *
- * @return SUCCESS if the elapsed time was successfully calculated, ERROR
- *         otherwise.
- *
- * @note Returns ERROR if ms_ptr or input is NULL, or if time retrieval fails.
- */
-t_error	get_elapsed_time(t_ms *ms_ptr, t_input *input)
+// docs
+t_error	get_elapsed_time(t_ms *ms_ptr, t_ms start_time)
 {
 	t_ms	current_time;
 
-	if (!ms_ptr || !input)
-	{
-		error_msg("missing parameters", "get_elapsed_time");
-		return (ERROR);
-	}
+	if (!ms_ptr)
+		return (error_msg("missing parameters", "get_elapsed_time"));
 	if (get_current_time_ms(&current_time))
 		return (ERROR);
-	if (validate_timestamps(input->sim_start_time, current_time))
+	if (validate_timestamps(start_time, current_time))
 		return (ERROR);
-	*ms_ptr = current_time - input->sim_start_time;
+	*ms_ptr = current_time - start_time;
+	return (SUCCESS);
+}
+
+/// docs
+t_error	precise_sleep(t_ms sleep_time_ms)
+{
+	struct timeval	start;
+	struct timeval	current;
+	t_ms			elapsed;
+	t_ms			remaining;
+
+	if (sleep_time_ms == 0)
+		return (SUCCESS);
+	if (gettimeofday(&start, NULL) != 0)
+		return (ERROR);
+	if (sleep_time_ms >= 20 && usleep((sleep_time_ms - 10) * MS_TO_USEC) != 0)
+		return (error_msg("thread failed to sleep", "precise_sleep"));
+	while (1)
+	{
+		if (gettimeofday(&current, NULL) != 0)
+			return (ERROR);
+		elapsed = (current.tv_sec - start.tv_sec) * 1000;
+		elapsed += (current.tv_usec - start.tv_usec) / 1000;
+		if (elapsed >= sleep_time_ms)
+			break;
+		remaining = sleep_time_ms - elapsed;
+		if (remaining > 1)
+			usleep(remaining * 1000);
+		else
+			usleep(100); // Small sleep to prevent CPU hogging
+	}
 	return (SUCCESS);
 }

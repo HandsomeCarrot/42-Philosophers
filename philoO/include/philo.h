@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/23 23:29:51 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 00:28:41 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_error	wait_for_start(t_input *input, pthread_mutex_t *mutex);
 // time
 
 t_error	get_current_time_ms(t_ms *ms_ptr);
-t_error	get_elapsed_time(t_ms *ms_ptr, t_input *input);
+t_error	get_elapsed_time(t_ms *ms_ptr, t_ms start_time);
 
 //------------------------------CLEANUP-------------------------------//
 
