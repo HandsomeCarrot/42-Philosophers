@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:23:56 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 00:08:15 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 01:12:22 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,8 @@ static t_error	thread_sleep(t_ms time, t_philo *philo)
 			sleep_time = time;
 		else
 			sleep_time = interval;
-		if (usleep(sleep_time) != 0)
-		{
-			error_msg("failed to sleep", "thread_sleep");
-			return (ERROR);
-		}
+		if (precise_sleep(sleep_time) != 0)
+			return (error_msg("failed to sleep", "thread_sleep"));
 		if (termination_requested(philo->term_flag, philo->mutexes.term_flag))
 			return (TERMINATE);
 		time -= sleep_time;

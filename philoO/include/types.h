@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:51:14 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 00:07:59 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 01:10:43 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # define MS_TO_USEC 1000
 
 // docs
-// current: 10,000,000 -> 10 seconds in microseconds
-# define SLEEP_INTERVAL 10000000
+// current: 10,000 -> 10 seconds in milliseconds
+# define SLEEP_INTERVAL 10000
 
 // docs
 typedef uint64_t	t_ms; // could be unsigend long long
