@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:23:56 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/23 15:44:28 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/23 15:47:50 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,23 @@
 // docs
 static t_error	start_routine(t_philo *philo)
 {
-	(void)philo;
-	return (SUCCESS);
+	t_error	error;
+
+	if (!philo)
+	{
+		error_msg("missing parameters", "routine");
+		return (ERROR);
+	}
+	error = SUCCESS;
+	while (error == SUCCESS)
+	{
+		error = philo_eat(philo);
+		if (error == SUCCESS)
+			error = philo_sleep(philo);
+		if (error == SUCCESS)
+			error = philo_think(philo);
+	}
+	return (error);
 }
 
 // docs 
