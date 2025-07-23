@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:23:56 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/23 16:59:29 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/23 23:42:27 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,6 @@ static t_error	philo_forks(t_mutex_action action, t_philo *philo)
 {
 	t_error			error;
 
-	if (!philo)
-	{
-		error_msg("missing parameters", "philo_forks");
-		return (ERROR);
-	}
 	error = mutex_fork(action, philo->mutexes.first_fork, philo);
 	if (error != SUCCESS)
 		return (error);
@@ -53,6 +48,41 @@ static t_error	philo_forks(t_mutex_action action, t_philo *philo)
 		mutex_fork(UNLOCK, philo->mutexes.first_fork, philo);
 	return (error);
 }
+
+// docs
+static t_error	set_last_meal(t_ms timestamp, t_philo *philo)
+{
+	pthread_mutex_t	*mutex;
+
+	mutex = philo->mutexes.meal;
+	if (w_mutex(LOCK, mutex))
+		return (ERROR);
+	*philo->last_meal = timestamp;
+	if (w_mutex(UNLOCK, mutex))
+		return (ERROR);
+	return (SUCCESS);
+}
+
+// docs
+static t_error	increase_meals_eaten(t_philo *philo)
+{
+	pthread_mutex_t	*mutex;
+	static t_count	meals_eaten = 0;
+
+	if (!philo->input->has_meal_limit)
+		return (SUCCESS);
+	meals_eaten++;
+	if (meals_eaten < philo->input->meal_limit)
+		return (SUCCESS);
+	mutex = philo->mutexes.full;
+	if (w_mutex(LOCK, mutex))
+		return (ERROR);
+	*philo->full = true;
+	if (w_mutex(UNLOCK, mutex))
+		return (ERROR);
+	return (SUCCESS);
+}
+
 // docs
 static t_error	philo_eat(t_philo *philo)
 {
@@ -64,7 +94,7 @@ static t_error	philo_eat(t_philo *philo)
 	if (error != SUCCESS)
 		return (error);
 	error = print_state(EATING, &timestamp, philo);
-	if (set_last_meal(timestamp, philo))
+	if (!error && set_last_meal(timestamp, philo))
 		return (ERROR);
 	if (error != SUCCESS)
 		return (error);
@@ -81,11 +111,6 @@ static t_error	start_routine(t_philo *philo)
 {
 	t_error	error;
 
-	if (!philo)
-	{
-		error_msg("missing parameters", "routine");
-		return (ERROR);
-	}
 	error = SUCCESS;
 	while (error == SUCCESS)
 	{
