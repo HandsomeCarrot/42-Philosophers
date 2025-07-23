@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:13:55 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 00:30:57 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 00:39:17 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,30 +85,25 @@ t_error	get_elapsed_time(t_ms *ms_ptr, t_ms start_time)
 /// docs
 t_error	precise_sleep(t_ms sleep_time_ms)
 {
-	struct timeval	start;
-	struct timeval	current;
-	t_ms			elapsed;
-	t_ms			remaining;
+	t_ms	start;
+	t_ms	elapsed;
+	t_ms	remaining;
 
 	if (sleep_time_ms == 0)
 		return (SUCCESS);
-	if (gettimeofday(&start, NULL) != 0)
+	if (get_current_time_ms(&start) != SUCCESS)
 		return (ERROR);
 	if (sleep_time_ms >= 20 && usleep((sleep_time_ms - 10) * MS_TO_USEC) != 0)
 		return (error_msg("thread failed to sleep", "precise_sleep"));
 	while (1)
 	{
-		if (gettimeofday(&current, NULL) != 0)
+		if (get_elapsed_time(&elapsed, start) != SUCCESS)
 			return (ERROR);
-		elapsed = (current.tv_sec - start.tv_sec) * 1000;
-		elapsed += (current.tv_usec - start.tv_usec) / 1000;
 		if (elapsed >= sleep_time_ms)
 			break;
 		remaining = sleep_time_ms - elapsed;
 		if (remaining > 1)
-			usleep(remaining * 1000);
-		else
-			usleep(100); // Small sleep to prevent CPU hogging
+			usleep((remaining / 2) * MS_TO_USEC);
 	}
 	return (SUCCESS);
 }
