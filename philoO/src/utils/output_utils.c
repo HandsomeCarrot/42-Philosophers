@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:16:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/23 19:36:03 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/23 23:29:43 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,23 +61,25 @@ t_error	print_state(t_philo_state state, t_ms *timestamp, t_philo *philo)
 {
 	char	*state_message;
 	t_ms	elapsed_time;
+	t_error	error;
 
+	error = SUCCESS;
 	state_message = get_state_message(state);
 	if (!state_message)
-		return (ERROR);
-	if (w_mutex(LOCK, philo->mutexes.print))
-		return (ERROR);
-	if (get_elapsed_time(&elapsed_time, philo->input))
-	{
-		w_mutex(UNLOCK, philo->mutexes.print);
-		return (ERROR);
-	}
-	printf("%lu %d %s\n", elapsed_time, philo->id + 1, state_message);
-	if (w_mutex(UNLOCK, philo->mutexes.print))
-		return (ERROR);
-	if (timestamp)
+		error = ERROR;
+	if (!error && w_mutex(LOCK, philo->mutexes.print))
+		error = ERROR;
+	if (!error && termination_requested(philo->term_flag, philo->mutexes.term_flag))
+		error = TERMINATE;
+	if (!error && get_elapsed_time(&elapsed_time, philo->input))
+		error = ERROR;
+	if (!error)
+		printf("%lu %d %s\n", elapsed_time, philo->id + 1, state_message); // use write instead of printf?
+	if (w_mutex(UNLOCK, philo->mutexes.print) && !error)
+		error = ERROR;
+	if (timestamp && !error)
 		*timestamp = elapsed_time;
-	return (SUCCESS);
+	return (error);
 }
 
 // docs

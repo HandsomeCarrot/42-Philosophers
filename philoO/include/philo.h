@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/23 19:35:31 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/23 23:29:51 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	*w_calloc(size_t nmemb, size_t size);
 
 t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex);
 
-// thread helpers
+// threads
 
 void	set_termination_flag(bool *term_flag_ptr, pthread_mutex_t *mutex);
 bool	termination_requested(bool *term_flag_ptr, pthread_mutex_t *mutex);
