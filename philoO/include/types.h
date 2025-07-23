@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:51:14 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/17 11:08:08 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 00:07:59 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,11 @@
 
 # include <stdint.h>
 
+// docs
 # define MS_TO_USEC 1000
+
+// docs
+// current: 10,000,000 -> 10 seconds in microseconds
 # define SLEEP_INTERVAL 10000000
 
 // docs
@@ -24,9 +28,6 @@ typedef uint64_t	t_ms; // could be unsigend long long
 typedef uint16_t	t_count; // could be unsigend short
 
 // docs
-// remove all special errors
-// only use error and success?
-// maybe death
 typedef enum e_error
 {
 	SUCCESS,
