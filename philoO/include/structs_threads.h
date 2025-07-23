@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 12:16:52 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/22 16:59:02 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/23 23:54:44 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_philo
 	t_ms					*last_meal;
 	bool					*full;
 	t_count					id;
+	t_count					meals_eaten;
 }							t_philo;
 
 // docs

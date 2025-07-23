@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:23:56 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/23 23:42:27 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/23 23:58:09 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,11 @@ static t_error	set_last_meal(t_ms timestamp, t_philo *philo)
 static t_error	increase_meals_eaten(t_philo *philo)
 {
 	pthread_mutex_t	*mutex;
-	static t_count	meals_eaten = 0;
 
 	if (!philo->input->has_meal_limit)
 		return (SUCCESS);
-	meals_eaten++;
-	if (meals_eaten < philo->input->meal_limit)
+	philo->meals_eaten++;
+	if (philo->meals_eaten < philo->input->meal_limit)
 		return (SUCCESS);
 	mutex = philo->mutexes.full;
 	if (w_mutex(LOCK, mutex))
@@ -87,23 +86,27 @@ static t_error	increase_meals_eaten(t_philo *philo)
 static t_error	philo_eat(t_philo *philo)
 {
 	t_error	error;
-	t_ms timestamp;
+	t_ms	timestamp;
 
-	timestamp = 0;
 	error = philo_forks(LOCK, philo);
 	if (error != SUCCESS)
 		return (error);
+	timestamp = 0;
 	error = print_state(EATING, &timestamp, philo);
-	if (!error && set_last_meal(timestamp, philo))
-		return (ERROR);
 	if (error != SUCCESS)
+	{
+		philo_forks(UNLOCK, philo);
 		return (error);
+	}
+	if (set_last_meal(timestamp, philo) != SUCCESS)
+	{
+		philo_forks(UNLOCK, philo);
+		return (ERROR);
+	}
 	error = thread_sleep(philo->input->time_to_eat, philo);
-	if (philo_forks(UNLOCK, philo))
+	if (philo_forks(UNLOCK, philo) != SUCCESS)
 		return (ERROR);
-	if (increase_meals_eaten(philo))
-		return (ERROR);
-	return (error);
+	return (increase_meals_eaten(philo));
 }
 
 // docs
