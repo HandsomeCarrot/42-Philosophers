@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:13:55 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 00:52:11 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 01:05:47 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ t_error	precise_sleep(t_ms sleep_time_ms)
 		return (SUCCESS);
 	if (get_current_time_ms(&start) != SUCCESS)
 		return (ERROR);
-	if (usleep(sleep_time_ms * 900) != 0)
-		return (error_msg("failed to sleep", "precise_sleep/1"));
+	if (sleep_time_ms > 10 && usleep(sleep_time_ms * 800) != 0)
+		return (error_msg("failed initial sleep", "precise_sleep/1"));
 	while (1)
 	{
 		if (get_elapsed_time(&elapsed, start) != SUCCESS)
@@ -104,7 +104,7 @@ t_error	precise_sleep(t_ms sleep_time_ms)
 			break ;
 		remaining = sleep_time_ms - elapsed;
 		if (remaining > 1 && usleep((remaining / 2) * MS_TO_USEC) != 0)
-			return (error_msg("failed to sleep", "precise_sleep/2"));
+			return (error_msg("failed remaining sleep", "precise_sleep/2"));
 	}
 	return (SUCCESS);
 }
