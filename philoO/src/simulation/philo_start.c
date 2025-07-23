@@ -6,11 +6,36 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:23:56 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/23 23:58:09 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 00:08:15 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
+
+// docs
+static t_error	thread_sleep(t_ms time, t_philo *philo)
+{
+	t_ms	interval;
+	t_ms	sleep_time;
+
+	interval = SLEEP_INTERVAL;
+	while (time > 0)
+	{
+		if (time < interval)
+			sleep_time = time;
+		else
+			sleep_time = interval;
+		if (usleep(sleep_time) != 0)
+		{
+			error_msg("failed to sleep", "thread_sleep");
+			return (ERROR);
+		}
+		if (termination_requested(philo->term_flag, philo->mutexes.term_flag))
+			return (TERMINATE);
+		time -= sleep_time;
+	}
+	return (SUCCESS);
+}
 
 // docs
 static t_error	mutex_fork(t_mutex_action action, pthread_mutex_t *fork,
