@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/23 15:38:02 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/23 19:35:31 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	*monitor_start(void *data);
 
 t_error	error_msg(char *msg1, char *msg2);
 void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex);
+t_error	print_state(t_philo_state state, t_ms *timestamp, t_philo *philo);
 char	*get_exec_pattern(void);
 
 // memory
@@ -68,6 +69,7 @@ t_error	wait_for_start(t_input *input, pthread_mutex_t *mutex);
 // time
 
 t_error	get_current_time_ms(t_ms *ms_ptr);
+t_error	get_elapsed_time(t_ms *ms_ptr, t_input *input);
 
 //------------------------------CLEANUP-------------------------------//
 
