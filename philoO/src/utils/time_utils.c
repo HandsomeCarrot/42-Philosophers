@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:13:55 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 01:07:16 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 01:13:08 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,28 @@ t_error	precise_sleep(t_ms sleep_time_ms)
 		remaining = sleep_time_ms - elapsed;
 		if (remaining > 1 && usleep((remaining / 2) * MS_TO_USEC) != 0)
 			return (error_msg("failed remaining sleep", "precise_sleep/2"));
+	}
+	return (SUCCESS);
+}
+
+// docs
+t_error	thread_sleep(t_ms time, t_philo *philo)
+{
+	t_ms	interval;
+	t_ms	sleep_time;
+
+	interval = SLEEP_INTERVAL;
+	while (time > 0)
+	{
+		if (time < interval)
+			sleep_time = time;
+		else
+			sleep_time = interval;
+		if (precise_sleep(sleep_time) != 0)
+			return (error_msg("failed to sleep", "thread_sleep"));
+		if (termination_requested(philo->term_flag, philo->mutexes.term_flag))
+			return (TERMINATE);
+		time -= sleep_time;
 	}
 	return (SUCCESS);
 }
