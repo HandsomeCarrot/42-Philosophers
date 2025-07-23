@@ -6,11 +6,18 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:23:56 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/23 15:38:06 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/23 15:44:28 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
+
+// docs
+static t_error	start_routine(t_philo *philo)
+{
+	(void)philo;
+	return (SUCCESS);
+}
 
 // docs 
 void	*philo_start(void *data)
@@ -20,12 +27,14 @@ void	*philo_start(void *data)
 
 	if (!data)
 		return ((void *)error_msg("missing parameters", "philo_start"));
+	philo = data;
 	error = wait_for_start(philo->input, philo->mutexes.start);
 	if (error != SUCCESS)
 		return ((void *)error);
 	if (termination_requested(philo->term_flag, philo->mutexes.term_flag))
 		return ((void *)SUCCESS);
-	philo = data;
-	
-	return ((void *)SUCCESS);
+	error = start_routine(philo);
+	if (error == ERROR)
+		set_termination_flag(philo->term_flag, philo->mutexes.term_flag);
+	return ((void *)error);
 }
