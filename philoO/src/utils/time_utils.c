@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:13:55 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 01:05:47 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 01:07:16 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_error	get_elapsed_time(t_ms *ms_ptr, t_ms start_time)
 	return (SUCCESS);
 }
 
-/// docs
+// docs
 t_error	precise_sleep(t_ms sleep_time_ms)
 {
 	t_ms	start;
