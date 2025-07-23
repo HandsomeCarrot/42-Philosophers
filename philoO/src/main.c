@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:21:09 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/23 01:43:09 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/23 23:43:22 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv)
 		return (error_msg("Incorrect amount of Arguments", get_exec_pattern()));
 	data = NULL;
 	error = initialize_data(argc, argv, &data);
-	if (!error && start_simulation != SUCCESS)
+	if (!error && start_simulation(data) != SUCCESS)
 	{
 		error = ERROR;
 		set_termination_flag(&data->term_flag, &data->mutexes.term_mutex);
