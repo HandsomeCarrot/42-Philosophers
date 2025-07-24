@@ -54,10 +54,7 @@ static t_ms	calculate_initial_think_time(t_count id, t_data *data)
 		delay = (id % 2) * (data->input.time_to_eat / 2);
 	else
 	{
-		delay = data->input.time_to_eat + data->input.time_to_sleep;
-		delay = data->input.time_to_die - delay;
-		delay = delay / (data->input.philo_count - 1);
-		delay = id * delay;
+		delay = (id % 2) * 1;
 	}
 	return (delay);
 }
@@ -72,7 +69,6 @@ static t_error	init_philo(t_count id, t_philo *philo, t_data *data)
 	philo->last_meal = &data->philos.last_meals[philo->id];
 	philo->full = &data->philos.philo_full[philo->id];
 	philo->initial_think_time = calculate_initial_think_time(id, data);
-	printf("%d waits: %lu\n", philo->id, philo->initial_think_time);
 	return (SUCCESS);
 }
 

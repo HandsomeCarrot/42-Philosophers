@@ -97,9 +97,16 @@ static t_error	get_times(char **argv, t_data *data)
 		return (ERROR);
 	if (data->input.philo_count % 2 == 1)
 	{
-		data->input.time_to_think = data->input.time_to_eat * 2;
-		data->input.time_to_think -= data->input.time_to_sleep;
-		data->input.time_to_think *= 0.1;
+		if (data->input.time_to_eat + data->input.time_to_sleep >= data->input.time_to_die - 5)
+		{
+			data->input.time_to_think = 1;
+		}
+		else
+		{
+			data->input.time_to_think = data->input.time_to_eat * 2;
+			data->input.time_to_think -= data->input.time_to_sleep;
+			data->input.time_to_think *= 0.5;
+		}
 	}
 	return (SUCCESS);
 }
