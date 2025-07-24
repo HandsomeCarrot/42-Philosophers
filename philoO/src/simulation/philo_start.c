@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:23:56 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 11:05:24 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 11:13:15 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ static t_error	philo_sleep(t_philo *philo)
 {
 	t_error	error;
 
-	error = print_philo_state(SLEEPING, NULL, philo);
+	error = print_state(SLEEPING, NULL, philo);
 	if (error)
 		return (error);
 	error = thread_sleep(philo->input->time_to_sleep, philo);
@@ -126,7 +126,7 @@ static t_error	philo_think(t_philo *philo)
 {
 	t_error	error;
 
-	error = print_philo_state(THINKING, NULL, philo);
+	error = print_state(THINKING, NULL, philo);
 	if (error)
 		return (error);
 	error = thread_sleep(philo->input->time_to_think, philo);
@@ -134,10 +134,18 @@ static t_error	philo_think(t_philo *philo)
 }
 
 // docs
+static t_error	solo_routine(t_philo *philo)
+{
+	return (print_state(FORK, NULL, philo));
+}
+
+// docs
 static t_error	start_routine(t_philo *philo)
 {
 	t_error	error;
 
+	if (philo->input->philo_count == 1)
+		return (solo_routine(philo));
 	error = SUCCESS;
 	while (error == SUCCESS)
 	{
