@@ -6,19 +6,7 @@
 #    By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/15 10:58:10 by vpoka             #+#    #+#              #
-#    Updated: 2025/07/15 11:22:51 by vpoka            ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/02/21 19:28:52 by vpoka             #+#    #+#              #
-#    Updated: 2025/07/12 17:57:48 by vpoka            ###   ########.fr        #
+#    Updated: 2025/07/24 15:12:41 by vpoka            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +43,7 @@ TOTAL_SRCS := $(words $(SRCS))
 
 # Progress display function for compilation
 define progress
-	@printf "\r$(CYAN)Compiling files: %s$(RST)" "$(notdir $<)"
+	@printf "\r$(CYAN)Compiling files: %s$(RST)\n" "$(notdir $<)"
 endef
 
 # Link completion message

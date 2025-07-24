@@ -5,118 +5,67 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/04 19:11:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/10 15:49:59 by vpoka            ###   ########.fr       */
+/*   Created: 2025/07/20 10:44:48 by vpoka             #+#    #+#             */
+/*   Updated: 2025/07/24 16:18:42 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philo.h"
+#include "../../include/philo.h"
 
-/**
- * @brief Destroys and frees a pthread mutex.
- *
- * This function safely destroys a mutex using pthread_mutex_destroy and then
- * frees the memory allocated for the mutex. If the mutex destruction fails,
- * an error message is logged but the memory is still freed.
- *
- * @param mutex Pointer to the pthread_mutex_t to be destroyed and freed.
- *
- * @return SUCCESS if the mutex was destroyed, ERROR otherwise.
- *
- * @note The mutex should be unlocked before calling this function.
- * @warning If pthread_mutex_destroy fails, an error is logged but memory is
- *          still freed, which may lead to resource leaks.
- */
+// docs
 static t_error	destroy_mutex(pthread_mutex_t *mutex)
 {
-	t_error	error;
+	int	error;
 
-	error = SUCCESS;
 	if (!mutex)
-	{
-		error_msg("missing parameters", "destroy_mutex");
-		return (ERROR);
-	}
+		return (SUCCESS);
 	error = pthread_mutex_destroy(mutex);
-	free(mutex);
-	if (error != SUCCESS)
+	if (error == 0)
+		return (SUCCESS);
+	if (error == EBUSY)
+		error_msg("failed to destroy mutex", "mutex is in use");
+	else
 		error_msg("failed to destroy mutex", NULL);
-	return (error);
+	return (ERROR);
 }
 
-/**
- * @brief Destroys and frees a mutex array.
- *
- * Iterates through the array of mutexes, destroying and freeing each one.
- * Also frees the array itself.
- *
- * @param program Pointer to the main program structure.
- * @param mutex_array_ptr Pointer to the mutex array to destroy.
- * @param count Number of mutexes in the array.
- *
- * @return SUCCESS if all mutexes were destroyed, ERROR otherwise.
- */
-static t_error	destroy_mutex_array(t_program *program,
-		pthread_mutex_t ***mutex_array_ptr, t_ms count)
+// docs
+t_error	destroy_mutex_array(t_count count, pthread_mutex_t **mutex_array)
 {
-	t_ms	index;
-	t_error	error;
+	t_count	index;
 
-	if (!program || !mutex_array_ptr || !*mutex_array_ptr)
-	{
-		error_msg("missing parameters", "destroy_mutex_array");
-		return (ERROR);
-	}
-	error = SUCCESS;
+	if (!mutex_array || !*mutex_array)
+		return (SUCCESS);
 	index = 0;
-	while (index < count && (*mutex_array_ptr)[index])
+	while (index < count)
 	{
-		if (destroy_mutex((*mutex_array_ptr)[index]) != SUCCESS)
-			error = ERROR;
+		if (destroy_mutex((*mutex_array) + index) != SUCCESS)
+			return (ERROR);
 		index++;
 	}
-	free(*mutex_array_ptr);
-	*mutex_array_ptr = NULL;
-	return (error);
+	free(*mutex_array);
+	return (SUCCESS);
 }
 
-/**
- * @brief Destroys all mutexes used in the philosophers program.
- *
- * Destroys and frees the term_flag mutex, print mutex, and all fork, last_meal,
- * and meals_eaten mutexes in the program structure.
- *
- * @param program Pointer to the main program structure containing mutexes.
- *
- * @return SUCCESS if all mutexes were destroyed, ERROR otherwise.
- *
- * @note The function checks for NULL pointers before proceeding.
- */
-t_error	destroy_all_mutexes(t_program *program)
+// docs
+t_error	destroy_all_mutexes(t_data *data)
 {
-	t_error	error;
+	t_all_mutexes	mutexes;
+	t_count			philo_count;
+	t_error			error;
 
-	if (!program)
-	{
-		error_msg("missing parameters", "destroy_all_mutexes");
-		return (ERROR);
-	}
-	error = SUCCESS;
-	if (destroy_mutex(program->mutexes.term_flag) != SUCCESS)
+	mutexes = data->mutexes;
+	philo_count = data->input.philo_count;
+	error = destroy_mutex(&mutexes.print_mutex);
+	if (destroy_mutex(&mutexes.term_mutex))
 		error = ERROR;
-	if (destroy_mutex(program->mutexes.print) != SUCCESS)
+	if (destroy_mutex_array((philo_count + 1), &mutexes.start_mutexes))
 		error = ERROR;
-	if (destroy_mutex_array(program, &program->mutexes.forks,
-			program->input.philo_count) != SUCCESS)
+	if (destroy_mutex_array(philo_count, &mutexes.fork_mutexes))
 		error = ERROR;
-	if (destroy_mutex_array(program, &program->mutexes.last_meal,
-			program->input.philo_count) != SUCCESS)
+	if (destroy_mutex_array(philo_count, &mutexes.meal_mutexes))
 		error = ERROR;
-	if (destroy_mutex_array(program, &program->mutexes.meals_eaten,
-			program->input.philo_count) != SUCCESS)
-		error = ERROR;
-	if (destroy_mutex_array(program, &program->mutexes.start_mutexes,
-			program->input.philo_count) != SUCCESS)
+	if (destroy_mutex_array(philo_count, &mutexes.full_mutexes))
 		error = ERROR;
 	return (error);
 }

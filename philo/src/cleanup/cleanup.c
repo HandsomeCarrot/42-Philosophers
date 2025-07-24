@@ -5,50 +5,25 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/23 16:19:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/13 12:05:55 by vpoka            ###   ########.fr       */
+/*   Created: 2025/07/22 23:50:37 by vpoka             #+#    #+#             */
+/*   Updated: 2025/07/23 01:44:01 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philo.h"
+#include "../../include/philo.h"
 
-/**
- * @brief Cleans up all resources and exits the philosophers program.
- *
- * This function ensures all dynamically allocated resources, threads, and
- * mutexes are properly cleaned up before the program terminates. It can also
- * set the termination flag for threads if requested.
- *
- * @param set_term_flag Boolean indicating whether to set the thread
- *                      termination flag before cleanup.
- * @param program Pointer to the main program structure containing all
- *                resources to be cleaned up.
- *
- * @return SUCCESS if cleanup was successful, ERROR otherwise.
- *
- * @note If program is NULL, cleanup is skipped and ERROR is returned.
- * @warning Freeing resources after partial initialization may lead to
- *          undefined behavior if not all pointers are valid.
- */
-t_error	cleanup_program(bool set_term_flag, t_program *program)
+// docs
+t_error	erase_data(t_data *data)
 {
 	t_error	error;
 
-	error = SUCCESS;
-	if (!program)
-	{
-		error_msg("missing parameters", "cleanup_program");
-		return (ERROR);
-	}
-	if (set_term_flag)
-		set_termination_flag(&program->term_flag, program->mutexes.term_flag);
-	if (program->philos)
-	{
-		error = join_all_threads(program);
-		free(program->philos);
-	}
-	if (destroy_all_mutexes(program) != SUCCESS)
+	if (!data)
+		return (SUCCESS);
+	error = join_all_threads(data);
+	if (destroy_all_mutexes(data) != SUCCESS)
 		error = ERROR;
-	free(program);
+	if (free_philo_data(data) != SUCCESS)
+		error = ERROR;
+	free(data);
 	return (error);
 }

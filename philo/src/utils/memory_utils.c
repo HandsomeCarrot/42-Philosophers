@@ -6,11 +6,11 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:08:46 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/08 17:47:22 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/17 12:41:45 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/philo.h"
+#include "../../include/philo.h"
 
 /**
  * @brief Allocates zero-initialized memory with error handling.
