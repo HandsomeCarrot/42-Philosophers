@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 12:28:32 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 15:15:35 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 15:38:38 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,26 +54,26 @@ static pthread_mutex_t	*new_mutex_array(t_count array_size)
 // docs
 t_error	create_mutexes(t_data *data)
 {
-	t_all_mutexes	mutexes;
+	t_all_mutexes	*mutexes;
 	t_count			philo_count;
 
-	mutexes = data->mutexes;
+	mutexes = &data->mutexes;
 	philo_count = data->input.philo_count;
-	if (init_mutex(&mutexes.print_mutex) != SUCCESS)
+	if (init_mutex(&mutexes->print_mutex) != SUCCESS)
 		return (ERROR);
-	if (init_mutex(&mutexes.term_mutex) != SUCCESS)
+	if (init_mutex(&mutexes->term_mutex) != SUCCESS)
 		return (ERROR);
-	mutexes.start_mutexes = new_mutex_array(philo_count + 1);
-	if (!mutexes.start_mutexes)
+	mutexes->start_mutexes = new_mutex_array(philo_count + 1);
+	if (!mutexes->start_mutexes)
 		return (ERROR);
-	mutexes.fork_mutexes = new_mutex_array(philo_count);
-	if (!mutexes.fork_mutexes)
+	mutexes->fork_mutexes = new_mutex_array(philo_count);
+	if (!mutexes->fork_mutexes)
 		return (ERROR);
-	mutexes.meal_mutexes = new_mutex_array(philo_count);
-	if (!mutexes.meal_mutexes)
+	mutexes->meal_mutexes = new_mutex_array(philo_count);
+	if (!mutexes->meal_mutexes)
 		return (ERROR);
-	mutexes.full_mutexes = new_mutex_array(philo_count);
-	if (!mutexes.full_mutexes)
+	mutexes->full_mutexes = new_mutex_array(philo_count);
+	if (!mutexes->full_mutexes)
 		return (ERROR);
 	return (SUCCESS);
 }
