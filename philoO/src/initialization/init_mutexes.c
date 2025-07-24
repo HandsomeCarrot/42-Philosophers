@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 12:28:32 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/22 17:13:38 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 15:15:35 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_error	init_mutex(pthread_mutex_t *mutex)
 }
 
 // docs
-static pthread_mutex_t	*new_mutex_array(t_count array_size, t_data *data)
+static pthread_mutex_t	*new_mutex_array(t_count array_size)
 {
 	pthread_mutex_t	*mutexes;
 	t_count			index;
@@ -63,16 +63,16 @@ t_error	create_mutexes(t_data *data)
 		return (ERROR);
 	if (init_mutex(&mutexes.term_mutex) != SUCCESS)
 		return (ERROR);
-	mutexes.start_mutexes = new_mutex_array(philo_count + 1, data);
+	mutexes.start_mutexes = new_mutex_array(philo_count + 1);
 	if (!mutexes.start_mutexes)
 		return (ERROR);
-	mutexes.fork_mutexes = new_mutex_array(philo_count, data);
+	mutexes.fork_mutexes = new_mutex_array(philo_count);
 	if (!mutexes.fork_mutexes)
 		return (ERROR);
-	mutexes.meal_mutexes = new_mutex_array(philo_count, data);
+	mutexes.meal_mutexes = new_mutex_array(philo_count);
 	if (!mutexes.meal_mutexes)
 		return (ERROR);
-	mutexes.full_mutexes = new_mutex_array(philo_count, data);
+	mutexes.full_mutexes = new_mutex_array(philo_count);
 	if (!mutexes.full_mutexes)
 		return (ERROR);
 	return (SUCCESS);
