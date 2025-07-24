@@ -6,25 +6,21 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:13:55 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 01:13:08 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 01:01:21 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
 
 /**
- * @brief Retrieves current time in milliseconds since Unix epoch.
+ * @brief Gets the current time in milliseconds since epoch.
  *
- * This function uses gettimeofday to obtain the current system time
- * since the unix epoch and converts it to milliseconds.
- * The result is stored in the provided pointer.
+ * Retrieves the current system time using gettimeofday() and converts it
+ * to milliseconds. The result is stored in the provided pointer.
  *
- * @param ms_ptr Pointer to a t_ms variable where the current time will be
- *        stored.
- *
- * @return SUCCESS if the time was successfully retrieved, ERROR otherwise.
- *
- * @note The function returns ERROR if ms_ptr is NULL or if gettimeofday fails.
+ * @param ms_ptr Pointer to store the current time in milliseconds.
+ * @return SUCCESS on success, ERROR on failure (invalid input or system error).
+ * @note The ms_ptr parameter must not be NULL.
  */
 t_error	get_current_time_ms(t_ms *ms_ptr)
 {
@@ -42,20 +38,14 @@ t_error	get_current_time_ms(t_ms *ms_ptr)
 }
 
 /**
- * @brief Validates that the first timestamp is not newer than the second.
+ * @brief Validates that two timestamps are in chronological order.
  *
- * Checks if the provided timestamps are in a logical order. Returns ERROR
- * if the first (older_timestamp) is newer than the second
- * (newer_timestamp).
+ * Ensures that the newer_timestamp is actually newer than the older_timestamp.
+ * This is used to prevent logical errors with time calculations.
  *
- * @param older_timestamp The timestamp expected to be older than or equal to
- *        the newer timestamp.
- * @param newer_timestamp The timestamp expected to be newer than or equal to
- *        the older timestamp.
- *
- * @return SUCCESS if the timestamps are valid, ERROR otherwise.
- *
- * @note Intended to catch logic errors in timestamp calculations.
+ * @param older_timestamp The timestamp that should be older.
+ * @param newer_timestamp The timestamp that should be newer.
+ * @return SUCCESS if timestamps are valid, ERROR if they are out of order.
  */
 static t_error	validate_timestamps(t_ms older_timestamp, t_ms newer_timestamp)
 {
@@ -69,10 +59,15 @@ static t_error	validate_timestamps(t_ms older_timestamp, t_ms newer_timestamp)
 }
 
 /**
- * @brief Calculate elapsed time from a starting timestamp
- * @param ms_ptr Pointer to store the calculated elapsed time
- * @param start_time Starting timestamp to calculate from
- * @return SUCCESS on success, ERROR on failure or invalid parameters
+ * @brief Calculates the time elapsed since a given start time.
+ *
+ * Gets the current time and calculates the difference from the provided
+ * start time. The result is stored in ms_ptr after validation.
+ *
+ * @param ms_ptr Pointer to store the elapsed time in milliseconds.
+ * @param start_time The reference start time in milliseconds.
+ * @return SUCCESS on success, ERROR on failure (invalid input or time error).
+ * @note Both parameters must be valid and timestamps must be in order.
  */
 t_error	get_elapsed_time(t_ms *ms_ptr, t_ms start_time)
 {
@@ -89,9 +84,15 @@ t_error	get_elapsed_time(t_ms *ms_ptr, t_ms start_time)
 }
 
 /**
- * @brief Precise sleep implementation using active waiting
- * @param sleep_time_ms Time to sleep in milliseconds
- * @return SUCCESS on success, ERROR on failure
+ * @brief Sleeps for a precise amount of time in milliseconds.
+ *
+ * Implements a more precise sleep than standard usleep by using a loop
+ * with progressively smaller sleep intervals to minimize oversleeping.
+ *
+ * @param sleep_time_ms The duration to sleep in milliseconds.
+ * @return SUCCESS on success, ERROR on failure (time retrieval error).
+ * @note For very short sleeps (<10ms), uses a single usleep call.
+ * @warning Not perfectly precise due to system scheduling limitations.
  */
 t_error	precise_sleep(t_ms sleep_time_ms)
 {
@@ -119,10 +120,17 @@ t_error	precise_sleep(t_ms sleep_time_ms)
 }
 
 /**
- * @brief Thread sleep with termination checking at intervals
- * @param time Total time to sleep in milliseconds
- * @param philo Philosopher data for termination flag checking
- * @return SUCCESS on completion, TERMINATE if termination requested, ERROR on failure
+ * @brief Sleeps for a duration while checking for termination requests.
+ *
+ * Sleeps in intervals while periodically checking if termination has been
+ * requested. This allows the thread to respond quickly to termination signals.
+ *
+ * @param time The total time to sleep in milliseconds.
+ * @param philo Pointer to the philosopher's data structure.
+ * @return SUCCESS on completion, TERMINATE if termination requested,
+ *         ERROR on sleep failure.
+ * @note Uses SLEEP_INTERVAL constant for check frequency.
+ * @warning Must have valid philo pointer with termination flag and mutex.
  */
 t_error	thread_sleep(t_ms time, t_philo *philo)
 {

@@ -6,18 +6,24 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:23:56 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 17:46:06 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 01:30:29 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
 
 /**
- * @brief Handle mutex operations on individual forks with termination checking
- * @param action LOCK to acquire fork, UNLOCK to release fork
- * @param fork Pointer to the fork mutex
- * @param data Philosopher data for termination checking and state printing
- * @return SUCCESS on success, TERMINATE if termination requested, ERROR on failure
+ * @brief Handles mutex operations for philosopher forks with error checking.
+ *
+ * Performs lock/unlock operations on fork mutexes with additional safety checks.
+ * If termination is requested during locking, automatically unlocks and returns.
+ * Also handles fork state printing when successfully locked.
+ *
+ * @param action The mutex operation to perform (LOCK/UNLOCK)
+ * @param fork Pointer to the fork mutex to operate on
+ * @param data Philosopher data structure containing termination flags
+ * @return t_error SUCCESS on success, ERROR on mutex failure,
+ *         TERMINATE if termination requested during lock
  */
 static t_error	mutex_fork(t_mutex_action action, pthread_mutex_t *fork,
 		t_philo *data)
@@ -42,10 +48,15 @@ static t_error	mutex_fork(t_mutex_action action, pthread_mutex_t *fork,
 }
 
 /**
- * @brief Acquire or release both forks for a philosopher
- * @param action LOCK to acquire both forks, UNLOCK to release both forks
- * @param data Philosopher data containing fork mutex pointers
- * @return SUCCESS on success, TERMINATE if termination requested, ERROR on failure
+ * @brief Manages both forks for a philosopher with proper error handling.
+ *
+ * Coordinates locking/unlocking of both forks with proper rollback on failure.
+ * Ensures forks are always properly released if acquisition fails.
+ *
+ * @param action The mutex operation to perform (LOCK/UNLOCK)
+ * @param data Philosopher data structure containing fork mutexes
+ * @return t_error SUCCESS on success, ERROR on mutex failure,
+ *         TERMINATE if termination requested during lock
  */
 t_error	philo_forks(t_mutex_action action, t_philo *data)
 {
@@ -61,9 +72,13 @@ t_error	philo_forks(t_mutex_action action, t_philo *data)
 }
 
 /**
- * @brief Special routine for single philosopher scenario
- * @param data Philosopher data
- * @return Result of fork state printing
+ * @brief Special routine for single philosopher scenario.
+ *
+ * Handles the case where there's only one philosopher who can't eat
+ * (since they need two forks). Simply prints fork pickup state.
+ *
+ * @param data Philosopher data structure
+ * @return t_error Always returns SUCCESS
  */
 static t_error	solo_routine(t_philo *data)
 {
@@ -71,9 +86,14 @@ static t_error	solo_routine(t_philo *data)
 }
 
 /**
- * @brief Main philosopher routine loop: eat, sleep, think
- * @param data Philosopher data
- * @return SUCCESS if completed normally, TERMINATE if termination requested, ERROR on failure
+ * @brief Main philosopher routine loop.
+ *
+ * Executes the eat-sleep-think cycle until termination or error occurs.
+ * Handles special case for single philosopher scenario.
+ *
+ * @param data Philosopher data structure
+ * @return t_error SUCCESS if terminated normally, ERROR on failure,
+ *         TERMINATE if termination requested
  */
 static t_error	philo_routine(t_philo *data)
 {
@@ -94,9 +114,15 @@ static t_error	philo_routine(t_philo *data)
 }
 
 /**
- * @brief Main philosopher thread entry point
- * @param ptr Philosopher data cast to void pointer
- * @return Thread return value cast to void pointer
+ * @brief Entry point for philosopher thread.
+ *
+ * Initializes philosopher thread, waits for start signal, then begins routine.
+ * Handles special cases for immediate termination and single philosopher.
+ * Manages termination flag on critical errors.
+ *
+ * @param ptr Void pointer cast to t_philo* containing philosopher data
+ * @return void* Cast t_error value: SUCCESS on normal termination,
+ *         ERROR on failure, TERMINATE if termination requested
  */
 void	*philo_start(void *ptr)
 {

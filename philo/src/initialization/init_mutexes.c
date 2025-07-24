@@ -6,16 +6,23 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 12:28:32 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 15:38:38 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 01:23:09 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
 
 /**
- * @brief Initialize a single mutex with error handling
- * @param mutex Pointer to mutex to initialize
- * @return SUCCESS on success, ERROR on failure
+ * @brief Initializes a single mutex with default attributes.
+ *
+ * This function initializes a pthread mutex with NULL attributes. It performs
+ * error checking and returns appropriate status codes. On failure, it logs
+ * error messages indicating the reason for failure.
+ *
+ * @param mutex Pointer to the mutex to be initialized. Must not be NULL.
+ * @return SUCCESS if initialization succeeds, ERROR otherwise.
+ * @note This is a static helper function only used within this file.
+ * @warning Passing a NULL mutex pointer will result in an error.
  */
 static t_error	init_mutex(pthread_mutex_t *mutex)
 {
@@ -34,9 +41,18 @@ static t_error	init_mutex(pthread_mutex_t *mutex)
 }
 
 /**
- * @brief Allocate and initialize array of mutexes
- * @param array_size Number of mutexes to create in array
- * @return Pointer to initialized mutex array or NULL on failure
+ * @brief Creates and initializes an array of mutexes.
+ *
+ * Allocates memory for an array of mutexes and initializes each one. If any
+ * mutex initialization fails, it cleans up all previously initialized mutexes
+ * in the array before returning NULL.
+ *
+ * @param array_size Number of mutexes to create in the array.
+ * @return Pointer to the array of initialized mutexes on success, NULL on
+ *         failure.
+ * @note Uses w_calloc for allocation which zeroes out the memory.
+ * @warning If initialization fails partway through, all previously initialized
+ *          mutexes in the array will be properly destroyed.
  */
 static pthread_mutex_t	*new_mutex_array(t_count array_size)
 {
@@ -60,9 +76,23 @@ static pthread_mutex_t	*new_mutex_array(t_count array_size)
 }
 
 /**
- * @brief Create and initialize all mutexes for the simulation
- * @param data Main data structure to populate with mutexes
- * @return SUCCESS on success, ERROR on failure
+ * @brief Initializes all mutexes required for the philosopher simulation.
+ *
+ * Creates and initializes all mutexes needed for the simulation including:
+ * - Print mutex for synchronized output
+ * - Termination mutex for program termination control
+ * - Start mutexes (one per philosopher plus one extra)
+ * - Fork mutexes (one per philosopher)
+ * - Meal mutexes (one per philosopher)
+ * - Full mutexes (one per philosopher)
+ *
+ * @param data Pointer to the main program data structure containing mutex
+ *             references and philosopher count.
+ * @return SUCCESS if all mutexes are initialized successfully, ERROR if any
+ *         initialization fails.
+ * @note If any mutex initialization fails, all previously initialized mutexes
+ *       will be properly cleaned up.
+ * @warning This function must be called before starting any philosopher threads.
  */
 t_error	create_mutexes(t_data *data)
 {

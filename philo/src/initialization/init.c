@@ -6,18 +6,28 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:23:07 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/22 17:31:36 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 01:20:34 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
 
 /**
- * @brief Initialize all data structures and validate input parameters
- * @param argc Number of command line arguments
- * @param argv Array of command line arguments
- * @param data_ptr Pointer to main data structure pointer
- * @return SUCCESS on success, ERROR on failure
+ * @brief Initializes the main philosopher simulation data structure.
+ *
+ * This function allocates and initializes the main data structure for the
+ * philosopher simulation. It processes input arguments, creates necessary
+ * mutexes, allocates memory for philosopher data, and sets up thread storage.
+ *
+ * @param argc Number of command line arguments.
+ * @param argv Array of command line argument strings.
+ * @param data_ptr Pointer to store the initialized t_data structure.
+ * @return t_error Returns SUCCESS on successful initialization, ERROR on failure.
+ * @note The function performs multiple allocation operations and may fail if
+ *       memory allocation or mutex creation fails.
+ * @warning The caller is responsible for proper cleanup of the data structure
+ *          if initialization fails partially.
+ * @see cleanup_data() for proper cleanup of initialized resources.
  */
 t_error	initialize_data(int argc, char **argv, t_data **data_ptr)
 {

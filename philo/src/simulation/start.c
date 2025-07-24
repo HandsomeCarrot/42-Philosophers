@@ -6,17 +6,21 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 19:33:27 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 15:16:47 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 01:28:49 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
 
 /**
- * @brief Lock or unlock all start synchronization mutexes
- * @param action LOCK or UNLOCK operation
- * @param data Main data structure containing start mutexes
- * @return SUCCESS on success, ERROR on failure
+ * @brief Locks or unlocks all start mutexes in the simulation.
+ *
+ * Iterates through all start mutexes in the data structure and performs
+ * the specified mutex action (LOCK or UNLOCK) on each one.
+ *
+ * @param action The mutex action to perform (LOCK or UNLOCK).
+ * @param data Pointer to the simulation data structure containing mutexes.
+ * @return SUCCESS if all operations succeed, ERROR if any operation fails.
  */
 static t_error	start_mutexes(t_mutex_action action, t_data *data)
 {
@@ -37,12 +41,16 @@ static t_error	start_mutexes(t_mutex_action action, t_data *data)
 }
 
 /**
- * @brief Create a single thread with error handling
- * @param thread_ptr Pointer to pthread_t to store thread handle
- * @param start Thread function pointer
- * @param thread_data Data to pass to thread
- * @param data Main data structure for error handling
- * @return SUCCESS on success, ERROR on failure
+ * @brief Creates a new thread with error handling.
+ *
+ * Wrapper for pthread_create that includes parameter validation and error
+ * handling. Sets termination flag if thread creation fails.
+ *
+ * @param thread_ptr Pointer to store the created thread ID.
+ * @param start Pointer to the thread start routine function.
+ * @param thread_data Data to pass to the thread start routine.
+ * @param data Pointer to simulation data structure for error handling.
+ * @return SUCCESS if thread created successfully, ERROR otherwise.
  */
 static t_error	create_thread(pthread_t *thread_ptr, void *start,
 		void *thread_data, t_data *data)
@@ -59,9 +67,13 @@ static t_error	create_thread(pthread_t *thread_ptr, void *start,
 }
 
 /**
- * @brief Create all philosopher and monitor threads
- * @param data Main data structure containing thread information
- * @return SUCCESS on success, ERROR on failure
+ * @brief Starts all philosopher and monitor threads.
+ *
+ * Creates threads for each philosopher and the monitor thread. Sets
+ * termination flag if any thread creation fails.
+ *
+ * @param data Pointer to simulation data structure.
+ * @return SUCCESS if all threads created successfully, ERROR otherwise.
  */
 static t_error	start_threads(t_data *data)
 {
@@ -84,9 +96,14 @@ static t_error	start_threads(t_data *data)
 }
 
 /**
- * @brief Start the complete simulation with synchronized thread creation
- * @param data Main data structure containing all simulation parameters
- * @return SUCCESS on success, ERROR on failure
+ * @brief Initializes and starts the dining philosophers simulation.
+ *
+ * Coordinates the startup sequence: locks start mutexes, creates threads,
+ * records simulation start time, then unlocks start mutexes.
+ *
+ * @param data Pointer to simulation data structure.
+ * @return SUCCESS if simulation started successfully, ERROR otherwise.
+ * @note The start mutexes ensure all threads start simultaneously.
  */
 t_error	start_simulation(t_data *data)
 {

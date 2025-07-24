@@ -6,17 +6,21 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:16:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 16:20:35 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 01:09:08 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
 
 /**
- * @brief Print error message to stderr and return ERROR
- * @param msg1 First part of error message
- * @param msg2 Second part of error message (can be NULL)
- * @return ERROR always
+ * @brief Outputs an error message to stderr.
+ *
+ * Formats and writes an error message to standard error output. The message
+ * includes the program name followed by optional error messages.
+ *
+ * @param msg1 First part of the error message (can be NULL).
+ * @param msg2 Second part of the error message (can be NULL).
+ * @return ERROR always returns this error code.
  */
 t_error	error_msg(char *msg1, char *msg2)
 {
@@ -36,10 +40,14 @@ t_error	error_msg(char *msg1, char *msg2)
 }
 
 /**
- * @brief Thread-safe string output to file descriptor
- * @param str String to output
- * @param fd File descriptor to write to
- * @param print_mutex Mutex for thread-safe printing
+ * @brief Safely writes a string to a file descriptor with mutex protection.
+ *
+ * This function ensures thread-safe writing to a file descriptor by using
+ * a mutex lock during the write operation.
+ *
+ * @param str The string to write (ignored if NULL).
+ * @param fd The file descriptor to write to (ignored if invalid).
+ * @param print_mutex Mutex used to protect the write operation.
  */
 void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex)
 {
@@ -51,9 +59,13 @@ void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex)
 }
 
 /**
- * @brief Get message string for philosopher state
- * @param state Philosopher state enum value
- * @return Corresponding message string
+ * @brief Gets the string representation of a philosopher state.
+ *
+ * Converts a philosopher state enum value to its corresponding string
+ * representation.
+ *
+ * @param state The philosopher state to convert.
+ * @return const char* String representation of the state, or NULL if invalid.
  */
 static char	*get_state_message(t_philo_state state)
 {
@@ -71,11 +83,17 @@ static char	*get_state_message(t_philo_state state)
 }
 
 /**
- * @brief Print philosopher state change with timestamp
- * @param state New philosopher state to print
- * @param timestamp Pointer to store current timestamp (can be NULL)
- * @param data Philosopher data for ID and printing mutexes
- * @return SUCCESS on success, TERMINATE if termination requested, ERROR on failure
+ * @brief Prints the current state of a philosopher with thread safety.
+ *
+ * Outputs the philosopher's state with timestamp and ID in a thread-safe manner.
+ * Checks for termination requests before printing.
+ *
+ * @param state The philosopher's current state to print.
+ * @param timestamp Pointer to store the timestamp when state was printed.
+ * @param data Philosopher data structure containing mutexes and state.
+ * @return t_error SUCCESS on success, ERROR on failure, TERMINATE if requested.
+ * @note This function handles all mutex locking/unlocking internally.
+ * @warning The print_mutex must be properly initialized before calling.
  */
 t_error	print_state(t_philo_state state, t_ms *timestamp, t_philo *data)
 {

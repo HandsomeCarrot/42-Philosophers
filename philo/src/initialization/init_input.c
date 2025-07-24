@@ -6,17 +6,23 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:53:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 23:23:58 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 01:27:04 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
 
 /**
- * @brief Convert string to t_ms (milliseconds) type with overflow checking
- * @param str String to convert
+ * @brief Converts a string to milliseconds with validation
+ *
+ * Parses a string into a t_ms (milliseconds) value with full validation:
+ * - Checks for non-numeric characters
+ * - Checks for overflow
+ * - Returns error messages for invalid input
+ *
+ * @param str The input string to convert
  * @param result Pointer to store the converted value
- * @return SUCCESS on success, ERROR on failure or overflow
+ * @return t_error SUCCESS on valid conversion, ERROR on failure
  */
 static t_error	atoms(const char *str, t_ms *result)
 {
@@ -47,10 +53,16 @@ static t_error	atoms(const char *str, t_ms *result)
 }
 
 /**
- * @brief Convert string to t_count type with overflow checking
- * @param str String to convert
+ * @brief Converts a string to philosopher count with validation
+ *
+ * Parses a string into a t_count (philosopher count) value with validation:
+ * - Checks for non-numeric characters
+ * - Checks for overflow
+ * - Returns error messages for invalid input
+ *
+ * @param str The input string to convert
  * @param result Pointer to store the converted value
- * @return SUCCESS on success, ERROR on failure or overflow
+ * @return t_error SUCCESS on valid conversion, ERROR on failure
  */
 static t_error	atocount(const char *str, t_count *result)
 {
@@ -81,11 +93,16 @@ static t_error	atocount(const char *str, t_count *result)
 }
 
 /**
- * @brief Parse and validate count parameters from command line
- * @param meal_limit Whether meal limit argument was provided
+ * @brief Processes and validates philosopher count and meal limit
+ *
+ * Validates and stores:
+ * - Philosopher count (must be at least 1)
+ * - Optional meal limit (if meal_limit parameter is true)
+ *
+ * @param meal_limit Flag indicating if meal limit is provided
  * @param argv Command line arguments array
- * @param data Data structure to populate with parsed counts
- * @return SUCCESS on success, ERROR on invalid input
+ * @param data Pointer to simulation data structure
+ * @return t_error SUCCESS on valid input, ERROR on failure
  */
 static t_error	get_counts(bool meal_limit, char **argv, t_data *data)
 {
@@ -103,10 +120,17 @@ static t_error	get_counts(bool meal_limit, char **argv, t_data *data)
 }
 
 /**
- * @brief Parse and validate timing parameters from command line
+ * @brief Processes and validates time parameters
+ *
+ * Validates and stores time parameters:
+ * - Time to die
+ * - Time to eat
+ * - Time to sleep
+ * - Calculates time to think for odd-numbered philosophers
+ *
  * @param argv Command line arguments array
- * @param data Data structure to populate with parsed times
- * @return SUCCESS on success, ERROR on invalid input
+ * @param data Pointer to simulation data structure
+ * @return t_error SUCCESS on valid input, ERROR on failure
  */
 static t_error	get_times(char **argv, t_data *data)
 {
@@ -122,11 +146,17 @@ static t_error	get_times(char **argv, t_data *data)
 }
 
 /**
- * @brief Process and validate all command line input parameters
- * @param meal_limit Whether meal limit argument was provided
+ * @brief Main input processing function
+ *
+ * Coordinates the processing of all input parameters:
+ * - Validates input pointers
+ * - Calls get_counts and get_times
+ * - Returns consolidated error status
+ *
+ * @param meal_limit Flag indicating if meal limit is provided
  * @param argv Command line arguments array
- * @param data Data structure to populate with input values
- * @return SUCCESS on success, ERROR on invalid input
+ * @param data Pointer to simulation data structure
+ * @return t_error SUCCESS if all inputs are valid, ERROR otherwise
  */
 t_error	proccess_input(bool meal_limit, char **argv, t_data *data)
 {

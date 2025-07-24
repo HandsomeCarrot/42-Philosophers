@@ -6,16 +6,22 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:25:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 20:16:54 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 01:17:30 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
 
 /**
- * @brief Check if any philosopher has died from starvation
- * @param data Monitor data containing philosopher information
- * @return TERMINATE if death detected, SUCCESS otherwise
+ * @brief Checks if any philosopher has died from starvation.
+ *
+ * Iterates through all philosophers and checks if the time since their last meal
+ * exceeds the time_to_die parameter. If a philosopher has died, sets the
+ * termination flag and returns TERMINATE.
+ *
+ * @param data Pointer to monitor data structure containing philosopher info
+ * @return t_error SUCCESS if no deaths, TERMINATE if death detected, ERROR on failure
+ * @note Locks and unlocks meal mutexes for thread-safe access to last meal times
  */
 static t_error	check_death(t_monitor *data)
 {
@@ -45,9 +51,14 @@ static t_error	check_death(t_monitor *data)
 }
 
 /**
- * @brief Check if all philosophers have reached meal limit
- * @param data Monitor data containing philosopher satiation status
- * @return TERMINATE if all full, SUCCESS otherwise
+ * @brief Checks if all philosophers have eaten their required meals.
+ *
+ * If the simulation has a meal limit, checks if all philosophers have reached
+ * their meal count. If all are full, sets termination flag.
+ *
+ * @param data Pointer to monitor data structure
+ * @return t_error SUCCESS if not all full, TERMINATE if all full, ERROR on failure
+ * @note Only runs if has_meal_limit is true in input parameters
  */
 static t_error	check_all_full(t_monitor *data)
 {
@@ -77,9 +88,14 @@ static t_error	check_all_full(t_monitor *data)
 }
 
 /**
- * @brief Main monitor routine that checks for death and completion
- * @param data Monitor data structure
- * @return TERMINATE when simulation should end, ERROR on failure
+ * @brief Main monitoring routine that checks philosopher states.
+ *
+ * Continuously checks for philosopher deaths and meal completion until
+ * termination is requested. Runs in a loop with a small sleep interval.
+ *
+ * @param data Pointer to monitor data structure
+ * @return t_error SUCCESS if terminated normally, ERROR on failure
+ * @warning Uses precise_sleep(1) to avoid busy waiting
  */
 static t_error	monitor_routine(t_monitor *data)
 {
@@ -100,9 +116,14 @@ static t_error	monitor_routine(t_monitor *data)
 }
 
 /**
- * @brief Monitor thread entry point
- * @param ptr Monitor data cast to void pointer
- * @return Thread return value cast to void pointer
+ * @brief Entry point for monitor thread.
+ *
+ * Initializes monitoring process after waiting for simulation start.
+ * Runs the main monitoring routine until termination.
+ *
+ * @param ptr Void pointer that should be cast to t_monitor*
+ * @return void* Returns NULL on success, error value on failure
+ * @note If ptr is NULL, returns error message about missing parameters
  */
 void	*monitor_start(void *ptr)
 {

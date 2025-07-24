@@ -6,17 +6,21 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 19:11:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 15:14:19 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 01:11:42 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
 
 /**
- * @brief Join a single thread with error handling
- * @param thread Thread handle to join
- * @param data Main data structure for error handling
- * @return SUCCESS on success, ERROR on failure
+ * @brief Joins a single thread and handles potential errors.
+ *
+ * Attempts to join the specified thread and checks for errors during the
+ * joining process. Sets termination flag if any errors occur.
+ *
+ * @param thread The thread to be joined.
+ * @param data Pointer to the program's shared data structure.
+ * @return SUCCESS if thread joined successfully, ERROR otherwise.
  */
 static t_error	join_thread(pthread_t thread, t_data *data)
 {
@@ -38,9 +42,13 @@ static t_error	join_thread(pthread_t thread, t_data *data)
 }
 
 /**
- * @brief Join all philosopher threads
- * @param data Main data structure containing philosopher threads
- * @return SUCCESS on success, ERROR on failure
+ * @brief Joins all philosopher threads.
+ *
+ * Iterates through all philosopher threads and attempts to join each one.
+ * Continues joining even if some threads fail, but returns overall error status.
+ *
+ * @param data Pointer to the program's shared data structure.
+ * @return SUCCESS if all threads joined successfully, ERROR if any failed.
  */
 static t_error	join_all_philos(t_data *data)
 {
@@ -59,9 +67,14 @@ static t_error	join_all_philos(t_data *data)
 }
 
 /**
- * @brief Join all threads (philosophers and monitor)
- * @param data Main data structure containing all thread handles
- * @return SUCCESS on success, ERROR on failure
+ * @brief Joins all threads (philosophers and monitor) and cleans up resources.
+ *
+ * First joins all philosopher threads, then frees their memory, and finally
+ * joins the monitor thread. Returns overall success status of all operations.
+ *
+ * @param data Pointer to the program's shared data structure.
+ * @return SUCCESS if all threads joined successfully, ERROR if any failed.
+ * @note If no philosopher threads exist (philos array is NULL), returns SUCCESS.
  */
 t_error	join_all_threads(t_data *data)
 {

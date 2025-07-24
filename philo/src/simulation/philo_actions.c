@@ -6,12 +6,22 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 16:32:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/01/04 16:32:00 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 01:31:55 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
 
+/**
+ * @brief Updates the philosopher's last meal timestamp
+ *
+ * Safely updates the last_meal timestamp in the philosopher's data structure
+ * using mutex protection to prevent race conditions.
+ *
+ * @param timestamp The current timestamp to set as last meal time
+ * @param data Pointer to the philosopher's data structure
+ * @return t_error SUCCESS on success, ERROR on mutex failure
+ */
 static t_error	set_last_meal(t_ms timestamp, t_philo *data)
 {
 	pthread_mutex_t	*mutex;
@@ -25,6 +35,15 @@ static t_error	set_last_meal(t_ms timestamp, t_philo *data)
 	return (SUCCESS);
 }
 
+/**
+ * @brief Increments the philosopher's meal count
+ *
+ * Increases the meals_eaten counter and checks if the philosopher has reached
+ * their meal limit. If so, marks them as full using mutex protection.
+ *
+ * @param data Pointer to the philosopher's data structure
+ * @return t_error SUCCESS on success, ERROR on mutex failure
+ */
 static t_error	increase_meals_eaten(t_philo *data)
 {
 	pthread_mutex_t	*mutex;
@@ -43,6 +62,20 @@ static t_error	increase_meals_eaten(t_philo *data)
 	return (SUCCESS);
 }
 
+/**
+ * @brief Handles the philosopher's eating action
+ *
+ * Coordinates the entire eating process including:
+ * - Locking forks
+ * - Printing eating state
+ * - Updating last meal time
+ * - Sleeping for time_to_eat duration
+ * - Unlocking forks
+ * - Updating meals eaten count
+ *
+ * @param data Pointer to the philosopher's data structure
+ * @return t_error SUCCESS on success, ERROR on any failure
+ */
 t_error	philo_eat(t_philo *data)
 {
 	t_error	error;
@@ -69,6 +102,14 @@ t_error	philo_eat(t_philo *data)
 	return (increase_meals_eaten(data));
 }
 
+/**
+ * @brief Handles the philosopher's sleeping action
+ *
+ * Prints the sleeping state and sleeps for time_to_sleep duration.
+ *
+ * @param data Pointer to the philosopher's data structure
+ * @return t_error SUCCESS on success, ERROR on print failure
+ */
 t_error	philo_sleep(t_philo *data)
 {
 	t_error	error;
@@ -80,6 +121,14 @@ t_error	philo_sleep(t_philo *data)
 	return (error);
 }
 
+/**
+ * @brief Handles the philosopher's thinking action
+ *
+ * Prints the thinking state and sleeps for time_to_think duration.
+ *
+ * @param data Pointer to the philosopher's data structure
+ * @return t_error SUCCESS on success, ERROR on print failure
+ */
 t_error	philo_think(t_philo *data)
 {
 	t_error	error;

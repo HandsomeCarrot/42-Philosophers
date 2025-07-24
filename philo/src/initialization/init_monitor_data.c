@@ -6,15 +6,28 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:00:48 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 15:56:04 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 01:24:01 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
 
 /**
- * @brief Assign data pointers to monitor structure for thread access
- * @param data Main data structure containing all simulation data
+ * @brief Assigns monitor-related data structures to the monitor object.
+ *
+ * This function initializes the monitor structure by assigning pointers to
+ * various shared data structures and mutexes that the monitor thread will
+ * need to access during simulation. It sets up references to input data,
+ * philosopher status information, and synchronization primitives.
+ *
+ * @param data Pointer to the main program data structure containing all
+ *             simulation data and synchronization primitives.
+ *             Must not be NULL.
+ *
+ * @note This function does not allocate any memory but simply assigns
+ *       existing pointers to the monitor structure.
+ * @warning The data parameter must point to a fully initialized t_data
+ *          structure before calling this function.
  */
 void	assign_monitor_data(t_data *data)
 {
