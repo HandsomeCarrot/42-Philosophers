@@ -56,9 +56,7 @@ static t_ms	calculate_initial_think_time(t_count id, t_data *data)
 	}
 	else
 	{
-		delay = id * (data->input.time_to_eat / data->input.philo_count);
-		if (delay >= data->input.time_to_eat)
-			delay = delay % (data->input.time_to_eat / 2);
+		delay = id * 5;
 	}
 	return (delay);
 }
