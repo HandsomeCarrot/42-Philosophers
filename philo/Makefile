@@ -6,7 +6,7 @@
 #    By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/15 10:58:10 by vpoka             #+#    #+#              #
-#    Updated: 2025/07/24 15:12:41 by vpoka            ###   ########.fr        #
+#    Updated: 2025/07/25 00:02:33 by vpoka            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,8 @@ ALL_NAMES = $(NAME) $(NAME_GARBAGE) $(NAME_SANITIZE)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
 GARBAGEFLAG = -g
-SANITIZEFLAGS = $(GARBAGEFLAG) -fsanitize=thread
-INCLUDES = -Iincludes
+SANITIZEFLAGS = -g -fsanitize=thread
+INCLUDES = -Iinclude
 
 # ================================== PATHS =================================== #
 
@@ -39,20 +39,17 @@ OBJS = $(SRCS:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 # ================================= UTILITIES ================================= #
 
 RM = rm -rf
-TOTAL_SRCS := $(words $(SRCS))
 
 # Progress display function for compilation
 define progress
-	@printf "\r$(CYAN)Compiling files: %s$(RST)\n" "$(notdir $<)"
+	@printf "\rCompiling file: %s\n" "$(notdir $<)"
 endef
 
 # Link completion message
 define link_complete
-	@printf "\r$(GREEN)Compiling files: [$(TOTAL_SRCS)/$(TOTAL_SRCS)] Complete!%*s\n$(RST)" 20 ""
-	@printf "$(YELLOW)Linking executable...$(RST)"
+	@printf "$(YELLOW)Linking executable...$(RST)\n"
 	@$(CC) -o $@ $^ $(INCLUDES) $(CFLAGS)
-	@printf "$(GREEN) Done!\n$(RST)"
-	@echo "$(GREEN)✓ $@ built successfully$(RST)"
+	@echo "$(GREEN)$@ built successfully!$(RST)"
 endef
 # ================================= COLORS ================================= #
 
@@ -92,15 +89,13 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 
 # Remove object files
 clean:
-	@echo -n "$(RED)deleting object files...$(RST)"
+	@echo "$(RED)deleting object files...$(RST)"
 	@$(RM) $(OBJS_DIR)
-	@echo "$(GREEN) Done!$(RST)"
 
 # Remove object files and executables
 fclean: clean
-	@echo -n "$(RED)deleting executables...$(RST)"
+	@echo "$(RED)deleting executables...$(RST)"
 	@$(RM) $(ALL_NAMES)
-	@echo "$(GREEN) Done!$(RST)"
 
 # Rebuild everything
 re:
@@ -117,4 +112,4 @@ f: fclean
 
 # ================================= PHONY =================================== #
 
-.PHONY: all garbage sanitize g s clean fclean c f re
+.PHONY: all garbage sanitize clean fclean re g s c f
