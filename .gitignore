@@ -52,7 +52,7 @@ Mkfile.old
 dkms.conf
 
 # vpoka
-philo
+philo/philo
 garbage
 sanitize
 perf.*
