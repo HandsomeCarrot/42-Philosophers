@@ -101,16 +101,9 @@ static t_error	get_times(char **argv, t_data *data)
 		data->input.time_to_think -= data->input.time_to_sleep;
 		data->input.time_to_think *= 0.5;
 		if (data->input.time_to_think + data->input.time_to_eat
-			+ data->input.time_to_sleep >= data->input.time_to_die - 20)
+			+ data->input.time_to_sleep >= data->input.time_to_die - 10)
 		{
-			if (data->input.time_to_die > data->input.time_to_eat
-				+ data->input.time_to_sleep + 50)
-			{
-				data->input.time_to_think = data->input.time_to_die
-					- data->input.time_to_eat - data->input.time_to_sleep - 50;
-			}
-			else
-				data->input.time_to_think = 1;
+			data->input.time_to_think = 1;
 		}
 	}
 	return (SUCCESS);

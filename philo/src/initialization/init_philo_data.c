@@ -56,7 +56,7 @@ static t_ms	calculate_initial_think_time(t_count id, t_data *data)
 	}
 	else
 	{
-		delay = id * 5;
+		delay = 0;
 	}
 	return (delay);
 }
