@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 10:44:48 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/23 01:36:01 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 16:18:42 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ t_error	destroy_mutex_array(t_count count, pthread_mutex_t **mutex_array)
 t_error	destroy_all_mutexes(t_data *data)
 {
 	t_all_mutexes	mutexes;
-	t_count	philo_count;
-	t_error	error;
+	t_count			philo_count;
+	t_error			error;
 
 	mutexes = data->mutexes;
 	philo_count = data->input.philo_count;

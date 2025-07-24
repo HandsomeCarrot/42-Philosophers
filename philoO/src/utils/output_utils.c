@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:16:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 15:26:55 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 16:20:35 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static char	*get_state_message(t_philo_state state)
 }
 
 // docs
+// use write instead of printf?
 t_error	print_state(t_philo_state state, t_ms *timestamp, t_philo *data)
 {
 	char	*state_message;
@@ -69,12 +70,13 @@ t_error	print_state(t_philo_state state, t_ms *timestamp, t_philo *data)
 		error = ERROR;
 	if (!error && w_mutex(LOCK, data->mutexes.print))
 		error = ERROR;
-	if (!error && termination_requested(data->term_flag, data->mutexes.term_flag))
+	if (!error && termination_requested(data->term_flag,
+			data->mutexes.term_flag))
 		error = TERMINATE;
 	if (!error && get_elapsed_time(&elapsed_time, data->input->sim_start_time))
 		error = ERROR;
 	if (!error)
-		printf("%lu %d %s\n", elapsed_time, data->id + 1, state_message); // use write instead of printf?
+		printf("%lu %d %s\n", elapsed_time, data->id + 1, state_message);
 	if (w_mutex(UNLOCK, data->mutexes.print) && !error)
 		error = ERROR;
 	if (timestamp && !error)
