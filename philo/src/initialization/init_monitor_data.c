@@ -12,7 +12,10 @@
 
 #include "../../include/philo.h"
 
-// docs
+/**
+ * @brief Assign data pointers to monitor structure for thread access
+ * @param data Main data structure containing all simulation data
+ */
 void	assign_monitor_data(t_data *data)
 {
 	t_monitor		*monitor;

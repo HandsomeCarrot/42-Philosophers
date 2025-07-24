@@ -53,7 +53,11 @@ bool	termination_requested(bool *term_flag_ptr, pthread_mutex_t *mutex)
 	return (term_flag);
 }
 
-// docs
+/**
+ * @brief Wait for simulation start signal by trying to lock start mutex
+ * @param mutex Start synchronization mutex to wait on
+ * @return SUCCESS on success, ERROR on failure
+ */
 t_error	wait_for_start(pthread_mutex_t *mutex)
 {
 	if (!mutex)

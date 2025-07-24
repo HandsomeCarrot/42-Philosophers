@@ -12,7 +12,12 @@
 
 #include "../../include/philo.h"
 
-// docs
+/**
+ * @brief Lock or unlock all start synchronization mutexes
+ * @param action LOCK or UNLOCK operation
+ * @param data Main data structure containing start mutexes
+ * @return SUCCESS on success, ERROR on failure
+ */
 static t_error	start_mutexes(t_mutex_action action, t_data *data)
 {
 	pthread_mutex_t	*mutexes;
@@ -31,7 +36,14 @@ static t_error	start_mutexes(t_mutex_action action, t_data *data)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Create a single thread with error handling
+ * @param thread_ptr Pointer to pthread_t to store thread handle
+ * @param start Thread function pointer
+ * @param thread_data Data to pass to thread
+ * @param data Main data structure for error handling
+ * @return SUCCESS on success, ERROR on failure
+ */
 static t_error	create_thread(pthread_t *thread_ptr, void *start,
 		void *thread_data, t_data *data)
 {
@@ -46,7 +58,11 @@ static t_error	create_thread(pthread_t *thread_ptr, void *start,
 	return (error_msg("failed to create thread", NULL));
 }
 
-// docs
+/**
+ * @brief Create all philosopher and monitor threads
+ * @param data Main data structure containing thread information
+ * @return SUCCESS on success, ERROR on failure
+ */
 static t_error	start_threads(t_data *data)
 {
 	t_count	philo_index;
@@ -67,7 +83,11 @@ static t_error	start_threads(t_data *data)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Start the complete simulation with synchronized thread creation
+ * @param data Main data structure containing all simulation parameters
+ * @return SUCCESS on success, ERROR on failure
+ */
 t_error	start_simulation(t_data *data)
 {
 	t_error	error;

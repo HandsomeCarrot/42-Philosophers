@@ -12,7 +12,11 @@
 
 #include "../../include/philo.h"
 
-// docs
+/**
+ * @brief Check if any philosopher has died from starvation
+ * @param data Monitor data containing philosopher information
+ * @return TERMINATE if death detected, SUCCESS otherwise
+ */
 static t_error	check_death(t_monitor *data)
 {
 	t_count	index;
@@ -40,7 +44,11 @@ static t_error	check_death(t_monitor *data)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Check if all philosophers have reached meal limit
+ * @param data Monitor data containing philosopher satiation status
+ * @return TERMINATE if all full, SUCCESS otherwise
+ */
 static t_error	check_all_full(t_monitor *data)
 {
 	t_count	index;
@@ -68,7 +76,11 @@ static t_error	check_all_full(t_monitor *data)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Main monitor routine that checks for death and completion
+ * @param data Monitor data structure
+ * @return TERMINATE when simulation should end, ERROR on failure
+ */
 static t_error	monitor_routine(t_monitor *data)
 {
 	t_error	error;
@@ -87,7 +99,11 @@ static t_error	monitor_routine(t_monitor *data)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Monitor thread entry point
+ * @param ptr Monitor data cast to void pointer
+ * @return Thread return value cast to void pointer
+ */
 void	*monitor_start(void *ptr)
 {
 	t_monitor	*data;

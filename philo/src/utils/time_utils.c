@@ -68,7 +68,12 @@ static t_error	validate_timestamps(t_ms older_timestamp, t_ms newer_timestamp)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Calculate elapsed time from a starting timestamp
+ * @param ms_ptr Pointer to store the calculated elapsed time
+ * @param start_time Starting timestamp to calculate from
+ * @return SUCCESS on success, ERROR on failure or invalid parameters
+ */
 t_error	get_elapsed_time(t_ms *ms_ptr, t_ms start_time)
 {
 	t_ms	current_time;
@@ -83,7 +88,11 @@ t_error	get_elapsed_time(t_ms *ms_ptr, t_ms start_time)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Precise sleep implementation using active waiting
+ * @param sleep_time_ms Time to sleep in milliseconds
+ * @return SUCCESS on success, ERROR on failure
+ */
 t_error	precise_sleep(t_ms sleep_time_ms)
 {
 	t_ms	start;
@@ -109,7 +118,12 @@ t_error	precise_sleep(t_ms sleep_time_ms)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Thread sleep with termination checking at intervals
+ * @param time Total time to sleep in milliseconds
+ * @param philo Philosopher data for termination flag checking
+ * @return SUCCESS on completion, TERMINATE if termination requested, ERROR on failure
+ */
 t_error	thread_sleep(t_ms time, t_philo *philo)
 {
 	t_ms	interval;

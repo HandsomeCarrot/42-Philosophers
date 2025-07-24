@@ -12,7 +12,11 @@
 
 #include "../../include/philo.h"
 
-// docs
+/**
+ * @brief Free all philosopher data arrays and set pointers to NULL
+ * @param data Main data structure containing philosopher arrays
+ * @return SUCCESS on success, ERROR on failure
+ */
 t_error	free_philo_data(t_data *data)
 {
 	if (data->philos.last_meals)

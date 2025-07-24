@@ -12,7 +12,13 @@
 
 #include "../../include/philo.h"
 
-// docs
+/**
+ * @brief Initialize all data structures and validate input parameters
+ * @param argc Number of command line arguments
+ * @param argv Array of command line arguments
+ * @param data_ptr Pointer to main data structure pointer
+ * @return SUCCESS on success, ERROR on failure
+ */
 t_error	initialize_data(int argc, char **argv, t_data **data_ptr)
 {
 	t_data	*data;
