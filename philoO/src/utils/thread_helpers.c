@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:18:39 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 15:05:10 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 17:45:40 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,10 @@ bool	termination_requested(bool *term_flag_ptr, pthread_mutex_t *mutex)
 }
 
 // docs
-t_error	wait_for_start(t_input *input, pthread_mutex_t *mutex)
+t_error	wait_for_start(pthread_mutex_t *mutex)
 {
 	if (!mutex)
 		return (error_msg("missing parameters", "wait_for_start"));
-	if (input && input->time_to_die == 0)
-		return (TERMINATE);
 	if (w_mutex(LOCK, mutex) != SUCCESS)
 		return (ERROR);
 	if (w_mutex(UNLOCK, mutex) != SUCCESS)

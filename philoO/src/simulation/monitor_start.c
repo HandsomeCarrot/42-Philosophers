@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:25:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 16:12:42 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 17:45:58 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	*monitor_start(void *ptr)
 	if (!ptr)
 		return ((void *)error_msg("missing parameters", "philo_start"));
 	data = ptr;
-	error = wait_for_start(data->input, data->start_mutex);
+	error = wait_for_start(data->start_mutex);
 	if (error)
 		return ((void *)error);
 	error = monitor_routine(data);

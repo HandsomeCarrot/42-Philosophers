@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 16:00:02 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 17:45:46 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_error	w_mutex(t_mutex_action action, pthread_mutex_t *mutex);
 
 void	set_termination_flag(bool *term_flag_ptr, pthread_mutex_t *mutex);
 bool	termination_requested(bool *term_flag_ptr, pthread_mutex_t *mutex);
-t_error	wait_for_start(t_input *input, pthread_mutex_t *mutex);
+t_error	wait_for_start(pthread_mutex_t *mutex);
 
 // time
 
