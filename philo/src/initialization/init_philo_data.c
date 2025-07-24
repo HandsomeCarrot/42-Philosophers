@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 11:18:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/22 22:59:09 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 21:09:35 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,16 @@ static t_ms	calculate_initial_think_time(t_count id, t_data *data)
 {
 	t_ms	delay;
 
-	if (data->input.philo_count == 1)
+	if (data->input.philo_count == 1 || id == 0)
 		return (0);
 	if (data->input.philo_count % 2 == 0)
-	{
 		delay = (id % 2) * (data->input.time_to_eat / 2);
-	}
 	else
 	{
-		delay = id * 5;
+		delay = data->input.time_to_eat + data->input.time_to_sleep;
+		delay = data->input.time_to_die - delay;
+		delay = delay / (data->input.philo_count - 1);
+		delay = id * delay;
 	}
 	return (delay);
 }
@@ -71,6 +72,7 @@ static t_error	init_philo(t_count id, t_philo *philo, t_data *data)
 	philo->last_meal = &data->philos.last_meals[philo->id];
 	philo->full = &data->philos.philo_full[philo->id];
 	philo->initial_think_time = calculate_initial_think_time(id, data);
+	printf("%d waits: %lu\n", philo->id, philo->initial_think_time);
 	return (SUCCESS);
 }
 
