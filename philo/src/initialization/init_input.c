@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:53:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 21:04:00 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 23:23:58 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ static t_error	get_times(char **argv, t_data *data)
 		return (ERROR);
 	if (atoms((const char *)argv[4], &data->input.time_to_sleep) != SUCCESS)
 		return (ERROR);
-	data->input.time_to_think = 1;
+	if (data->input.philo_count % 2 == 1)
+		data->input.time_to_think = 1;
 	return (SUCCESS);
 }
 
