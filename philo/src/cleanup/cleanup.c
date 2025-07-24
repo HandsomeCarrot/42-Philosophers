@@ -12,7 +12,11 @@
 
 #include "../../include/philo.h"
 
-// docs
+/**
+ * @brief Clean up and free all allocated data and resources
+ * @param data Main data structure containing all allocated resources
+ * @return SUCCESS on success, ERROR on failure
+ */
 t_error	erase_data(t_data *data)
 {
 	t_error	error;

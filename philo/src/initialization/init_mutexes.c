@@ -12,7 +12,11 @@
 
 #include "../../include/philo.h"
 
-// docs
+/**
+ * @brief Initialize a single mutex with error handling
+ * @param mutex Pointer to mutex to initialize
+ * @return SUCCESS on success, ERROR on failure
+ */
 static t_error	init_mutex(pthread_mutex_t *mutex)
 {
 	int	error;
@@ -29,7 +33,11 @@ static t_error	init_mutex(pthread_mutex_t *mutex)
 	return (ERROR);
 }
 
-// docs
+/**
+ * @brief Allocate and initialize array of mutexes
+ * @param array_size Number of mutexes to create in array
+ * @return Pointer to initialized mutex array or NULL on failure
+ */
 static pthread_mutex_t	*new_mutex_array(t_count array_size)
 {
 	pthread_mutex_t	*mutexes;
@@ -51,7 +59,11 @@ static pthread_mutex_t	*new_mutex_array(t_count array_size)
 	return (mutexes);
 }
 
-// docs
+/**
+ * @brief Create and initialize all mutexes for the simulation
+ * @param data Main data structure to populate with mutexes
+ * @return SUCCESS on success, ERROR on failure
+ */
 t_error	create_mutexes(t_data *data)
 {
 	t_all_mutexes	*mutexes;

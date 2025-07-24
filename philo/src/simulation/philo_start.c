@@ -12,7 +12,13 @@
 
 #include "../../include/philo.h"
 
-// docs
+/**
+ * @brief Handle mutex operations on individual forks with termination checking
+ * @param action LOCK to acquire fork, UNLOCK to release fork
+ * @param fork Pointer to the fork mutex
+ * @param data Philosopher data for termination checking and state printing
+ * @return SUCCESS on success, TERMINATE if termination requested, ERROR on failure
+ */
 static t_error	mutex_fork(t_mutex_action action, pthread_mutex_t *fork,
 		t_philo *data)
 {
@@ -35,8 +41,13 @@ static t_error	mutex_fork(t_mutex_action action, pthread_mutex_t *fork,
 	return (error);
 }
 
-// docs
-static t_error	philo_forks(t_mutex_action action, t_philo *data)
+/**
+ * @brief Acquire or release both forks for a philosopher
+ * @param action LOCK to acquire both forks, UNLOCK to release both forks
+ * @param data Philosopher data containing fork mutex pointers
+ * @return SUCCESS on success, TERMINATE if termination requested, ERROR on failure
+ */
+t_error	philo_forks(t_mutex_action action, t_philo *data)
 {
 	t_error			error;
 
@@ -49,97 +60,21 @@ static t_error	philo_forks(t_mutex_action action, t_philo *data)
 	return (error);
 }
 
-// docs
-static t_error	set_last_meal(t_ms timestamp, t_philo *data)
-{
-	pthread_mutex_t	*mutex;
-
-	mutex = data->mutexes.meal;
-	if (w_mutex(LOCK, mutex))
-		return (ERROR);
-	*data->last_meal = timestamp;
-	if (w_mutex(UNLOCK, mutex))
-		return (ERROR);
-	return (SUCCESS);
-}
-
-// docs
-static t_error	increase_meals_eaten(t_philo *data)
-{
-	pthread_mutex_t	*mutex;
-
-	if (!data->input->has_meal_limit)
-		return (SUCCESS);
-	data->meals_eaten++;
-	if (data->meals_eaten < data->input->meal_limit)
-		return (SUCCESS);
-	mutex = data->mutexes.full;
-	if (w_mutex(LOCK, mutex))
-		return (ERROR);
-	*data->full = true;
-	if (w_mutex(UNLOCK, mutex))
-		return (ERROR);
-	return (SUCCESS);
-}
-
-// docs
-static t_error	philo_eat(t_philo *data)
-{
-	t_error	error;
-	t_ms	timestamp;
-
-	error = philo_forks(LOCK, data);
-	if (error != SUCCESS)
-		return (error);
-	timestamp = 0;
-	error = print_state(EATING, &timestamp, data);
-	if (error != SUCCESS)
-	{
-		philo_forks(UNLOCK, data);
-		return (error);
-	}
-	if (set_last_meal(timestamp, data) != SUCCESS)
-	{
-		philo_forks(UNLOCK, data);
-		return (ERROR);
-	}
-	error = thread_sleep(data->input->time_to_eat, data);
-	if (philo_forks(UNLOCK, data) != SUCCESS)
-		return (ERROR);
-	return (increase_meals_eaten(data));
-}
-
-// docs
-static t_error	philo_sleep(t_philo *data)
-{
-	t_error	error;
-
-	error = print_state(SLEEPING, NULL, data);
-	if (error)
-		return (error);
-	error = thread_sleep(data->input->time_to_sleep, data);
-	return (error);
-}
-
-// docs
-static t_error	philo_think(t_philo *data)
-{
-	t_error	error;
-
-	error = print_state(THINKING, NULL, data);
-	if (error)
-		return (error);
-	error = thread_sleep(data->input->time_to_think, data);
-	return (error);
-}
-
-// docs
+/**
+ * @brief Special routine for single philosopher scenario
+ * @param data Philosopher data
+ * @return Result of fork state printing
+ */
 static t_error	solo_routine(t_philo *data)
 {
 	return (print_state(FORK, NULL, data));
 }
 
-// docs
+/**
+ * @brief Main philosopher routine loop: eat, sleep, think
+ * @param data Philosopher data
+ * @return SUCCESS if completed normally, TERMINATE if termination requested, ERROR on failure
+ */
 static t_error	philo_routine(t_philo *data)
 {
 	t_error	error;
@@ -158,7 +93,11 @@ static t_error	philo_routine(t_philo *data)
 	return (error);
 }
 
-// docs 
+/**
+ * @brief Main philosopher thread entry point
+ * @param ptr Philosopher data cast to void pointer
+ * @return Thread return value cast to void pointer
+ */
 void	*philo_start(void *ptr)
 {
 	t_philo	*data;
@@ -168,7 +107,7 @@ void	*philo_start(void *ptr)
 		return ((void *)error_msg("missing parameters", "philo_start"));
 	data = ptr;
 	if (data->input->time_to_die == 0)
-		return ((void*)TERMINATE);
+		return ((void *)TERMINATE);
 	error = wait_for_start(data->mutexes.start);
 	if (error != SUCCESS)
 		return ((void *)error);

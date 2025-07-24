@@ -12,7 +12,12 @@
 
 #include "../../include/philo.h"
 
-// docs
+/**
+ * @brief Convert string to t_ms (milliseconds) type with overflow checking
+ * @param str String to convert
+ * @param result Pointer to store the converted value
+ * @return SUCCESS on success, ERROR on failure or overflow
+ */
 static t_error	atoms(const char *str, t_ms *result)
 {
 	t_ms	res;
@@ -41,7 +46,12 @@ static t_error	atoms(const char *str, t_ms *result)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Convert string to t_count type with overflow checking
+ * @param str String to convert
+ * @param result Pointer to store the converted value
+ * @return SUCCESS on success, ERROR on failure or overflow
+ */
 static t_error	atocount(const char *str, t_count *result)
 {
 	t_count	res;
@@ -70,7 +80,13 @@ static t_error	atocount(const char *str, t_count *result)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Parse and validate count parameters from command line
+ * @param meal_limit Whether meal limit argument was provided
+ * @param argv Command line arguments array
+ * @param data Data structure to populate with parsed counts
+ * @return SUCCESS on success, ERROR on invalid input
+ */
 static t_error	get_counts(bool meal_limit, char **argv, t_data *data)
 {
 	if (atocount((const char *)argv[1], &data->input.philo_count) != SUCCESS)
@@ -86,7 +102,12 @@ static t_error	get_counts(bool meal_limit, char **argv, t_data *data)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Parse and validate timing parameters from command line
+ * @param argv Command line arguments array
+ * @param data Data structure to populate with parsed times
+ * @return SUCCESS on success, ERROR on invalid input
+ */
 static t_error	get_times(char **argv, t_data *data)
 {
 	if (atoms((const char *)argv[2], &data->input.time_to_die) != SUCCESS)
@@ -100,7 +121,13 @@ static t_error	get_times(char **argv, t_data *data)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Process and validate all command line input parameters
+ * @param meal_limit Whether meal limit argument was provided
+ * @param argv Command line arguments array
+ * @param data Data structure to populate with input values
+ * @return SUCCESS on success, ERROR on invalid input
+ */
 t_error	proccess_input(bool meal_limit, char **argv, t_data *data)
 {
 	if (!argv || !data)
