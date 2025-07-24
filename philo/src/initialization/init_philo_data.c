@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 11:18:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 21:09:35 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 22:59:01 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,9 @@ static void	assign_mutexes(t_philo *philo, t_data *data)
 // docs
 static t_ms	calculate_initial_think_time(t_count id, t_data *data)
 {
-	t_ms	delay;
-
-	if (data->input.philo_count == 1 || id == 0)
+	if (id == 0)
 		return (0);
-	if (data->input.philo_count % 2 == 0)
-		delay = (id % 2) * (data->input.time_to_eat / 2);
-	else
-	{
-		delay = (id % 2) * 1;
-	}
-	return (delay);
+	return (id % 2);
 }
 
 // docs
