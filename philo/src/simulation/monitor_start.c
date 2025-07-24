@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:25:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 17:45:58 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 20:16:54 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static t_error	check_death(t_monitor *data)
 		time_since_last_meal = elapsed_time - data->philos.last_meals[index];
 		if (w_mutex(UNLOCK, &data->philos.meal_mutexes[index]) != SUCCESS)
 			return (ERROR);
-		if (time_since_last_meal > data->input->time_to_die)
+		if (time_since_last_meal >= data->input->time_to_die)
 		{
 			print_state(DEATH, NULL, &data->philos.philo_data[index]);
 			set_termination_flag(data->term_flag, data->term_mutex);
