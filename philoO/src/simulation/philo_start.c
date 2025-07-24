@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:23:56 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 11:17:21 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 11:23:10 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ static t_error	solo_routine(t_philo *data)
 }
 
 // docs
-static t_error	start_routine(t_philo *data)
+static t_error	philo_routine(t_philo *data)
 {
 	t_error	error;
 
@@ -172,7 +172,7 @@ void	*philo_start(void *ptr)
 		return ((void *)error);
 	if (termination_requested(data->term_flag, data->mutexes.term_flag))
 		return ((void *)SUCCESS);
-	error = start_routine(data);
+	error = philo_routine(data);
 	if (error == ERROR)
 		set_termination_flag(data->term_flag, data->mutexes.term_flag);
 	return ((void *)error);
