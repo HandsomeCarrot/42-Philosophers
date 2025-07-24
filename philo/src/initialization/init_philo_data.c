@@ -44,6 +44,31 @@ static void	assign_mutexes(t_philo *philo, t_data *data)
 }
 
 // docs
+static t_ms	calculate_initial_think_time(t_count id, t_data *data)
+{
+	t_ms	delay;
+	t_ms	max_safe_delay;
+
+	if (data->input.philo_count == 1)
+		return (0);
+	max_safe_delay = data->input.time_to_die - data->input.time_to_eat - 10;
+	if (data->input.philo_count % 2 == 0)
+	{
+		delay = (id % 2) * (data->input.time_to_eat / 2);
+	}
+	else
+	{
+		if (data->input.time_to_eat > data->input.time_to_sleep)
+			delay = (id * data->input.time_to_sleep) / data->input.philo_count;
+		else
+			delay = (id * data->input.time_to_eat) / data->input.philo_count;
+	}
+	if (delay > max_safe_delay)
+		delay = 0;
+	return (delay);
+}
+
+// docs
 static t_error	init_philo(t_count id, t_philo *philo, t_data *data)
 {
 	philo->id = id;
@@ -52,11 +77,7 @@ static t_error	init_philo(t_count id, t_philo *philo, t_data *data)
 	philo->term_flag = &data->term_flag;
 	philo->last_meal = &data->philos.last_meals[philo->id];
 	philo->full = &data->philos.philo_full[philo->id];
-	if (data->input.philo_count == 1)
-		philo->initial_think_time = 0;
-	else
-		philo->initial_think_time = (id * (data->input.time_to_eat
-					/ data->input.philo_count)) % data->input.time_to_eat;
+	philo->initial_think_time = calculate_initial_think_time(id, data);
 	return (SUCCESS);
 }
 
