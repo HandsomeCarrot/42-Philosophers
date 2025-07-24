@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 01:13:18 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 15:18:29 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ t_error	get_current_time_ms(t_ms *ms_ptr);
 t_error	get_elapsed_time(t_ms *ms_ptr, t_ms start_time);
 t_error	precise_sleep(t_ms sleep_time_ms);
 t_error	thread_sleep(t_ms time, t_philo *philo);
+
+// strings
+
+int		ft_strlen(char *str);
 
 //------------------------------CLEANUP-------------------------------//
 
