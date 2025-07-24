@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:23:56 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 01:13:00 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 11:05:24 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,30 @@ static t_error	philo_eat(t_philo *philo)
 	if (philo_forks(UNLOCK, philo) != SUCCESS)
 		return (ERROR);
 	return (increase_meals_eaten(philo));
+}
+
+// docs
+static t_error	philo_sleep(t_philo *philo)
+{
+	t_error	error;
+
+	error = print_philo_state(SLEEPING, NULL, philo);
+	if (error)
+		return (error);
+	error = thread_sleep(philo->input->time_to_sleep, philo);
+	return (error);
+}
+
+// docs
+static t_error	philo_think(t_philo *philo)
+{
+	t_error	error;
+
+	error = print_philo_state(THINKING, NULL, philo);
+	if (error)
+		return (error);
+	error = thread_sleep(philo->input->time_to_think, philo);
+	return (error);
 }
 
 // docs
