@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 19:11:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/23 01:17:34 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 15:14:19 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static t_error	join_all_philos(t_data *data)
 // docs
 t_error	join_all_threads(t_data *data)
 {
-	t_ms	philo_index;
 	t_error	error;
 
 	if (!data->threads.philos)
