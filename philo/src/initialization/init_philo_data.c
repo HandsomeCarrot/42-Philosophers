@@ -47,24 +47,19 @@ static void	assign_mutexes(t_philo *philo, t_data *data)
 static t_ms	calculate_initial_think_time(t_count id, t_data *data)
 {
 	t_ms	delay;
-	t_ms	max_safe_delay;
 
 	if (data->input.philo_count == 1)
 		return (0);
-	max_safe_delay = data->input.time_to_die - data->input.time_to_eat - 10;
 	if (data->input.philo_count % 2 == 0)
 	{
 		delay = (id % 2) * (data->input.time_to_eat / 2);
 	}
 	else
 	{
-		if (data->input.time_to_eat > data->input.time_to_sleep)
-			delay = (id * data->input.time_to_sleep) / data->input.philo_count;
-		else
-			delay = (id * data->input.time_to_eat) / data->input.philo_count;
+		delay = id * (data->input.time_to_eat / data->input.philo_count);
+		if (delay >= data->input.time_to_eat)
+			delay = delay % (data->input.time_to_eat / 2);
 	}
-	if (delay > max_safe_delay)
-		delay = 0;
 	return (delay);
 }
 
