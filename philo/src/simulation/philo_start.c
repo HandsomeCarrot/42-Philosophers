@@ -174,6 +174,12 @@ void	*philo_start(void *ptr)
 		return ((void *)error);
 	if (termination_requested(data->term_flag, data->mutexes.term_flag))
 		return ((void *)SUCCESS);
+	if (data->input->philo_count > 1)
+	{
+		error = thread_sleep(data->initial_think_time, data);
+		if (error != SUCCESS)
+			return ((void *)error);
+	}
 	error = philo_routine(data);
 	if (error == ERROR)
 		set_termination_flag(data->term_flag, data->mutexes.term_flag);

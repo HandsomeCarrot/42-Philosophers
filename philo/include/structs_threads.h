@@ -40,6 +40,7 @@ typedef struct s_philo
 	bool						*full;
 	t_count						id;
 	t_count						meals_eaten;
+	t_ms						initial_think_time;
 }								t_philo;
 
 // docs
