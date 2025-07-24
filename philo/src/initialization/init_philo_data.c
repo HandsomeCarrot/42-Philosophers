@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 11:18:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 22:59:01 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 22:59:40 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	assign_mutexes(t_philo *philo, t_data *data)
 }
 
 // docs
-static t_ms	calculate_initial_think_time(t_count id, t_data *data)
+static t_ms	calculate_initial_think_time(t_count id)
 {
 	if (id == 0)
 		return (0);
@@ -60,7 +60,7 @@ static t_error	init_philo(t_count id, t_philo *philo, t_data *data)
 	philo->term_flag = &data->term_flag;
 	philo->last_meal = &data->philos.last_meals[philo->id];
 	philo->full = &data->philos.philo_full[philo->id];
-	philo->initial_think_time = calculate_initial_think_time(id, data);
+	philo->initial_think_time = calculate_initial_think_time(id);
 	return (SUCCESS);
 }
 
