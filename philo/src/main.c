@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:21:09 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 01:33:49 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 01:34:47 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
  * @param argc The number of command line arguments.
  * @param argv Array of command line argument strings.
  *             Expected format:
- *             ./philo number_of_philosophers time_to_die time_to_eat time_to_sleep
- *             [number_of_times_each_philosopher_must_eat]
+ *             ./philo number_of_philosophers time_to_die time_to_eat
+ *             time_to_sleep [number_of_times_each_philosopher_must_eat]
  *
  * @return Returns ERROR (1) if any operation fails, otherwise SUCCESS (0).
  *         Specific error cases include:

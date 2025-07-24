@@ -6,14 +6,14 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 01:36:31 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 01:15:02 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 01:35:21 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/philo.h"
 
 /**
- * @brief Frees all dynamically allocated memory in the philosopher data structure.
+ * @brief Frees all allocated memory in the philosopher data structure.
  *
  * This function safely deallocates memory for the philosopher-related data
  * structures including last meal times, fullness trackers, and philosopher data.

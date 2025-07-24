@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:25:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 01:17:30 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 01:36:53 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@
  * termination flag and returns TERMINATE.
  *
  * @param data Pointer to monitor data structure containing philosopher info
- * @return t_error SUCCESS if no deaths, TERMINATE if death detected, ERROR on failure
+ *
+ * @return t_error SUCCESS if no deaths, TERMINATE if death detected,
+ * ERROR on failure
+ *
  * @note Locks and unlocks meal mutexes for thread-safe access to last meal times
  */
 static t_error	check_death(t_monitor *data)
@@ -57,7 +60,10 @@ static t_error	check_death(t_monitor *data)
  * their meal count. If all are full, sets termination flag.
  *
  * @param data Pointer to monitor data structure
- * @return t_error SUCCESS if not all full, TERMINATE if all full, ERROR on failure
+ *
+ * @return t_error SUCCESS if not all full, TERMINATE if all full,
+ * ERROR on failure
+ *
  * @note Only runs if has_meal_limit is true in input parameters
  */
 static t_error	check_all_full(t_monitor *data)
