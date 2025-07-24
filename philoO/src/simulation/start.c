@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 19:33:27 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/22 23:47:27 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 15:16:47 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static t_error	start_threads(t_data *data)
 			return (ERROR);
 		philo_index++;
 	}
-	if (pthread_create(&data->threads.monitor, &monitor_start, &data->monitor,
+	if (create_thread(&data->threads.monitor, &monitor_start, &data->monitor,
 			data))
 		return (error_msg("failed to create thread", NULL));
 	return (SUCCESS);
