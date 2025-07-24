@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:25:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 15:04:23 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 16:12:42 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static t_error	check_death(t_monitor *data)
 			return (ERROR);
 		if (time_since_last_meal > data->input->time_to_die)
 		{
+			print_state(DEATH, NULL, &data->philos.philo_data[index]);
 			set_termination_flag(data->term_flag, data->term_mutex);
 			return (TERMINATE);
 		}
@@ -80,8 +81,8 @@ static t_error	monitor_routine(t_monitor *data)
 		error = check_all_full(data);
 		if (error != SUCCESS)
 			return (error);
-		//if (precise_sleep(1) != SUCCESS)
-		//	return (ERROR);
+		if (precise_sleep(1) != SUCCESS)
+			return (ERROR);
 	}
 	return (SUCCESS);
 }
