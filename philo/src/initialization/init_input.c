@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:53:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 17:01:25 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 21:04:00 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,19 +99,7 @@ static t_error	get_times(char **argv, t_data *data)
 	{
 		data->input.time_to_think = data->input.time_to_eat * 2;
 		data->input.time_to_think -= data->input.time_to_sleep;
-		data->input.time_to_think *= 0.5;
-		if (data->input.time_to_think + data->input.time_to_eat
-			+ data->input.time_to_sleep >= data->input.time_to_die - 20)
-		{
-			if (data->input.time_to_die > data->input.time_to_eat
-				+ data->input.time_to_sleep + 50)
-			{
-				data->input.time_to_think = data->input.time_to_die
-					- data->input.time_to_eat - data->input.time_to_sleep - 50;
-			}
-			else
-				data->input.time_to_think = 1;
-		}
+		data->input.time_to_think *= 0.1;
 	}
 	return (SUCCESS);
 }
