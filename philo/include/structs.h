@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:27:25 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/20 11:22:18 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 00:48:54 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@
  */
 typedef struct s_input
 {
-	t_ms						time_to_die;		/* Time before death (ms) */
-	t_ms						time_to_eat;		/* Time spent eating (ms) */
-	t_ms						time_to_sleep;		/* Time spent sleeping (ms) */
-	t_ms						time_to_think;		/* Time spent thinking (ms) */
-	t_ms						sim_start_time;		/* Simulation start timestamp */
-	t_count						philo_count;		/* Number of philosophers */
-	t_count						meal_limit;			/* Meal limit (if enabled) */
-	bool						has_meal_limit;		/* Whether meal limit is set */
+	t_ms						time_to_die;
+	t_ms						time_to_eat;
+	t_ms						time_to_sleep;
+	t_ms						time_to_think;
+	t_ms						sim_start_time;
+	t_count						philo_count;
+	t_count						meal_limit;
+	bool						has_meal_limit;
 }								t_input;
 
 /**
@@ -41,12 +41,12 @@ typedef struct s_input
  */
 typedef struct s_all_mutexes
 {
-	pthread_mutex_t				print_mutex;		/* Protects console output */
-	pthread_mutex_t				term_mutex;			/* Protects termination flag */
-	pthread_mutex_t				*start_mutexes;		/* Synchronizes thread start */
-	pthread_mutex_t				*fork_mutexes;		/* Protects fork availability */
-	pthread_mutex_t				*meal_mutexes;		/* Protects meal timestamps */
-	pthread_mutex_t				*full_mutexes;		/* Protects satiation status */
+	pthread_mutex_t				print_mutex;
+	pthread_mutex_t				term_mutex;
+	pthread_mutex_t				*start_mutexes;
+	pthread_mutex_t				*fork_mutexes;
+	pthread_mutex_t				*meal_mutexes;
+	pthread_mutex_t				*full_mutexes;
 }								t_all_mutexes;
 
 /**
@@ -55,9 +55,9 @@ typedef struct s_all_mutexes
  */
 typedef struct s_philo_data
 {
-	t_ms						*last_meals;		/* Last meal timestamps */
-	bool						*philo_full;		/* Satiation status array */
-	struct s_philo				*philo_data;		/* Individual philo structs */
+	t_ms						*last_meals;
+	bool						*philo_full;
+	struct s_philo				*philo_data;
 }								t_philo_data;
 
 /**
@@ -66,8 +66,8 @@ typedef struct s_philo_data
  */
 typedef struct s_threads
 {
-	pthread_t					*philos;			/* Philosopher thread array */
-	pthread_t					monitor;			/* Monitor thread handle */
+	pthread_t					*philos;
+	pthread_t					monitor;
 }								t_threads;
 
 /**
@@ -76,12 +76,12 @@ typedef struct s_threads
  */
 typedef struct s_data
 {
-	struct s_input				input;				/* Command line parameters */
-	struct s_all_mutexes		mutexes;			/* All synchronization mutexes */
-	struct s_philo_data			philos;				/* Philosopher data arrays */
-	struct s_monitor			monitor;			/* Monitor configuration */
-	struct s_threads			threads;			/* Thread handles */
-	bool						term_flag;			/* Global termination flag */
+	struct s_input				input;
+	struct s_all_mutexes		mutexes;
+	struct s_philo_data			philos;
+	struct s_monitor			monitor;
+	struct s_threads			threads;
+	bool						term_flag;
 }								t_data;
 
 #endif
