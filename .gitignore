@@ -52,7 +52,9 @@ Mkfile.old
 dkms.conf
 
 # vpoka
-*/philo
-*/garbage
-*/sanitize
-*/perf.*
+philo
+garbage
+sanitize
+perf.*
+*.txt
+*.log
