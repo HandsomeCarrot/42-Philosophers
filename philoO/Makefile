@@ -6,7 +6,7 @@
 #    By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/15 10:58:10 by vpoka             #+#    #+#              #
-#    Updated: 2025/07/24 15:10:30 by vpoka            ###   ########.fr        #
+#    Updated: 2025/07/24 15:12:41 by vpoka            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ TOTAL_SRCS := $(words $(SRCS))
 
 # Progress display function for compilation
 define progress
-	@printf "\r$(CYAN)Compiling files: %s$(RST)" "$(notdir $<)"
+	@printf "\r$(CYAN)Compiling files: %s$(RST)\n" "$(notdir $<)"
 endef
 
 # Link completion message
