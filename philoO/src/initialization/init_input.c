@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:53:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/18 12:08:53 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 17:01:25 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ static t_error	get_counts(bool meal_limit, char **argv, t_data *data)
 {
 	if (atocount((const char *)argv[1], &data->input.philo_count) != SUCCESS)
 		return (ERROR);
+	if (data->input.philo_count < 1)
+		return (error_msg("Incorrect input", "needs at least 1 philosopher"));
 	if (meal_limit)
 	{
 		if (atocount((const char *)argv[5], &data->input.meal_limit) != SUCCESS)
