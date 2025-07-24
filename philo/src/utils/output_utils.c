@@ -12,7 +12,12 @@
 
 #include "../../include/philo.h"
 
-// docs
+/**
+ * @brief Print error message to stderr and return ERROR
+ * @param msg1 First part of error message
+ * @param msg2 Second part of error message (can be NULL)
+ * @return ERROR always
+ */
 t_error	error_msg(char *msg1, char *msg2)
 {
 	write(STDERR_FILENO, "-philo", sizeof(char) * 7);
@@ -30,7 +35,12 @@ t_error	error_msg(char *msg1, char *msg2)
 	return (ERROR);
 }
 
-// docs
+/**
+ * @brief Thread-safe string output to file descriptor
+ * @param str String to output
+ * @param fd File descriptor to write to
+ * @param print_mutex Mutex for thread-safe printing
+ */
 void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex)
 {
 	if (!str || fd < 0)
@@ -40,7 +50,11 @@ void	safe_putstr_fd(char *str, int fd, pthread_mutex_t *print_mutex)
 	w_mutex(UNLOCK, print_mutex);
 }
 
-// docs
+/**
+ * @brief Get message string for philosopher state
+ * @param state Philosopher state enum value
+ * @return Corresponding message string
+ */
 static char	*get_state_message(t_philo_state state)
 {
 	if (state == FORK)
@@ -56,8 +70,13 @@ static char	*get_state_message(t_philo_state state)
 	return (NULL);
 }
 
-// docs
-// use write instead of printf?
+/**
+ * @brief Print philosopher state change with timestamp
+ * @param state New philosopher state to print
+ * @param timestamp Pointer to store current timestamp (can be NULL)
+ * @param data Philosopher data for ID and printing mutexes
+ * @return SUCCESS on success, TERMINATE if termination requested, ERROR on failure
+ */
 t_error	print_state(t_philo_state state, t_ms *timestamp, t_philo *data)
 {
 	char	*state_message;

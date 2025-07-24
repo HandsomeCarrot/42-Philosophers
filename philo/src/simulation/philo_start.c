@@ -12,7 +12,13 @@
 
 #include "../../include/philo.h"
 
-// docs
+/**
+ * @brief Handle mutex operations on individual forks with termination checking
+ * @param action LOCK to acquire fork, UNLOCK to release fork
+ * @param fork Pointer to the fork mutex
+ * @param data Philosopher data for termination checking and state printing
+ * @return SUCCESS on success, TERMINATE if termination requested, ERROR on failure
+ */
 static t_error	mutex_fork(t_mutex_action action, pthread_mutex_t *fork,
 		t_philo *data)
 {
@@ -35,7 +41,12 @@ static t_error	mutex_fork(t_mutex_action action, pthread_mutex_t *fork,
 	return (error);
 }
 
-// docs
+/**
+ * @brief Acquire or release both forks for a philosopher
+ * @param action LOCK to acquire both forks, UNLOCK to release both forks
+ * @param data Philosopher data containing fork mutex pointers
+ * @return SUCCESS on success, TERMINATE if termination requested, ERROR on failure
+ */
 t_error	philo_forks(t_mutex_action action, t_philo *data)
 {
 	t_error			error;
@@ -49,13 +60,21 @@ t_error	philo_forks(t_mutex_action action, t_philo *data)
 	return (error);
 }
 
-// docs
+/**
+ * @brief Special routine for single philosopher scenario
+ * @param data Philosopher data
+ * @return Result of fork state printing
+ */
 static t_error	solo_routine(t_philo *data)
 {
 	return (print_state(FORK, NULL, data));
 }
 
-// docs
+/**
+ * @brief Main philosopher routine loop: eat, sleep, think
+ * @param data Philosopher data
+ * @return SUCCESS if completed normally, TERMINATE if termination requested, ERROR on failure
+ */
 static t_error	philo_routine(t_philo *data)
 {
 	t_error	error;
@@ -74,7 +93,11 @@ static t_error	philo_routine(t_philo *data)
 	return (error);
 }
 
-// docs 
+/**
+ * @brief Main philosopher thread entry point
+ * @param ptr Philosopher data cast to void pointer
+ * @return Thread return value cast to void pointer
+ */
 void	*philo_start(void *ptr)
 {
 	t_philo	*data;

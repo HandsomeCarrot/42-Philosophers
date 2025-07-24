@@ -12,7 +12,12 @@
 
 #include "../../include/philo.h"
 
-// docs
+/**
+ * @brief Join a single thread with error handling
+ * @param thread Thread handle to join
+ * @param data Main data structure for error handling
+ * @return SUCCESS on success, ERROR on failure
+ */
 static t_error	join_thread(pthread_t thread, t_data *data)
 {
 	void	*thread_error;
@@ -32,7 +37,11 @@ static t_error	join_thread(pthread_t thread, t_data *data)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Join all philosopher threads
+ * @param data Main data structure containing philosopher threads
+ * @return SUCCESS on success, ERROR on failure
+ */
 static t_error	join_all_philos(t_data *data)
 {
 	t_ms	index;
@@ -49,7 +58,11 @@ static t_error	join_all_philos(t_data *data)
 	return (error);
 }
 
-// docs
+/**
+ * @brief Join all threads (philosophers and monitor)
+ * @param data Main data structure containing all thread handles
+ * @return SUCCESS on success, ERROR on failure
+ */
 t_error	join_all_threads(t_data *data)
 {
 	t_error	error;

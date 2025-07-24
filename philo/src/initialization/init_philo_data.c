@@ -12,7 +12,13 @@
 
 #include "../../include/philo.h"
 
-// docs
+/**
+ * @brief Initialize a single philosopher data structure
+ * @param id Philosopher ID number
+ * @param philo Philosopher structure to initialize
+ * @param data Main data structure containing shared parameters
+ * @return SUCCESS on success, ERROR on failure
+ */
 static t_error	init_philo(t_count id, t_philo *philo, t_data *data)
 {
 	philo->id = id;
@@ -25,7 +31,11 @@ static t_error	init_philo(t_count id, t_philo *philo, t_data *data)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Initialize all philosopher data structures
+ * @param data Main data structure containing philosopher arrays
+ * @return SUCCESS on success, ERROR on failure
+ */
 static t_error	init_all_philos(t_data *data)
 {
 	t_count	index;
@@ -40,7 +50,11 @@ static t_error	init_all_philos(t_data *data)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Create and initialize all philosopher data arrays
+ * @param data Main data structure to populate with philosopher data
+ * @return SUCCESS on success, ERROR on failure
+ */
 t_error	create_philo_data(t_data *data)
 {
 	t_count	philos;

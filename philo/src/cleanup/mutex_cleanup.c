@@ -12,7 +12,11 @@
 
 #include "../../include/philo.h"
 
-// docs
+/**
+ * @brief Destroy a single mutex with error handling
+ * @param mutex Pointer to mutex to destroy
+ * @return SUCCESS on success, ERROR on failure
+ */
 static t_error	destroy_mutex(pthread_mutex_t *mutex)
 {
 	int	error;
@@ -29,7 +33,12 @@ static t_error	destroy_mutex(pthread_mutex_t *mutex)
 	return (ERROR);
 }
 
-// docs
+/**
+ * @brief Destroy array of mutexes and free the array
+ * @param count Number of mutexes in the array
+ * @param mutex_array Pointer to array of mutexes to destroy
+ * @return SUCCESS on success, ERROR on failure
+ */
 t_error	destroy_mutex_array(t_count count, pthread_mutex_t **mutex_array)
 {
 	t_count	index;
@@ -47,7 +56,11 @@ t_error	destroy_mutex_array(t_count count, pthread_mutex_t **mutex_array)
 	return (SUCCESS);
 }
 
-// docs
+/**
+ * @brief Destroy all mutexes in the main data structure
+ * @param data Main data structure containing all mutexes
+ * @return SUCCESS on success, ERROR on failure
+ */
 t_error	destroy_all_mutexes(t_data *data)
 {
 	t_all_mutexes	mutexes;

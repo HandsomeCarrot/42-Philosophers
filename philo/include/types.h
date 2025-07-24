@@ -15,19 +15,49 @@
 
 # include <stdint.h>
 
-// docs
-# define MS_TO_USEC 1000
+/* ========================================================================== */
+/*                               CONSTANTS                                   */
+/* ========================================================================== */
 
-// docs
-// current: 10,000 -> 10 seconds in milliseconds
-# define SLEEP_INTERVAL 10000
+/**
+ * @brief Conversion factor from milliseconds to microseconds
+ * Used for precise timing calculations in usleep()
+ */
+# define MS_TO_USEC			1000
 
-// docs
-typedef uint64_t	t_ms; // could be unsigend long long
-// docs
-typedef uint16_t	t_count; // could be unsigend short
+/**
+ * @brief Sleep interval for thread sleep monitoring in microseconds
+ * Current value: 10,000 microseconds = 10 milliseconds
+ * Used to check termination conditions during long sleeps
+ */
+# define SLEEP_INTERVAL		10000
 
-// docs
+/* ========================================================================== */
+/*                               DATA TYPES                                  */
+/* ========================================================================== */
+
+/**
+ * @brief Time type in milliseconds
+ * Used for all time-related calculations in the simulation
+ */
+typedef uint64_t	t_ms;
+
+/**
+ * @brief Count type for philosophers and meals
+ * Used for philosopher IDs, meal counts, and array indices
+ */
+typedef uint16_t	t_count;
+
+/* ========================================================================== */
+/*                               ENUMERATIONS                                */
+/* ========================================================================== */
+
+/**
+ * @brief Error codes for function return values
+ * SUCCESS: Operation completed successfully
+ * ERROR: Operation failed due to error
+ * TERMINATE: Operation terminated due to simulation end
+ */
 typedef enum e_error
 {
 	SUCCESS,
@@ -35,14 +65,25 @@ typedef enum e_error
 	TERMINATE
 }					t_error;
 
-// docs
+/**
+ * @brief Mutex operations for thread synchronization
+ * LOCK: Acquire mutex lock
+ * UNLOCK: Release mutex lock
+ */
 typedef enum e_mutex_action
 {
 	LOCK,
 	UNLOCK
 }					t_mutex_action;
 
-// docs
+/**
+ * @brief Philosopher states for simulation logging
+ * FORK: Philosopher has taken a fork
+ * EATING: Philosopher is eating
+ * SLEEPING: Philosopher is sleeping
+ * THINKING: Philosopher is thinking
+ * DEATH: Philosopher has died
+ */
 typedef enum e_philo_state
 {
 	FORK,
