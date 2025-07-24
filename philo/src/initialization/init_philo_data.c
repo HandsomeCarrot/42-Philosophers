@@ -52,6 +52,11 @@ static t_error	init_philo(t_count id, t_philo *philo, t_data *data)
 	philo->term_flag = &data->term_flag;
 	philo->last_meal = &data->philos.last_meals[philo->id];
 	philo->full = &data->philos.philo_full[philo->id];
+	if (data->input.philo_count == 1)
+		philo->initial_think_time = 0;
+	else
+		philo->initial_think_time = (id * (data->input.time_to_eat
+					/ data->input.philo_count)) % data->input.time_to_eat;
 	return (SUCCESS);
 }
 
