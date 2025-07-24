@@ -30,6 +30,8 @@ t_error	proccess_input(bool meal_limit, char **argv, t_data *data);
 t_error	create_mutexes(t_data *data);
 t_error	create_philo_data(t_data *data);
 void	assign_monitor_data(t_data *data);
+void	assign_mutexes(t_philo *philo, t_data *data);
+t_ms	calculate_initial_think_time(t_count id);
 
 //------------------------------SIMULATION-------------------------------//
 
@@ -38,6 +40,10 @@ t_error	start_simulation(t_data *data);
 // philos
 
 void	*philo_start(void *data);
+t_error	philo_forks(t_mutex_action action, t_philo *data);
+t_error	philo_eat(t_philo *data);
+t_error	philo_sleep(t_philo *data);
+t_error	philo_think(t_philo *data);
 
 // monitor
 
