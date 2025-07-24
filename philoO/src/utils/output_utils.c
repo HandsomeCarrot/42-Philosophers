@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:16:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/24 00:30:31 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/24 15:22:12 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,4 @@ t_error	print_state(t_philo_state state, t_ms *timestamp, t_philo *philo)
 	if (timestamp && !error)
 		*timestamp = elapsed_time;
 	return (error);
-}
-
-// docs
-char	*get_exec_pattern(void)
-{
-	return ("./philo "
-		"<number_of_philosophers> "
-		"<time_to_die> "
-		"<time_to_eat> "
-		"<time_to_sleep> "
-		"[number_of_times_each_philosopher_must_eat]");
 }
