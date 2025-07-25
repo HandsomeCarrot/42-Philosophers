@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 16:45:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 02:33:02 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 03:40:08 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,22 @@ void	assign_mutexes(t_philo *philo, t_data *data)
 }
 
 /**
- * @brief Calculates initial think time for a philosopher based on their ID.
+ * @brief Calculates the initial think time delay for a philosopher.
  *
- * This creates a staggered start pattern where philosophers don't all start
- * thinking at the same time, helping prevent immediate contention for forks.
- * Philosopher 0 starts immediately, others alternate between 0 and
- * (1 or 50, depending on the time_to_eat) millisecond delay.
+ * This function determines an appropriate delay before a philosopher starts
+ * thinking, based on their ID and the program's timing parameters. The delay
+ * helps prevent deadlocks and ensures philosophers don't all try to grab
+ * forks simultaneously.
  *
- * @param id The philosopher's ID number.
- * @param data pointer to the main data structure
- * @return t_ms The initial think time delay in milliseconds (0 or 1).
+ * @param id The philosopher's ID (0-indexed).
+ * @param data Pointer to the shared program data containing timing parameters.
+ * @return The calculated delay in milliseconds before the philosopher should
+ *         start thinking. Returns 0 for philosopher ID 0.
+ *
+ * @note The delay calculation varies based on:
+ *       - Whether there's an even or odd number of philosophers
+ *       - The philosopher's position in the sequence
+ *       - The configured time_to_eat and time_to_sleep values
  */
 t_ms	calculate_initial_think_time(t_count id, t_data *data)
 {
@@ -83,8 +89,18 @@ t_ms	calculate_initial_think_time(t_count id, t_data *data)
 
 	if (id == 0)
 		return (0);
-	delay = (id % 2);
+	delay = 1;
 	if (data->input.time_to_eat > 55)
-		delay *= 50;
+		delay = 50;
+	if (data->input.philo_count % 2 == 0)
+		return (delay * (id % 2));
+	if (id % 4 == 1)
+		delay = (1.5 * data->input.time_to_eat);
+	else if (id % 4 == 2)
+		delay = data->input.time_to_eat / 2;
+	else if (id % 4 == 3)
+		delay = data->input.time_to_eat + data->input.time_to_sleep;
+	else
+		delay = data->input.time_to_eat;
 	return (delay);
 }
