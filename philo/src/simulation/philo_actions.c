@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 16:32:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 13:40:18 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 15:19:24 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ t_error	philo_think(t_philo *data)
 	error = print_state(THINKING, NULL, data);
 	if (error)
 		return (error);
-	if (data->input->philo_count == 3)
-		return (thread_sleep(1, data));
-	return (SUCCESS);
+	if (data->input->philo_count != 3)
+		return (SUCCESS);
+	return (thread_sleep(data->input->time_to_think, data));
 }

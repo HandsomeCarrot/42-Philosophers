@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:53:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 04:25:16 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 15:22:58 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ static t_error	get_counts(bool meal_limit, char **argv, t_data *data)
  * - Time to die
  * - Time to eat
  * - Time to sleep
+ * - Time to think
  *
  * @param argv Command line arguments array
  * @param data Pointer to simulation data structure
@@ -133,12 +134,24 @@ static t_error	get_counts(bool meal_limit, char **argv, t_data *data)
  */
 static t_error	get_times(char **argv, t_data *data)
 {
+	t_ms	think_time;
+	t_ms	total;
+
 	if (atoms((const char *)argv[2], &data->input.time_to_die) != SUCCESS)
 		return (ERROR);
 	if (atoms((const char *)argv[3], &data->input.time_to_eat) != SUCCESS)
 		return (ERROR);
 	if (atoms((const char *)argv[4], &data->input.time_to_sleep) != SUCCESS)
 		return (ERROR);
+	if (data->input.time_to_eat > data->input.time_to_die ||
+		data->input.time_to_sleep > data->input.time_to_die)
+		return (SUCCESS);
+	total = data->input.time_to_die - data->input.time_to_eat - data->input.time_to_sleep;
+	if (total < 20)
+		think_time = 0;
+	else
+		think_time = (total / 2) - 10;
+	data->input.time_to_think = think_time;
 	return (SUCCESS);
 }
 
