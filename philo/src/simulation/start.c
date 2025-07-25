@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 19:33:27 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 17:34:27 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 18:44:48 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,9 @@ static t_error	create_thread(pthread_t *thread_ptr, void *start,
 /**
  * @brief Starts all philosopher and monitor threads.
  *
- * Creates threads for each philosopher and the monitor thread. Sets
- * termination flag if any thread creation fails.
+ * Creates threads for each philosopher and the monitor thread. Marks
+ * successful thread creation in tracking arrays. Sets termination flag 
+ * if any thread creation fails.
  *
  * @param data Pointer to simulation data structure.
  * @return SUCCESS if all threads created successfully, ERROR otherwise.
@@ -87,11 +88,13 @@ static t_error	start_threads(t_data *data)
 		if (create_thread(&data->threads.philos[philo_index], &philo_start,
 				&data->philos.philo_data[philo_index], data))
 			return (ERROR);
+		data->threads.philos_init[philo_index] = true;
 		philo_index++;
 	}
 	if (create_thread(&data->threads.monitor, &monitor_start, &data->monitor,
 			data))
 		return (error_msg("failed to create thread", NULL));
+	data->threads.monitor_init = true;
 	return (SUCCESS);
 }
 
@@ -109,8 +112,6 @@ t_error	start_simulation(t_data *data)
 {
 	t_error	error;
 
-	if (data->input.has_meal_limit && data->input.meal_limit == 0)
-		return (SUCCESS);
 	error = start_mutexes(LOCK, data);
 	if (!error)
 		error = start_threads(data);

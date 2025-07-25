@@ -47,6 +47,12 @@ typedef struct s_all_mutexes
 	pthread_mutex_t				*fork_mutexes;
 	pthread_mutex_t				*meal_mutexes;
 	pthread_mutex_t				*full_mutexes;
+	bool						print_mutex_init;
+	bool						term_mutex_init;
+	bool						*start_mutexes_init;
+	bool						*fork_mutexes_init;
+	bool						*meal_mutexes_init;
+	bool						*full_mutexes_init;
 }								t_all_mutexes;
 
 /**
@@ -68,6 +74,8 @@ typedef struct s_threads
 {
 	pthread_t					*philos;
 	pthread_t					monitor;
+	bool						*philos_init;
+	bool						monitor_init;
 }								t_threads;
 
 /**
