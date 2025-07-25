@@ -41,6 +41,36 @@ static t_error	init_mutex(pthread_mutex_t *mutex)
 }
 
 /**
+ * @brief Initializes mutexes in array with tracking
+ *
+ * Iterates through the mutex array, initializing each mutex and updating
+ * the tracking array. Cleans up on failure.
+ *
+ * @param mutexes Allocated mutex array to initialize
+ * @param tracker Tracking array to mark successful initialization  
+ * @param array_size Number of mutexes to initialize
+ * @return SUCCESS if all mutexes initialized, ERROR otherwise
+ */
+static t_error	init_mutex_array(pthread_mutex_t *mutexes, bool *tracker,
+		t_count array_size)
+{
+	t_count	index;
+
+	index = 0;
+	while (index < array_size)
+	{
+		if (init_mutex(mutexes + index) != SUCCESS)
+		{
+			destroy_mutex_array(index, &mutexes, &tracker);
+			return (ERROR);
+		}
+		tracker[index] = true;
+		index++;
+	}
+	return (SUCCESS);
+}
+
+/**
  * @brief Creates and initializes an array of mutexes with tracking.
  *
  * Allocates memory for an array of mutexes and a corresponding tracking array.
@@ -60,7 +90,6 @@ static pthread_mutex_t	*new_mutex_array(t_count array_size, bool **init_tracker)
 {
 	pthread_mutex_t	*mutexes;
 	bool			*tracker;
-	t_count			index;
 
 	mutexes = w_calloc(array_size, sizeof(pthread_mutex_t));
 	if (!mutexes)
@@ -72,19 +101,66 @@ static pthread_mutex_t	*new_mutex_array(t_count array_size, bool **init_tracker)
 		return (NULL);
 	}
 	*init_tracker = tracker;
-	index = 0;
-	while (index < array_size)
+	if (init_mutex_array(mutexes, tracker, array_size) != SUCCESS)
 	{
-		if (init_mutex(mutexes + index) != SUCCESS)
-		{
-			destroy_mutex_array(index, &mutexes, &tracker);
-			*init_tracker = NULL;
-			return (NULL);
-		}
-		tracker[index] = true;
-		index++;
+		*init_tracker = NULL;
+		return (NULL);
 	}
 	return (mutexes);
+}
+
+/**
+ * @brief Initializes single mutexes and their tracking flags
+ *
+ * @param data Pointer to the main program data structure
+ * @return SUCCESS if both mutexes initialized, ERROR otherwise
+ */
+static t_error	init_single_mutexes(t_data *data)
+{
+	t_all_mutexes	*mutexes;
+
+	mutexes = &data->mutexes;
+	mutexes->print_mutex_init = false;
+	mutexes->term_mutex_init = false;
+	if (init_mutex(&mutexes->print_mutex) != SUCCESS)
+		return (ERROR);
+	mutexes->print_mutex_init = true;
+	if (init_mutex(&mutexes->term_mutex) != SUCCESS)
+		return (ERROR);
+	mutexes->term_mutex_init = true;
+	return (SUCCESS);
+}
+
+/**
+ * @brief Initializes mutex arrays for philosophers
+ *
+ * @param data Pointer to the main program data structure
+ * @return SUCCESS if all arrays initialized, ERROR otherwise
+ */
+static t_error	init_mutex_arrays(t_data *data)
+{
+	t_all_mutexes	*mutexes;
+	t_count			philo_count;
+
+	mutexes = &data->mutexes;
+	philo_count = data->input.philo_count;
+	mutexes->start_mutexes = new_mutex_array(philo_count + 1,
+			&mutexes->start_mutexes_init);
+	if (!mutexes->start_mutexes)
+		return (ERROR);
+	mutexes->fork_mutexes = new_mutex_array(philo_count,
+			&mutexes->fork_mutexes_init);
+	if (!mutexes->fork_mutexes)
+		return (ERROR);
+	mutexes->meal_mutexes = new_mutex_array(philo_count,
+			&mutexes->meal_mutexes_init);
+	if (!mutexes->meal_mutexes)
+		return (ERROR);
+	mutexes->full_mutexes = new_mutex_array(philo_count,
+			&mutexes->full_mutexes_init);
+	if (!mutexes->full_mutexes)
+		return (ERROR);
+	return (SUCCESS);
 }
 
 /**
@@ -110,34 +186,9 @@ static pthread_mutex_t	*new_mutex_array(t_count array_size, bool **init_tracker)
  */
 t_error	create_mutexes(t_data *data)
 {
-	t_all_mutexes	*mutexes;
-	t_count			philo_count;
-
-	mutexes = &data->mutexes;
-	philo_count = data->input.philo_count;
-	mutexes->print_mutex_init = false;
-	mutexes->term_mutex_init = false;
-	if (init_mutex(&mutexes->print_mutex) != SUCCESS)
+	if (init_single_mutexes(data) != SUCCESS)
 		return (ERROR);
-	mutexes->print_mutex_init = true;
-	if (init_mutex(&mutexes->term_mutex) != SUCCESS)
-		return (ERROR);
-	mutexes->term_mutex_init = true;
-	mutexes->start_mutexes = new_mutex_array(philo_count + 1,
-			&mutexes->start_mutexes_init);
-	if (!mutexes->start_mutexes)
-		return (ERROR);
-	mutexes->fork_mutexes = new_mutex_array(philo_count,
-			&mutexes->fork_mutexes_init);
-	if (!mutexes->fork_mutexes)
-		return (ERROR);
-	mutexes->meal_mutexes = new_mutex_array(philo_count,
-			&mutexes->meal_mutexes_init);
-	if (!mutexes->meal_mutexes)
-		return (ERROR);
-	mutexes->full_mutexes = new_mutex_array(philo_count,
-			&mutexes->full_mutexes_init);
-	if (!mutexes->full_mutexes)
+	if (init_mutex_arrays(data) != SUCCESS)
 		return (ERROR);
 	return (SUCCESS);
 }
