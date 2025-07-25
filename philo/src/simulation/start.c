@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 19:33:27 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 17:34:27 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 18:44:48 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,6 @@ t_error	start_simulation(t_data *data)
 {
 	t_error	error;
 
-	if (data->input.has_meal_limit && data->input.meal_limit == 0)
-		return (SUCCESS);
 	error = start_mutexes(LOCK, data);
 	if (!error)
 		error = start_threads(data);

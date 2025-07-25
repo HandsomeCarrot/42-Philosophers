@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:25:16 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 01:36:53 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 18:51:34 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,12 @@ static t_error	monitor_routine(t_monitor *data)
 		error = check_death(data);
 		if (error != SUCCESS)
 			return (error);
-		error = check_all_full(data);
-		if (error != SUCCESS)
-			return (error);
+		if (data->input->has_meal_limit)
+		{
+			error = check_all_full(data);
+			if (error != SUCCESS)
+				return (error);
+		}
 		if (precise_sleep(1) != SUCCESS)
 			return (ERROR);
 	}
