@@ -1,0 +1,10 @@
+./philo 1 200 200 200 0
+./philo 123213 200 200 
+
+protect against failure of this
+	if (create_thread(&data->threads.philos[philo_index], &philo_start,
+			&data->philos.philo_data[philo_index], data))
+
+
+if (true || create_thread(&data->threads.monitor, &monitor_start, &data->monitor,
+data))
