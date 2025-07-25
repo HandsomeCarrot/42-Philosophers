@@ -99,7 +99,8 @@ t_error	free_philo_data(t_data *data);
 
 /* ------------------------------- MUTEXES --------------------------------- */
 
-t_error	destroy_mutex_array(t_count count, pthread_mutex_t **mutex_array);
+t_error	destroy_mutex_array(t_count count, pthread_mutex_t **mutex_array,
+		bool **init_tracker);
 t_error	destroy_all_mutexes(t_data *data);
 
 #endif
