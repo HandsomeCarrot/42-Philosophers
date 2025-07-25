@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 19:11:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 01:11:42 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 19:20:27 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ static t_error	join_thread(pthread_t thread, t_data *data)
  * some threads fail, but returns overall error status.
  *
  * @param data Pointer to the program's shared data structure.
- * @return SUCCESS if all initialized threads joined successfully, ERROR if any failed.
+ * @return SUCCESS if all initialized threads joined successfully,
+ *         ERROR if any failed.
  */
 static t_error	join_all_philos(t_data *data)
 {
@@ -78,7 +79,8 @@ static t_error	join_all_philos(t_data *data)
  * it was created. Returns overall success status of all operations.
  *
  * @param data Pointer to the program's shared data structure.
- * @return SUCCESS if all initialized threads joined successfully, ERROR if any failed.
+ * @return SUCCESS if all initialized threads joined successfully,
+ *         ERROR if any failed.
  * @note If no philosopher threads exist (philos array is NULL), returns SUCCESS.
  */
 t_error	join_all_threads(t_data *data)

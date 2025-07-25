@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 10:44:48 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 01:13:15 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 19:19:34 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,9 @@ t_error	destroy_mutex_array(t_count count, pthread_mutex_t **mutex_array,
 /**
  * @brief Destroys all mutexes used in the philosopher simulation.
  *
- * Handles destruction of all mutex types in the simulation using tracking arrays:
+ * Handles destruction of all mutex types in the simulation using 
+ * tracking arrays:
+ *
  * - Print mutex (if initialized)
  * - Termination mutex (if initialized)
  * - Start mutexes array (using tracking)
@@ -92,8 +94,8 @@ t_error	destroy_mutex_array(t_count count, pthread_mutex_t **mutex_array,
  * - Full mutexes array (using tracking)
  *
  * @param data Pointer to the simulation data structure containing all mutexes.
- * @return t_error SUCCESS if all initialized mutexes were destroyed successfully,
- *         ERROR if any mutex destruction failed.
+ * @return t_error SUCCESS if all initialized mutexes were destroyed 
+ *         successfully, ERROR if any mutex destruction failed.
  */
 t_error	destroy_all_mutexes(t_data *data)
 {
@@ -104,16 +106,10 @@ t_error	destroy_all_mutexes(t_data *data)
 	mutexes = &data->mutexes;
 	philo_count = data->input.philo_count;
 	error = SUCCESS;
-	if (mutexes->print_mutex_init)
-	{
-		if (destroy_mutex(&mutexes->print_mutex) != SUCCESS)
-			error = ERROR;
-	}
-	if (mutexes->term_mutex_init)
-	{
-		if (destroy_mutex(&mutexes->term_mutex) != SUCCESS)
-			error = ERROR;
-	}
+	if (mutexes->print_mutex_init && destroy_mutex(&mutexes->print_mutex))
+		error = ERROR;
+	if (mutexes->term_mutex_init && destroy_mutex(&mutexes->term_mutex))
+		error = ERROR;
 	if (destroy_mutex_array((philo_count + 1), &mutexes->start_mutexes,
 			&mutexes->start_mutexes_init) != SUCCESS)
 		error = ERROR;

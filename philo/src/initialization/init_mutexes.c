@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 12:28:32 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 01:23:09 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 19:22:46 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ static t_error	init_mutex_array(pthread_mutex_t *mutexes, bool *tracker,
  * @brief Creates and initializes an array of mutexes with tracking.
  *
  * Allocates memory for an array of mutexes and a corresponding tracking array.
- * Initializes each mutex and marks successful initialization in the tracking array.
- * If any mutex initialization fails, it cleans up all previously initialized 
- * mutexes in the array before returning NULL.
+ * Initializes each mutex and marks successful initialization in the
+ * tracking array. If any mutex initialization fails, it cleans up all
+ * previously initialized mutexes in the array before returning NULL.
  *
  * @param array_size Number of mutexes to create in the array.
  * @param init_tracker Double pointer to store the tracking array.
@@ -86,7 +86,8 @@ static t_error	init_mutex_array(pthread_mutex_t *mutexes, bool *tracker,
  * @warning If initialization fails partway through, all previously initialized
  *          mutexes in the array will be properly destroyed.
  */
-static pthread_mutex_t	*new_mutex_array(t_count array_size, bool **init_tracker)
+static pthread_mutex_t	*new_mutex_array(t_count array_size,
+		bool **init_tracker)
 {
 	pthread_mutex_t	*mutexes;
 	bool			*tracker;
@@ -107,28 +108,6 @@ static pthread_mutex_t	*new_mutex_array(t_count array_size, bool **init_tracker)
 		return (NULL);
 	}
 	return (mutexes);
-}
-
-/**
- * @brief Initializes single mutexes and their tracking flags
- *
- * @param data Pointer to the main program data structure
- * @return SUCCESS if both mutexes initialized, ERROR otherwise
- */
-static t_error	init_single_mutexes(t_data *data)
-{
-	t_all_mutexes	*mutexes;
-
-	mutexes = &data->mutexes;
-	mutexes->print_mutex_init = false;
-	mutexes->term_mutex_init = false;
-	if (init_mutex(&mutexes->print_mutex) != SUCCESS)
-		return (ERROR);
-	mutexes->print_mutex_init = true;
-	if (init_mutex(&mutexes->term_mutex) != SUCCESS)
-		return (ERROR);
-	mutexes->term_mutex_init = true;
-	return (SUCCESS);
 }
 
 /**
@@ -186,8 +165,17 @@ static t_error	init_mutex_arrays(t_data *data)
  */
 t_error	create_mutexes(t_data *data)
 {
-	if (init_single_mutexes(data) != SUCCESS)
+	t_all_mutexes	*mutexes;
+
+	mutexes = &data->mutexes;
+	mutexes->print_mutex_init = false;
+	mutexes->term_mutex_init = false;
+	if (init_mutex(&mutexes->print_mutex) != SUCCESS)
 		return (ERROR);
+	mutexes->print_mutex_init = true;
+	if (init_mutex(&mutexes->term_mutex) != SUCCESS)
+		return (ERROR);
+	mutexes->term_mutex_init = true;
 	if (init_mutex_arrays(data) != SUCCESS)
 		return (ERROR);
 	return (SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 02:06:48 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 19:16:48 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_error	free_philo_data(t_data *data);
 /* ------------------------------- MUTEXES --------------------------------- */
 
 t_error	destroy_mutex_array(t_count count, pthread_mutex_t **mutex_array,
-		bool **init_tracker);
+			bool **init_tracker);
 t_error	destroy_all_mutexes(t_data *data);
 
 #endif
