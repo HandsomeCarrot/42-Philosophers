@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:23:56 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 02:19:54 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 02:22:38 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,17 @@ t_error	philo_forks(t_mutex_action action, t_philo *data)
 	return (error);
 }
 
+/**
+ * @brief Handles initial thinking stage for philosophers.
+ *
+ * Manages the initial thinking period before philosophers start eating.
+ * Skips if initial think time is zero. Prints thinking state and sleeps
+ * for the specified duration if successful.
+ *
+ * @param data Philosopher data structure containing timing information
+ * @return t_error SUCCESS on success, ERROR if state printing fails,
+ *         or thread sleep fails
+ */
 static t_error	stager_start(t_philo *data)
 {
 	t_error	error;
@@ -82,6 +93,18 @@ static t_error	stager_start(t_philo *data)
 	return (error);
 }
 
+/**
+ * @brief Main philosopher routine loop.
+ *
+ * Handles the core philosopher cycle of eating, sleeping, and thinking.
+ * Special case for single philosopher (just picks up fork). Otherwise
+ * starts with initial thinking stage, then enters the main cycle until
+ * an error occurs or termination is requested.
+ *
+ * @param data Philosopher data structure containing all necessary state
+ * @return t_error SUCCESS on normal termination, ERROR on failure,
+ *         TERMINATE if termination requested
+ */
 static t_error	philo_routine(t_philo *data)
 {
 	t_error	error;
