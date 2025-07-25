@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:53:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 15:42:36 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 19:16:25 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,12 @@ static t_error	atoms(const char *str, t_ms *result)
 	while (nptr && *nptr)
 	{
 		if (*nptr < '0' || *nptr > '9')
-		{
-			error_msg("Non-numeric character in argument", (char *)str);
-			return (ERROR);
-		}
+			return (error_msg("Non-numeric character in argument",
+					(char *)str));
 		prev = res;
 		res = res * 10 + (*nptr - '0');
 		if (res < prev)
-		{
-			error_msg("number is too large (uint64)", (char *)str);
-			return (ERROR);
-		}
+			return (error_msg("number is too large (uint64)", (char *)str));
 		nptr++;
 	}
 	*result = res;
@@ -75,17 +70,12 @@ static t_error	atocount(const char *str, t_count *result)
 	while (nptr && *nptr)
 	{
 		if (*nptr < '0' || *nptr > '9')
-		{
-			error_msg("Non-numeric character in argument", (char *)str);
-			return (ERROR);
-		}
+			return (error_msg("Non-numeric character in argument",
+					(char *)str));
 		prev = res;
 		res = res * 10 + (*nptr - '0');
 		if (res < prev)
-		{
-			error_msg("number is too large (uint16)", (char *)str);
-			return (ERROR);
-		}
+			return (error_msg("number is too large (uint16)", (char *)str));
 		nptr++;
 	}
 	*result = res;
@@ -114,6 +104,9 @@ static t_error	get_counts(bool meal_limit, char **argv, t_data *data)
 	{
 		if (atocount((const char *)argv[5], &data->input.meal_limit) != SUCCESS)
 			return (ERROR);
+		if (data->input.meal_limit == 0)
+			return (error_msg("Incorrect input",
+					"meal count has to be at least 1 (if given)"));
 		data->input.has_meal_limit = true;
 	}
 	return (SUCCESS);
@@ -143,7 +136,8 @@ static t_error	get_times(char **argv, t_data *data)
 		return (ERROR);
 	if (atoms((const char *)argv[4], &data->input.time_to_sleep) != SUCCESS)
 		return (ERROR);
-	total = data->input.time_to_die - data->input.time_to_eat - data->input.time_to_sleep;
+	total = data->input.time_to_die - data->input.time_to_eat
+		- data->input.time_to_sleep;
 	if (total < 20)
 		think_time = 1;
 	else
