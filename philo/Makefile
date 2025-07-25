@@ -32,7 +32,27 @@ OBJS_DIR = obj/
 
 # ================================== FILES =================================== #
 
-SRCS =	$(shell find src -name "*.c")
+SRCS =	src/main.c \
+	src/cleanup/cleanup.c \
+	src/cleanup/mutex_cleanup.c \
+	src/cleanup/philo_data_cleanup.c \
+	src/cleanup/thread_cleanup.c \
+	src/initialization/init.c \
+	src/initialization/init_input.c \
+	src/initialization/init_monitor_data.c \
+	src/initialization/init_mutexes.c \
+	src/initialization/init_philo_data.c \
+	src/initialization/philo_assignment.c \
+	src/simulation/monitor_start.c \
+	src/simulation/philo_actions.c \
+	src/simulation/philo_start.c \
+	src/simulation/start.c \
+	src/utils/memory_utils.c \
+	src/utils/mutex_utils.c \
+	src/utils/output_utils.c \
+	src/utils/string_utils.c \
+	src/utils/thread_helpers.c \
+	src/utils/time_utils.c
 
 OBJS = $(SRCS:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 
