@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 16:32:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 01:31:55 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 04:24:57 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,18 +124,12 @@ t_error	philo_sleep(t_philo *data)
 /**
  * @brief Handles the philosopher's thinking action
  *
- * Prints the thinking state and sleeps for time_to_think duration.
+ * Prints the thinking state.
  *
  * @param data Pointer to the philosopher's data structure
  * @return t_error SUCCESS on success, ERROR on print failure
  */
 t_error	philo_think(t_philo *data)
 {
-	t_error	error;
-
-	error = print_state(THINKING, NULL, data);
-	if (error)
-		return (error);
-	error = thread_sleep(data->input->time_to_think, data);
-	return (error);
+	return (print_state(THINKING, NULL, data));
 }
