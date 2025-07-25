@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:23:56 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 03:44:29 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 03:52:07 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,18 @@ t_error	philo_forks(t_mutex_action action, t_philo *data)
 	return (error);
 }
 
-// docs
+/**
+ * @brief Handles the initial thinking stage for philosophers.
+ *
+ * This function manages the initial thinking period for philosophers before they
+ * begin the main routine. The first philosopher (id 0) skips this stage to
+ * prevent deadlock. Other philosophers print their thinking state and wait for
+ * their initial think time before proceeding.
+ *
+ * @param data Philosopher data structure containing ID and timing information
+ * @return t_error SUCCESS on successful completion, ERROR if state printing
+ *         fails, or if thread sleep operation fails
+ */
 static t_error	stager_start(t_philo *data)
 {
 	t_error	error;
