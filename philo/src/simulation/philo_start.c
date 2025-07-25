@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:23:56 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 01:30:29 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 02:19:54 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,37 +71,24 @@ t_error	philo_forks(t_mutex_action action, t_philo *data)
 	return (error);
 }
 
-/**
- * @brief Special routine for single philosopher scenario.
- *
- * Handles the case where there's only one philosopher who can't eat
- * (since they need two forks). Simply prints fork pickup state.
- *
- * @param data Philosopher data structure
- * @return t_error Always returns SUCCESS
- */
-static t_error	solo_routine(t_philo *data)
+static t_error	stager_start(t_philo *data)
 {
-	return (print_state(FORK, NULL, data));
+	t_error	error;
+	if (data->initial_think_time == 0)
+		return (SUCCESS);
+	error = print_state(THINKING, NULL, data);
+	if (!error)
+		error = thread_sleep(data->initial_think_time, data);
+	return (error);
 }
 
-/**
- * @brief Main philosopher routine loop.
- *
- * Executes the eat-sleep-think cycle until termination or error occurs.
- * Handles special case for single philosopher scenario.
- *
- * @param data Philosopher data structure
- * @return t_error SUCCESS if terminated normally, ERROR on failure,
- *         TERMINATE if termination requested
- */
 static t_error	philo_routine(t_philo *data)
 {
 	t_error	error;
 
 	if (data->input->philo_count == 1)
-		return (solo_routine(data));
-	error = SUCCESS;
+		return (print_state(FORK, NULL, data));
+	error = stager_start(data);
 	while (error == SUCCESS)
 	{
 		error = philo_eat(data);
@@ -139,12 +126,6 @@ void	*philo_start(void *ptr)
 		return ((void *)error);
 	if (termination_requested(data->term_flag, data->mutexes.term_flag))
 		return ((void *)SUCCESS);
-	if (data->input->philo_count > 1)
-	{
-		error = thread_sleep(data->initial_think_time, data);
-		if (error != SUCCESS)
-			return ((void *)error);
-	}
 	error = philo_routine(data);
 	if (error == ERROR)
 		set_termination_flag(data->term_flag, data->mutexes.term_flag);
