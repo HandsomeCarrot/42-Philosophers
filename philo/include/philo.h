@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:53:50 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 00:47:27 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 02:06:48 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_error	create_mutexes(t_data *data);
 t_error	create_philo_data(t_data *data);
 void	assign_monitor_data(t_data *data);
 void	assign_mutexes(t_philo *philo, t_data *data);
-t_ms	calculate_initial_think_time(t_count id);
+t_ms	calculate_initial_think_time(t_count id, t_data *data);
 
 /* ========================================================================== */
 /*                                 SIMULATION                                */

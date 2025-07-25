@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 11:18:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 01:21:44 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 02:06:55 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_error	init_philo(t_count id, t_philo *philo, t_data *data)
 	philo->term_flag = &data->term_flag;
 	philo->last_meal = &data->philos.last_meals[philo->id];
 	philo->full = &data->philos.philo_full[philo->id];
-	philo->initial_think_time = calculate_initial_think_time(id);
+	philo->initial_think_time = calculate_initial_think_time(id, data);
 	return (SUCCESS);
 }
 

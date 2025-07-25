@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 16:45:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 01:19:36 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 02:08:53 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,20 @@ void	assign_mutexes(t_philo *philo, t_data *data)
  *
  * This creates a staggered start pattern where philosophers don't all start
  * thinking at the same time, helping prevent immediate contention for forks.
- * Philosopher 0 starts immediately, others alternate between 0 and 1ms delay.
+ * Philosopher 0 starts immediately, others alternate between 0 and
+ * (1 or 50, depending on the time_to_eat) millisecond delay.
  *
  * @param id The philosopher's ID number.
+ * @param data pointer to the main data structure
  * @return t_ms The initial think time delay in milliseconds (0 or 1).
  */
-t_ms	calculate_initial_think_time(t_count id)
+t_ms	calculate_initial_think_time(t_count id, t_data *data)
 {
+	t_ms	delay;
 	if (id == 0)
 		return (0);
-	return (id % 2);
+	delay = (id % 2);
+	if (data->input.time_to_eat > 55)
+		delay *= 50;
+	return (delay);
 }
