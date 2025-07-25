@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 16:45:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 02:08:53 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 02:33:02 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	assign_mutexes(t_philo *philo, t_data *data)
 t_ms	calculate_initial_think_time(t_count id, t_data *data)
 {
 	t_ms	delay;
+
 	if (id == 0)
 		return (0);
 	delay = (id % 2);
