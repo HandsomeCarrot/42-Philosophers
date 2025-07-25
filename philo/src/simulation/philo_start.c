@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:23:56 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 02:22:38 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 02:26:22 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,28 +72,6 @@ t_error	philo_forks(t_mutex_action action, t_philo *data)
 }
 
 /**
- * @brief Handles initial thinking stage for philosophers.
- *
- * Manages the initial thinking period before philosophers start eating.
- * Skips if initial think time is zero. Prints thinking state and sleeps
- * for the specified duration if successful.
- *
- * @param data Philosopher data structure containing timing information
- * @return t_error SUCCESS on success, ERROR if state printing fails,
- *         or thread sleep fails
- */
-static t_error	stager_start(t_philo *data)
-{
-	t_error	error;
-	if (data->initial_think_time == 0)
-		return (SUCCESS);
-	error = print_state(THINKING, NULL, data);
-	if (!error)
-		error = thread_sleep(data->initial_think_time, data);
-	return (error);
-}
-
-/**
  * @brief Main philosopher routine loop.
  *
  * Handles the core philosopher cycle of eating, sleeping, and thinking.
@@ -111,7 +89,7 @@ static t_error	philo_routine(t_philo *data)
 
 	if (data->input->philo_count == 1)
 		return (print_state(FORK, NULL, data));
-	error = stager_start(data);
+	error = thread_sleep(data->initial_think_time, data);
 	while (error == SUCCESS)
 	{
 		error = philo_eat(data);
