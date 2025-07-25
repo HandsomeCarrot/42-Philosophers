@@ -69,8 +69,9 @@ static t_error	create_thread(pthread_t *thread_ptr, void *start,
 /**
  * @brief Starts all philosopher and monitor threads.
  *
- * Creates threads for each philosopher and the monitor thread. Sets
- * termination flag if any thread creation fails.
+ * Creates threads for each philosopher and the monitor thread. Marks
+ * successful thread creation in tracking arrays. Sets termination flag 
+ * if any thread creation fails.
  *
  * @param data Pointer to simulation data structure.
  * @return SUCCESS if all threads created successfully, ERROR otherwise.
@@ -87,11 +88,13 @@ static t_error	start_threads(t_data *data)
 		if (create_thread(&data->threads.philos[philo_index], &philo_start,
 				&data->philos.philo_data[philo_index], data))
 			return (ERROR);
+		data->threads.philos_init[philo_index] = true;
 		philo_index++;
 	}
 	if (create_thread(&data->threads.monitor, &monitor_start, &data->monitor,
 			data))
 		return (error_msg("failed to create thread", NULL));
+	data->threads.monitor_init = true;
 	return (SUCCESS);
 }
 

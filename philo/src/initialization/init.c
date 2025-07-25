@@ -49,5 +49,9 @@ t_error	initialize_data(int argc, char **argv, t_data **data_ptr)
 	data->threads.philos = w_calloc(data->input.philo_count, sizeof(pthread_t));
 	if (!data->threads.philos)
 		return (ERROR);
+	data->threads.philos_init = w_calloc(data->input.philo_count, sizeof(bool));
+	if (!data->threads.philos_init)
+		return (ERROR);
+	data->threads.monitor_init = false;
 	return (SUCCESS);
 }

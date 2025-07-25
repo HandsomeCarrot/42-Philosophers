@@ -41,35 +41,47 @@ static t_error	init_mutex(pthread_mutex_t *mutex)
 }
 
 /**
- * @brief Creates and initializes an array of mutexes.
+ * @brief Creates and initializes an array of mutexes with tracking.
  *
- * Allocates memory for an array of mutexes and initializes each one. If any
- * mutex initialization fails, it cleans up all previously initialized mutexes
- * in the array before returning NULL.
+ * Allocates memory for an array of mutexes and a corresponding tracking array.
+ * Initializes each mutex and marks successful initialization in the tracking array.
+ * If any mutex initialization fails, it cleans up all previously initialized 
+ * mutexes in the array before returning NULL.
  *
  * @param array_size Number of mutexes to create in the array.
+ * @param init_tracker Double pointer to store the tracking array.
  * @return Pointer to the array of initialized mutexes on success, NULL on
  *         failure.
  * @note Uses w_calloc for allocation which zeroes out the memory.
  * @warning If initialization fails partway through, all previously initialized
  *          mutexes in the array will be properly destroyed.
  */
-static pthread_mutex_t	*new_mutex_array(t_count array_size)
+static pthread_mutex_t	*new_mutex_array(t_count array_size, bool **init_tracker)
 {
 	pthread_mutex_t	*mutexes;
+	bool			*tracker;
 	t_count			index;
 
 	mutexes = w_calloc(array_size, sizeof(pthread_mutex_t));
 	if (!mutexes)
 		return (NULL);
+	tracker = w_calloc(array_size, sizeof(bool));
+	if (!tracker)
+	{
+		free(mutexes);
+		return (NULL);
+	}
+	*init_tracker = tracker;
 	index = 0;
 	while (index < array_size)
 	{
 		if (init_mutex(mutexes + index) != SUCCESS)
 		{
-			destroy_mutex_array(index + 1, &mutexes);
+			destroy_mutex_array(index, &mutexes, &tracker);
+			*init_tracker = NULL;
 			return (NULL);
 		}
+		tracker[index] = true;
 		index++;
 	}
 	return (mutexes);
@@ -85,6 +97,8 @@ static pthread_mutex_t	*new_mutex_array(t_count array_size)
  * - Fork mutexes (one per philosopher)
  * - Meal mutexes (one per philosopher)
  * - Full mutexes (one per philosopher)
+ * 
+ * Also initializes tracking arrays to record successful initialization.
  *
  * @param data Pointer to the main program data structure containing mutex
  *             references and philosopher count.
@@ -101,20 +115,28 @@ t_error	create_mutexes(t_data *data)
 
 	mutexes = &data->mutexes;
 	philo_count = data->input.philo_count;
+	mutexes->print_mutex_init = false;
+	mutexes->term_mutex_init = false;
 	if (init_mutex(&mutexes->print_mutex) != SUCCESS)
 		return (ERROR);
+	mutexes->print_mutex_init = true;
 	if (init_mutex(&mutexes->term_mutex) != SUCCESS)
 		return (ERROR);
-	mutexes->start_mutexes = new_mutex_array(philo_count + 1);
+	mutexes->term_mutex_init = true;
+	mutexes->start_mutexes = new_mutex_array(philo_count + 1,
+			&mutexes->start_mutexes_init);
 	if (!mutexes->start_mutexes)
 		return (ERROR);
-	mutexes->fork_mutexes = new_mutex_array(philo_count);
+	mutexes->fork_mutexes = new_mutex_array(philo_count,
+			&mutexes->fork_mutexes_init);
 	if (!mutexes->fork_mutexes)
 		return (ERROR);
-	mutexes->meal_mutexes = new_mutex_array(philo_count);
+	mutexes->meal_mutexes = new_mutex_array(philo_count,
+			&mutexes->meal_mutexes_init);
 	if (!mutexes->meal_mutexes)
 		return (ERROR);
-	mutexes->full_mutexes = new_mutex_array(philo_count);
+	mutexes->full_mutexes = new_mutex_array(philo_count,
+			&mutexes->full_mutexes_init);
 	if (!mutexes->full_mutexes)
 		return (ERROR);
 	return (SUCCESS);
