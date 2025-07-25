@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:53:43 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 15:22:58 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 15:42:36 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,12 +143,9 @@ static t_error	get_times(char **argv, t_data *data)
 		return (ERROR);
 	if (atoms((const char *)argv[4], &data->input.time_to_sleep) != SUCCESS)
 		return (ERROR);
-	if (data->input.time_to_eat > data->input.time_to_die ||
-		data->input.time_to_sleep > data->input.time_to_die)
-		return (SUCCESS);
 	total = data->input.time_to_die - data->input.time_to_eat - data->input.time_to_sleep;
 	if (total < 20)
-		think_time = 0;
+		think_time = 1;
 	else
 		think_time = (total / 2) - 10;
 	data->input.time_to_think = think_time;
