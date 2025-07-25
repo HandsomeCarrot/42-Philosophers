@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 23:23:56 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 02:26:22 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 03:44:29 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,19 @@ t_error	philo_forks(t_mutex_action action, t_philo *data)
 	return (error);
 }
 
+// docs
+static t_error	stager_start(t_philo *data)
+{
+	t_error	error;
+
+	if (data->id == 0)
+		return (SUCCESS);
+	error = print_state(THINKING, NULL, data);
+	if (error)
+		return (error);
+	return (thread_sleep(data->initial_think_time, data));
+}
+
 /**
  * @brief Main philosopher routine loop.
  *
@@ -89,7 +102,7 @@ static t_error	philo_routine(t_philo *data)
 
 	if (data->input->philo_count == 1)
 		return (print_state(FORK, NULL, data));
-	error = thread_sleep(data->initial_think_time, data);
+	error = stager_start(data);
 	while (error == SUCCESS)
 	{
 		error = philo_eat(data);
