@@ -6,7 +6,7 @@
 /*   By: vpoka <vpoka@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 16:45:00 by vpoka             #+#    #+#             */
-/*   Updated: 2025/07/25 03:40:08 by vpoka            ###   ########.fr       */
+/*   Updated: 2025/07/25 04:16:07 by vpoka            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,8 @@ t_ms	calculate_initial_think_time(t_count id, t_data *data)
 
 	if (id == 0)
 		return (0);
-	delay = 1;
-	if (data->input.time_to_eat > 55)
-		delay = 50;
 	if (data->input.philo_count % 2 == 0)
-		return (delay * (id % 2));
+		return ((id % 2) * (data->input.time_to_eat * 0.5));
 	if (id % 4 == 1)
 		delay = (1.5 * data->input.time_to_eat);
 	else if (id % 4 == 2)
